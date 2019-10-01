@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 )
 
 func resourceAwsElb() *schema.Resource {
@@ -93,6 +94,13 @@ func resourceAwsElb() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Set:      schema.HashString,
+			},
+
+			"idle_timeout": {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Default:      60,
+				ValidateFunc: validation.IntBetween(1, 86400),
 			},
 
 			"access_logs": &schema.Schema{
@@ -372,7 +380,9 @@ func resourceAwsElbRead(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 	d.Set("subnets", flattenStringList(lb.Subnets))
-	//d.Set("idle_timeout", lbAttrs.ConnectionSettings.IdleTimeout)
+	if lbAttrs.ConnectionSettings != nil {
+		d.Set("idle_timeout", lbAttrs.ConnectionSettings.IdleTimeout)
+	}
 	//d.Set("connection_draining", lbAttrs.ConnectionDraining.Enabled)
 	//d.Set("connection_draining_timeout", lbAttrs.ConnectionDraining.Timeout)
 	//d.Set("cross_zone_load_balancing", lbAttrs.CrossZoneLoadBalancing.Enabled)
@@ -523,12 +533,18 @@ func resourceAwsElbUpdate(d *schema.ResourceData, meta interface{}) error {
 		d.SetPartial("instances")
 	}
 
-	if d.HasChange("access_logs") {
+	if d.HasChange("idle_timeout") || d.HasChange("access_logs") {
+		attrs := elb.ModifyLoadBalancerAttributesInput{
+			LoadBalancerName: aws.String(d.Get("name").(string)),
+			LoadBalancerAttributes: &elb.LoadBalancerAttributes{
+				ConnectionSettings: &elb.ConnectionSettings{
+					IdleTimeout: aws.Int64(int64(d.Get("idle_timeout").(int))),
+				},
+			},
+		}
+
 		logs := d.Get("access_logs").([]interface{})
 		if len(logs) == 1 {
-			attrs := elb.ModifyLoadBalancerAttributesInput{
-				LoadBalancerName: aws.String(d.Get("name").(string)),
-			}
 			l := logs[0].(map[string]interface{})
 			accessLog := &elb.AccessLog{
 				Enabled:      aws.Bool(l["enabled"].(bool)),
@@ -542,15 +558,15 @@ func resourceAwsElbUpdate(d *schema.ResourceData, meta interface{}) error {
 
 			attrs.LoadBalancerAttributes.AccessLog = accessLog
 			log.Printf("[DEBUG] ELB Modify Load Balancer Attributes Request: %#v", attrs)
-			_, err := elbconn.ModifyLoadBalancerAttributes(&attrs)
-			if err != nil {
-				return fmt.Errorf("Failure configuring ELB attributes: %s", err)
-			}
 		} else if len(logs) == 0 {
 			// disable access logs
 			//attrs.LoadBalancerAttributes.AccessLog = &elb.AccessLog{
 			//	Enabled: aws.Bool(false),
 			//}
+		}
+		_, err := elbconn.ModifyLoadBalancerAttributes(&attrs)
+		if err != nil {
+			return fmt.Errorf("Failure configuring ELB attributes: %s", err)
 		}
 	}
 
