@@ -2,8 +2,10 @@ package osc
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -19,6 +21,9 @@ func resourceAwsVolumeAttachment() *schema.Resource {
 		Create: resourceAwsVolumeAttachmentCreate,
 		Read:   resourceAwsVolumeAttachmentRead,
 		Delete: resourceAwsVolumeAttachmentDelete,
+		Importer: &schema.ResourceImporter{
+			State: resourceAwsVolumeAttachmentImport,
+		},
 
 		Schema: map[string]*schema.Schema{
 			"device_name": {
@@ -229,4 +234,29 @@ func volumeAttachmentID(name, volumeID, instanceID string) string {
 	buf.WriteString(fmt.Sprintf("%s-", volumeID))
 
 	return fmt.Sprintf("vai-%d", hashcode.String(buf.String()))
+}
+
+func resourceAwsVolumeAttachmentImport(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+	ids := strings.Split(d.Id(), ":")
+	if len(ids) != 3 {
+		return nil, errors.New("ID should have the following format: <instance ID>:<volume ID>:<device_name>")
+	}
+	instanceID := ids[0]
+	volumeID := ids[1]
+	deviceName := ids[2]
+	log.Printf("[DEBUG] Instance ID: %s", instanceID)
+	log.Printf("[DEBUG] Volume ID: %s", volumeID)
+	log.Printf("[Debug] Device Name: %s", deviceName)
+
+	d.Set("instance_id", instanceID)
+	d.Set("volume_id", volumeID)
+	d.Set("device_name", deviceName)
+	d.SetId(volumeAttachmentID(deviceName, volumeID, instanceID))
+
+	err := resourceAwsVolumeAttachmentRead(d, meta)
+	if err != nil {
+		return nil, err
+	}
+
+	return []*schema.ResourceData{d}, nil
 }
