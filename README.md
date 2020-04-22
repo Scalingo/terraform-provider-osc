@@ -4,48 +4,28 @@ Terraform Provider for Outscale (unofficial)
 Requirements
 ------------
 
--   [Terraform](https://www.terraform.io/downloads.html) 0.11.11 
--   [Go](https://golang.org/doc/install) 1.11.5 (to build the provider plugin)
+- [Terraform](https://www.terraform.io/downloads.html) 0.12.20
+- [Go](https://golang.org/doc/install) 1.13 at least (to build the provider plugin)
 
-Install
+Build and Install
 ---------------------
 
-Download the binary and put it in the same folder than terraform binary
-
-```
-$ wget https://github.com/remijouannet/terraform-provider-osc/releases/download/v0.7/terraform-provider-osc_darwin_amd64_v0.7.zip
-$ unzip terraform-provider-osc_darwin_amd64_v0.7.zip
-$ mkdir -p ~/.terraform.d/plugins/ && mv terraform-provider-osc_darwin_amd64_v0.7/terraform-provider-osc_v0.7 ~/.terraform.d/plugins/
-$ chmod +x ~/.terraform.d/plugins/terraform-provider-osc_v0.7
+Compile the binary and install it:
+```go
+go get -v
+go install
 ```
 
-Build without docker
+Build with Docker (not tested)
 ---------------------
 
-Clone repository to: `$GOPATH/src/github.com/remijouannet/terraform-provider-osc`
-
-```
-$ mkdir -p $GOPATH/src/github.com/remijouannet; cd $GOPATH/src/github.com/remijouannet
-$ git clone git@github.com:remijouannet/terraform-provider-osc
-```
-
-Enter the provider directory and build the provider
-
-```
-$ cd $GOPATH/src/github.com/remijouannet/terraform-provider-osc
-$ make build
-```
-
-Build with docker
----------------------
-
-build the docker image
+Build the Docker image
 
 ```
 $ make docker-image
 ```
 
-build the binaries, you'll find all the binaries in pkg/
+Build the binaries, you'll find all the binaries in pkg/
 
 ```
 $ make docker-build
