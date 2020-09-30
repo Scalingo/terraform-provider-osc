@@ -33,6 +33,13 @@ func resourceAwsNetworkInterface() *schema.Resource {
 				ForceNew: true,
 			},
 
+			"private_ip": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
 			"private_ips": &schema.Schema{
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -47,6 +54,12 @@ func resourceAwsNetworkInterface() *schema.Resource {
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 				Set:      schema.HashString,
+			},
+
+			"source_dest_check": &schema.Schema{
+				Type:     schema.TypeBool,
+				Computed: true,
+				Optional: true,
 			},
 
 			"description": &schema.Schema{
@@ -95,6 +108,10 @@ func resourceAwsNetworkInterfaceCreate(d *schema.ResourceData, meta interface{})
 		request.Groups = expandStringList(security_groups)
 	}
 
+	if v, ok := d.GetOk("private_ip"); ok {
+		request.PrivateIpAddress = aws.String(v.(string))
+	}
+
 	private_ips := d.Get("private_ips").(*schema.Set).List()
 	if len(private_ips) != 0 {
 		request.PrivateIpAddresses = expandPrivateIPAddresses(private_ips)
@@ -138,6 +155,7 @@ func resourceAwsNetworkInterfaceRead(d *schema.ResourceData, meta interface{}) e
 
 	eni := describeResp.NetworkInterfaces[0]
 	d.Set("subnet_id", eni.SubnetId)
+	d.Set("private_ip", eni.PrivateIpAddress)
 	d.Set("private_ips", flattenNetworkInterfacesPrivateIPAddresses(eni.PrivateIpAddresses))
 	d.Set("security_groups", flattenGroupIdentifiers(eni.Groups))
 
@@ -279,6 +297,21 @@ func resourceAwsNetworkInterfaceUpdate(d *schema.ResourceData, meta interface{})
 		}
 
 		d.SetPartial("private_ips")
+	}
+
+	if d.Get("source_dest_check").(bool) {
+		request := &ec2.ModifyNetworkInterfaceAttributeInput{
+			NetworkInterfaceId: aws.String(d.Id()),
+			SourceDestCheck:    &ec2.AttributeBooleanValue{Value: aws.Bool(d.Get("source_dest_check").(bool))},
+		}
+
+		_, err := conn.ModifyNetworkInterfaceAttribute(request)
+
+		if err != nil {
+			return fmt.Errorf("Failure updating ENI: %s", err)
+		}
+
+		d.SetPartial("source_dest_check")
 	}
 
 	if d.HasChange("security_groups") {
