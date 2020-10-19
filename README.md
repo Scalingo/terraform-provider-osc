@@ -12,9 +12,11 @@ Build and Install
 ---------------------
 
 Compile the binary and install it:
-```go
+```shell
 go get -v
 go install
+mkdir -p ~/.terraform.d/plugins/linux_amd64
+cp $GOPATH/bin/terraform-provider-osc ~/.terraform.d/plugins/linux_amd64
 ```
 
 Build with Docker (not tested)
