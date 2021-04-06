@@ -3,7 +3,7 @@ package osc
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 // See https://github.com/fog/fog-aws/pull/332/files

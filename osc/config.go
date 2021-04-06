@@ -23,8 +23,8 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/errwrap"
 	"github.com/hashicorp/go-cleanhttp"
-	"github.com/hashicorp/terraform/helper/logging"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/logging"
+	"github.com/hashicorp/terraform-plugin-sdk/meta"
 )
 
 type Config struct {
@@ -233,7 +233,7 @@ func (c *Config) ValidateAccountId(accountId string) error {
 var addTerraformVersionToUserAgent = request.NamedHandler{
 	Name: "terraform.TerraformVersionUserAgentHandler",
 	Fn: request.MakeAddToUserAgentHandler(
-		"APN/1.0 HashiCorp/1.0 terraform-provider-osc/v0.7.1 Terraform", terraform.VersionString()),
+		"APN/1.0 HashiCorp/1.0 terraform-provider-osc/v0.7.1 Terraform", meta.SDKVersionString()),
 }
 
 var debugAuthFailure = request.NamedHandler{
