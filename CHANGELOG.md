@@ -1,3 +1,8 @@
+# Version 0.2.0
+
+* Migrate to official terraform provider SDK, using official tool
+  https://www.terraform.io/docs/extend/guides/v1-upgrade-guide.html
+
 # Version 0.1.1
 
 * Update GoReleaser configuration for Terraform registry release process
