@@ -7,8 +7,6 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.1
 	github.com/hashicorp/go-hclog v0.0.0-20190109152822-4783caec6f2e // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/hcl2 v0.0.0-20190125181715-6d20f625a6e3 // indirect
-	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform v0.12.20
 	github.com/hashicorp/vault v1.0.2
 	github.com/jen20/awspolicyequivalence v1.0.0
