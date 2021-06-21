@@ -113,6 +113,93 @@ func (c *Redshift) AcceptReservedNodeExchangeWithContext(ctx aws.Context, input 
 	return out, req.Send()
 }
 
+const opAddPartner = "AddPartner"
+
+// AddPartnerRequest generates a "aws/request.Request" representing the
+// client's request for the AddPartner operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See AddPartner for more information on using the AddPartner
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the AddPartnerRequest method.
+//    req, resp := client.AddPartnerRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AddPartner
+func (c *Redshift) AddPartnerRequest(input *AddPartnerInput) (req *request.Request, output *AddPartnerOutput) {
+	op := &request.Operation{
+		Name:       opAddPartner,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AddPartnerInput{}
+	}
+
+	output = &AddPartnerOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// AddPartner API operation for Amazon Redshift.
+//
+// Adds a partner integration to a cluster. This operation authorizes a partner
+// to push status updates for the specified database. To complete the integration,
+// you also set up the integration on the partner website.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation AddPartner for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodePartnerNotFoundFault "PartnerNotFound"
+//   The name of the partner was not found.
+//
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnauthorizedPartnerIntegrationFault "UnauthorizedPartnerIntegration"
+//   The partner integration is not authorized.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AddPartner
+func (c *Redshift) AddPartner(input *AddPartnerInput) (*AddPartnerOutput, error) {
+	req, out := c.AddPartnerRequest(input)
+	return out, req.Send()
+}
+
+// AddPartnerWithContext is the same as AddPartner with the addition of
+// the ability to pass a context and additional request options.
+//
+// See AddPartner for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) AddPartnerWithContext(ctx aws.Context, input *AddPartnerInput, opts ...request.Option) (*AddPartnerOutput, error) {
+	req, out := c.AddPartnerRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opAuthorizeClusterSecurityGroupIngress = "AuthorizeClusterSecurityGroupIngress"
 
 // AuthorizeClusterSecurityGroupIngressRequest generates a "aws/request.Request" representing the
@@ -217,6 +304,100 @@ func (c *Redshift) AuthorizeClusterSecurityGroupIngress(input *AuthorizeClusterS
 // for more information on using Contexts.
 func (c *Redshift) AuthorizeClusterSecurityGroupIngressWithContext(ctx aws.Context, input *AuthorizeClusterSecurityGroupIngressInput, opts ...request.Option) (*AuthorizeClusterSecurityGroupIngressOutput, error) {
 	req, out := c.AuthorizeClusterSecurityGroupIngressRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opAuthorizeEndpointAccess = "AuthorizeEndpointAccess"
+
+// AuthorizeEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the AuthorizeEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See AuthorizeEndpointAccess for more information on using the AuthorizeEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the AuthorizeEndpointAccessRequest method.
+//    req, resp := client.AuthorizeEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeEndpointAccess
+func (c *Redshift) AuthorizeEndpointAccessRequest(input *AuthorizeEndpointAccessInput) (req *request.Request, output *AuthorizeEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opAuthorizeEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AuthorizeEndpointAccessInput{}
+	}
+
+	output = &AuthorizeEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// AuthorizeEndpointAccess API operation for Amazon Redshift.
+//
+// Grants access to a cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation AuthorizeEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeEndpointAuthorizationsPerClusterLimitExceededFault "EndpointAuthorizationsPerClusterLimitExceeded"
+//   The number of endpoint authorizations per cluster has exceeded its limit.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+//   * ErrCodeEndpointAuthorizationAlreadyExistsFault "EndpointAuthorizationAlreadyExists"
+//   The authorization already exists for this endpoint.
+//
+//   * ErrCodeInvalidAuthorizationStateFault "InvalidAuthorizationState"
+//   The status of the authorization is not valid.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeEndpointAccess
+func (c *Redshift) AuthorizeEndpointAccess(input *AuthorizeEndpointAccessInput) (*AuthorizeEndpointAccessOutput, error) {
+	req, out := c.AuthorizeEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// AuthorizeEndpointAccessWithContext is the same as AuthorizeEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See AuthorizeEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) AuthorizeEndpointAccessWithContext(ctx aws.Context, input *AuthorizeEndpointAccessInput, opts ...request.Option) (*AuthorizeEndpointAccessOutput, error) {
+	req, out := c.AuthorizeEndpointAccessRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -447,7 +628,7 @@ func (c *Redshift) BatchModifyClusterSnapshotsRequest(input *BatchModifyClusterS
 
 // BatchModifyClusterSnapshots API operation for Amazon Redshift.
 //
-// Modifies the settings for a list of snapshots.
+// Modifies the settings for a set of cluster snapshots.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -532,7 +713,7 @@ func (c *Redshift) CancelResizeRequest(input *CancelResizeInput) (req *request.R
 
 // CancelResize API operation for Amazon Redshift.
 //
-// Cancels a resize operation.
+// Cancels a resize operation for a cluster.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -728,7 +909,7 @@ func (c *Redshift) CreateClusterRequest(input *CreateClusterInput) (req *request
 
 // CreateCluster API operation for Amazon Redshift.
 //
-// Creates a new cluster.
+// Creates a new cluster with the specified parameters.
 //
 // To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster
 // subnet group name. The cluster subnet group identifies the subnets of your
@@ -1261,6 +1442,115 @@ func (c *Redshift) CreateClusterSubnetGroupWithContext(ctx aws.Context, input *C
 	return out, req.Send()
 }
 
+const opCreateEndpointAccess = "CreateEndpointAccess"
+
+// CreateEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the CreateEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateEndpointAccess for more information on using the CreateEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateEndpointAccessRequest method.
+//    req, resp := client.CreateEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEndpointAccess
+func (c *Redshift) CreateEndpointAccessRequest(input *CreateEndpointAccessInput) (req *request.Request, output *CreateEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opCreateEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateEndpointAccessInput{}
+	}
+
+	output = &CreateEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateEndpointAccess API operation for Amazon Redshift.
+//
+// Creates a Redshift-managed VPC endpoint.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation CreateEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeAccessToClusterDeniedFault "AccessToClusterDenied"
+//   You are not authorized to access the cluster.
+//
+//   * ErrCodeEndpointsPerClusterLimitExceededFault "EndpointsPerClusterLimitExceeded"
+//   The number of Redshift-managed VPC endpoints per cluster has exceeded its
+//   limit.
+//
+//   * ErrCodeEndpointsPerAuthorizationLimitExceededFault "EndpointsPerAuthorizationLimitExceeded"
+//   The number of Redshift-managed VPC endpoints per authorization has exceeded
+//   its limit.
+//
+//   * ErrCodeInvalidClusterSecurityGroupStateFault "InvalidClusterSecurityGroupState"
+//   The state of the cluster security group is not available.
+//
+//   * ErrCodeClusterSubnetGroupNotFoundFault "ClusterSubnetGroupNotFoundFault"
+//   The cluster subnet group name does not refer to an existing cluster subnet
+//   group.
+//
+//   * ErrCodeEndpointAlreadyExistsFault "EndpointAlreadyExists"
+//   The account already has a Redshift-managed VPC endpoint with the given identifier.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEndpointAccess
+func (c *Redshift) CreateEndpointAccess(input *CreateEndpointAccessInput) (*CreateEndpointAccessOutput, error) {
+	req, out := c.CreateEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// CreateEndpointAccessWithContext is the same as CreateEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) CreateEndpointAccessWithContext(ctx aws.Context, input *CreateEndpointAccessInput, opts ...request.Option) (*CreateEndpointAccessOutput, error) {
+	req, out := c.CreateEndpointAccessRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opCreateEventSubscription = "CreateEventSubscription"
 
 // CreateEventSubscriptionRequest generates a "aws/request.Request" representing the
@@ -1452,7 +1742,7 @@ func (c *Redshift) CreateHsmClientCertificateRequest(input *CreateHsmClientCerti
 // The command returns a public key, which you must store in the HSM. In addition
 // to creating the HSM certificate, you must create an Amazon Redshift HSM configuration
 // that provides a cluster the information needed to store and use encryption
-// keys in the HSM. For more information, go to Hardware Security Modules (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html)
+// keys in the HSM. For more information, go to Hardware Security Modules (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html#working-with-HSM)
 // in the Amazon Redshift Cluster Management Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -1595,6 +1885,102 @@ func (c *Redshift) CreateHsmConfiguration(input *CreateHsmConfigurationInput) (*
 // for more information on using Contexts.
 func (c *Redshift) CreateHsmConfigurationWithContext(ctx aws.Context, input *CreateHsmConfigurationInput, opts ...request.Option) (*CreateHsmConfigurationOutput, error) {
 	req, out := c.CreateHsmConfigurationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateScheduledAction = "CreateScheduledAction"
+
+// CreateScheduledActionRequest generates a "aws/request.Request" representing the
+// client's request for the CreateScheduledAction operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateScheduledAction for more information on using the CreateScheduledAction
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateScheduledActionRequest method.
+//    req, resp := client.CreateScheduledActionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateScheduledAction
+func (c *Redshift) CreateScheduledActionRequest(input *CreateScheduledActionInput) (req *request.Request, output *CreateScheduledActionOutput) {
+	op := &request.Operation{
+		Name:       opCreateScheduledAction,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateScheduledActionInput{}
+	}
+
+	output = &CreateScheduledActionOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateScheduledAction API operation for Amazon Redshift.
+//
+// Creates a scheduled action. A scheduled action contains a schedule and an
+// Amazon Redshift API action. For example, you can create a schedule of when
+// to run the ResizeCluster API operation.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation CreateScheduledAction for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeScheduledActionAlreadyExistsFault "ScheduledActionAlreadyExists"
+//   The scheduled action already exists.
+//
+//   * ErrCodeScheduledActionQuotaExceededFault "ScheduledActionQuotaExceeded"
+//   The quota for scheduled actions exceeded.
+//
+//   * ErrCodeScheduledActionTypeUnsupportedFault "ScheduledActionTypeUnsupported"
+//   The action type specified for a scheduled action is not supported.
+//
+//   * ErrCodeInvalidScheduleFault "InvalidSchedule"
+//   The schedule you submitted isn't valid.
+//
+//   * ErrCodeInvalidScheduledActionFault "InvalidScheduledAction"
+//   The scheduled action is not valid.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateScheduledAction
+func (c *Redshift) CreateScheduledAction(input *CreateScheduledActionInput) (*CreateScheduledActionOutput, error) {
+	req, out := c.CreateScheduledActionRequest(input)
+	return out, req.Send()
+}
+
+// CreateScheduledActionWithContext is the same as CreateScheduledAction with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateScheduledAction for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) CreateScheduledActionWithContext(ctx aws.Context, input *CreateScheduledActionInput, opts ...request.Option) (*CreateScheduledActionOutput, error) {
+	req, out := c.CreateScheduledActionRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -1747,7 +2133,8 @@ func (c *Redshift) CreateSnapshotScheduleRequest(input *CreateSnapshotScheduleIn
 
 // CreateSnapshotSchedule API operation for Amazon Redshift.
 //
-// Creates a new snapshot schedule.
+// Create a snapshot schedule that can be associated to a cluster and which
+// overrides the default system backup schedule.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -1771,6 +2158,9 @@ func (c *Redshift) CreateSnapshotScheduleRequest(input *CreateSnapshotScheduleIn
 //
 //   * ErrCodeScheduleDefinitionTypeUnsupportedFault "ScheduleDefinitionTypeUnsupported"
 //   The definition you submitted is not supported.
+//
+//   * ErrCodeInvalidTagFault "InvalidTagFault"
+//   The tag is invalid.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotSchedule
 func (c *Redshift) CreateSnapshotSchedule(input *CreateSnapshotScheduleInput) (*CreateSnapshotScheduleOutput, error) {
@@ -1839,7 +2229,7 @@ func (c *Redshift) CreateTagsRequest(input *CreateTagsInput) (req *request.Reque
 
 // CreateTags API operation for Amazon Redshift.
 //
-// Adds one or more tags to a specified resource.
+// Adds tags to a cluster.
 //
 // A resource can have up to 50 tags. If you try to create more than 50 tags
 // for a resource, you will receive an error and the attempt will fail.
@@ -1864,6 +2254,9 @@ func (c *Redshift) CreateTagsRequest(input *CreateTagsInput) (req *request.Reque
 //   * ErrCodeInvalidTagFault "InvalidTagFault"
 //   The tag is invalid.
 //
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateTags
 func (c *Redshift) CreateTags(input *CreateTagsInput) (*CreateTagsOutput, error) {
 	req, out := c.CreateTagsRequest(input)
@@ -1881,6 +2274,104 @@ func (c *Redshift) CreateTags(input *CreateTagsInput) (*CreateTagsOutput, error)
 // for more information on using Contexts.
 func (c *Redshift) CreateTagsWithContext(ctx aws.Context, input *CreateTagsInput, opts ...request.Option) (*CreateTagsOutput, error) {
 	req, out := c.CreateTagsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateUsageLimit = "CreateUsageLimit"
+
+// CreateUsageLimitRequest generates a "aws/request.Request" representing the
+// client's request for the CreateUsageLimit operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateUsageLimit for more information on using the CreateUsageLimit
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateUsageLimitRequest method.
+//    req, resp := client.CreateUsageLimitRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateUsageLimit
+func (c *Redshift) CreateUsageLimitRequest(input *CreateUsageLimitInput) (req *request.Request, output *CreateUsageLimitOutput) {
+	op := &request.Operation{
+		Name:       opCreateUsageLimit,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateUsageLimitInput{}
+	}
+
+	output = &CreateUsageLimitOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateUsageLimit API operation for Amazon Redshift.
+//
+// Creates a usage limit for a specified Amazon Redshift feature on a cluster.
+// The usage limit is identified by the returned usage limit identifier.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation CreateUsageLimit for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeLimitExceededFault "LimitExceededFault"
+//   The encryption key has exceeded its grant limit in AWS KMS.
+//
+//   * ErrCodeUsageLimitAlreadyExistsFault "UsageLimitAlreadyExists"
+//   The usage limit already exists.
+//
+//   * ErrCodeInvalidUsageLimitFault "InvalidUsageLimit"
+//   The usage limit is not valid.
+//
+//   * ErrCodeTagLimitExceededFault "TagLimitExceededFault"
+//   You have exceeded the number of tags allowed.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateUsageLimit
+func (c *Redshift) CreateUsageLimit(input *CreateUsageLimitInput) (*CreateUsageLimitOutput, error) {
+	req, out := c.CreateUsageLimitRequest(input)
+	return out, req.Send()
+}
+
+// CreateUsageLimitWithContext is the same as CreateUsageLimit with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateUsageLimit for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) CreateUsageLimitWithContext(ctx aws.Context, input *CreateUsageLimitInput, opts ...request.Option) (*CreateUsageLimitOutput, error) {
+	req, out := c.CreateUsageLimitRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -1930,11 +2421,12 @@ func (c *Redshift) DeleteClusterRequest(input *DeleteClusterInput) (req *request
 
 // DeleteCluster API operation for Amazon Redshift.
 //
-// Deletes a previously provisioned cluster. A successful response from the
-// web service indicates that the request was received correctly. Use DescribeClusters
-// to monitor the status of the deletion. The delete operation cannot be canceled
-// or reverted once submitted. For more information about managing clusters,
-// go to Amazon Redshift Clusters (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
+// Deletes a previously provisioned cluster without its final snapshot being
+// created. A successful response from the web service indicates that the request
+// was received correctly. Use DescribeClusters to monitor the status of the
+// deletion. The delete operation cannot be canceled or reverted once submitted.
+// For more information about managing clusters, go to Amazon Redshift Clusters
+// (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
 // in the Amazon Redshift Cluster Management Guide.
 //
 // If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot
@@ -2352,6 +2844,97 @@ func (c *Redshift) DeleteClusterSubnetGroupWithContext(ctx aws.Context, input *D
 	return out, req.Send()
 }
 
+const opDeleteEndpointAccess = "DeleteEndpointAccess"
+
+// DeleteEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteEndpointAccess for more information on using the DeleteEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteEndpointAccessRequest method.
+//    req, resp := client.DeleteEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEndpointAccess
+func (c *Redshift) DeleteEndpointAccessRequest(input *DeleteEndpointAccessInput) (req *request.Request, output *DeleteEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opDeleteEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteEndpointAccessInput{}
+	}
+
+	output = &DeleteEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DeleteEndpointAccess API operation for Amazon Redshift.
+//
+// Deletes a Redshift-managed VPC endpoint.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DeleteEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidEndpointStateFault "InvalidEndpointState"
+//   The status of the endpoint is not valid.
+//
+//   * ErrCodeInvalidClusterSecurityGroupStateFault "InvalidClusterSecurityGroupState"
+//   The state of the cluster security group is not available.
+//
+//   * ErrCodeEndpointNotFoundFault "EndpointNotFound"
+//   The endpoint name doesn't refer to an existing endpoint.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEndpointAccess
+func (c *Redshift) DeleteEndpointAccess(input *DeleteEndpointAccessInput) (*DeleteEndpointAccessOutput, error) {
+	req, out := c.DeleteEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// DeleteEndpointAccessWithContext is the same as DeleteEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DeleteEndpointAccessWithContext(ctx aws.Context, input *DeleteEndpointAccessInput, opts ...request.Option) (*DeleteEndpointAccessOutput, error) {
+	req, out := c.DeleteEndpointAccessRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDeleteEventSubscription = "DeleteEventSubscription"
 
 // DeleteEventSubscriptionRequest generates a "aws/request.Request" representing the
@@ -2605,6 +3188,175 @@ func (c *Redshift) DeleteHsmConfigurationWithContext(ctx aws.Context, input *Del
 	return out, req.Send()
 }
 
+const opDeletePartner = "DeletePartner"
+
+// DeletePartnerRequest generates a "aws/request.Request" representing the
+// client's request for the DeletePartner operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeletePartner for more information on using the DeletePartner
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeletePartnerRequest method.
+//    req, resp := client.DeletePartnerRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeletePartner
+func (c *Redshift) DeletePartnerRequest(input *DeletePartnerInput) (req *request.Request, output *DeletePartnerOutput) {
+	op := &request.Operation{
+		Name:       opDeletePartner,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeletePartnerInput{}
+	}
+
+	output = &DeletePartnerOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DeletePartner API operation for Amazon Redshift.
+//
+// Deletes a partner integration from a cluster. Data can still flow to the
+// cluster until the integration is deleted at the partner's website.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DeletePartner for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodePartnerNotFoundFault "PartnerNotFound"
+//   The name of the partner was not found.
+//
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnauthorizedPartnerIntegrationFault "UnauthorizedPartnerIntegration"
+//   The partner integration is not authorized.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeletePartner
+func (c *Redshift) DeletePartner(input *DeletePartnerInput) (*DeletePartnerOutput, error) {
+	req, out := c.DeletePartnerRequest(input)
+	return out, req.Send()
+}
+
+// DeletePartnerWithContext is the same as DeletePartner with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeletePartner for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DeletePartnerWithContext(ctx aws.Context, input *DeletePartnerInput, opts ...request.Option) (*DeletePartnerOutput, error) {
+	req, out := c.DeletePartnerRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opDeleteScheduledAction = "DeleteScheduledAction"
+
+// DeleteScheduledActionRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteScheduledAction operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteScheduledAction for more information on using the DeleteScheduledAction
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteScheduledActionRequest method.
+//    req, resp := client.DeleteScheduledActionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteScheduledAction
+func (c *Redshift) DeleteScheduledActionRequest(input *DeleteScheduledActionInput) (req *request.Request, output *DeleteScheduledActionOutput) {
+	op := &request.Operation{
+		Name:       opDeleteScheduledAction,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteScheduledActionInput{}
+	}
+
+	output = &DeleteScheduledActionOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(query.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// DeleteScheduledAction API operation for Amazon Redshift.
+//
+// Deletes a scheduled action.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DeleteScheduledAction for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeScheduledActionNotFoundFault "ScheduledActionNotFound"
+//   The scheduled action cannot be found.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteScheduledAction
+func (c *Redshift) DeleteScheduledAction(input *DeleteScheduledActionInput) (*DeleteScheduledActionOutput, error) {
+	req, out := c.DeleteScheduledActionRequest(input)
+	return out, req.Send()
+}
+
+// DeleteScheduledActionWithContext is the same as DeleteScheduledAction with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteScheduledAction for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DeleteScheduledActionWithContext(ctx aws.Context, input *DeleteScheduledActionInput, opts ...request.Option) (*DeleteScheduledActionOutput, error) {
+	req, out := c.DeleteScheduledActionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDeleteSnapshotCopyGrant = "DeleteSnapshotCopyGrant"
 
 // DeleteSnapshotCopyGrantRequest generates a "aws/request.Request" representing the
@@ -2818,8 +3570,8 @@ func (c *Redshift) DeleteTagsRequest(input *DeleteTagsInput) (req *request.Reque
 
 // DeleteTags API operation for Amazon Redshift.
 //
-// Deletes a tag or tags from a resource. You must provide the ARN of the resource
-// from which you want to delete the tag or tags.
+// Deletes tags from a resource. You must provide the ARN of the resource from
+// which you want to delete the tag or tags.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -2852,6 +3604,89 @@ func (c *Redshift) DeleteTags(input *DeleteTagsInput) (*DeleteTagsOutput, error)
 // for more information on using Contexts.
 func (c *Redshift) DeleteTagsWithContext(ctx aws.Context, input *DeleteTagsInput, opts ...request.Option) (*DeleteTagsOutput, error) {
 	req, out := c.DeleteTagsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opDeleteUsageLimit = "DeleteUsageLimit"
+
+// DeleteUsageLimitRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteUsageLimit operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteUsageLimit for more information on using the DeleteUsageLimit
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteUsageLimitRequest method.
+//    req, resp := client.DeleteUsageLimitRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteUsageLimit
+func (c *Redshift) DeleteUsageLimitRequest(input *DeleteUsageLimitInput) (req *request.Request, output *DeleteUsageLimitOutput) {
+	op := &request.Operation{
+		Name:       opDeleteUsageLimit,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteUsageLimitInput{}
+	}
+
+	output = &DeleteUsageLimitOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(query.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// DeleteUsageLimit API operation for Amazon Redshift.
+//
+// Deletes a usage limit from a cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DeleteUsageLimit for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeUsageLimitNotFoundFault "UsageLimitNotFound"
+//   The usage limit identifier can't be found.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteUsageLimit
+func (c *Redshift) DeleteUsageLimit(input *DeleteUsageLimitInput) (*DeleteUsageLimitOutput, error) {
+	req, out := c.DeleteUsageLimitRequest(input)
+	return out, req.Send()
+}
+
+// DeleteUsageLimitWithContext is the same as DeleteUsageLimit with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteUsageLimit for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DeleteUsageLimitWithContext(ctx aws.Context, input *DeleteUsageLimitInput, opts ...request.Option) (*DeleteUsageLimitOutput, error) {
+	req, out := c.DeleteUsageLimitRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -2962,6 +3797,12 @@ func (c *Redshift) DescribeClusterDbRevisionsRequest(input *DescribeClusterDbRev
 		Name:       opDescribeClusterDbRevisions,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -3011,6 +3852,58 @@ func (c *Redshift) DescribeClusterDbRevisionsWithContext(ctx aws.Context, input 
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
+}
+
+// DescribeClusterDbRevisionsPages iterates over the pages of a DescribeClusterDbRevisions operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeClusterDbRevisions method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeClusterDbRevisions operation.
+//    pageNum := 0
+//    err := client.DescribeClusterDbRevisionsPages(params,
+//        func(page *redshift.DescribeClusterDbRevisionsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeClusterDbRevisionsPages(input *DescribeClusterDbRevisionsInput, fn func(*DescribeClusterDbRevisionsOutput, bool) bool) error {
+	return c.DescribeClusterDbRevisionsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeClusterDbRevisionsPagesWithContext same as DescribeClusterDbRevisionsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeClusterDbRevisionsPagesWithContext(ctx aws.Context, input *DescribeClusterDbRevisionsInput, fn func(*DescribeClusterDbRevisionsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeClusterDbRevisionsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeClusterDbRevisionsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterDbRevisionsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
 }
 
 const opDescribeClusterParameterGroups = "DescribeClusterParameterGroups"
@@ -3162,10 +4055,12 @@ func (c *Redshift) DescribeClusterParameterGroupsPagesWithContext(ctx aws.Contex
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterParameterGroupsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterParameterGroupsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -3308,10 +4203,12 @@ func (c *Redshift) DescribeClusterParametersPagesWithContext(ctx aws.Context, in
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterParametersOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterParametersOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -3463,10 +4360,12 @@ func (c *Redshift) DescribeClusterSecurityGroupsPagesWithContext(ctx aws.Context
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSecurityGroupsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterSecurityGroupsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -3618,10 +4517,12 @@ func (c *Redshift) DescribeClusterSnapshotsPagesWithContext(ctx aws.Context, inp
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSnapshotsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterSnapshotsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -3769,10 +4670,12 @@ func (c *Redshift) DescribeClusterSubnetGroupsPagesWithContext(ctx aws.Context, 
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSubnetGroupsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterSubnetGroupsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -3807,6 +4710,12 @@ func (c *Redshift) DescribeClusterTracksRequest(input *DescribeClusterTracksInpu
 		Name:       opDescribeClusterTracks,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -3856,6 +4765,58 @@ func (c *Redshift) DescribeClusterTracksWithContext(ctx aws.Context, input *Desc
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
+}
+
+// DescribeClusterTracksPages iterates over the pages of a DescribeClusterTracks operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeClusterTracks method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeClusterTracks operation.
+//    pageNum := 0
+//    err := client.DescribeClusterTracksPages(params,
+//        func(page *redshift.DescribeClusterTracksOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeClusterTracksPages(input *DescribeClusterTracksInput, fn func(*DescribeClusterTracksOutput, bool) bool) error {
+	return c.DescribeClusterTracksPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeClusterTracksPagesWithContext same as DescribeClusterTracksPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeClusterTracksPagesWithContext(ctx aws.Context, input *DescribeClusterTracksInput, fn func(*DescribeClusterTracksOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeClusterTracksInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeClusterTracksRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterTracksOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
 }
 
 const opDescribeClusterVersions = "DescribeClusterVersions"
@@ -3985,10 +4946,12 @@ func (c *Redshift) DescribeClusterVersionsPagesWithContext(ctx aws.Context, inpu
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterVersionsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClusterVersionsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -4136,10 +5099,12 @@ func (c *Redshift) DescribeClustersPagesWithContext(ctx aws.Context, input *Desc
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClustersOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeClustersOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -4270,10 +5235,295 @@ func (c *Redshift) DescribeDefaultClusterParametersPagesWithContext(ctx aws.Cont
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDefaultClusterParametersOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeDefaultClusterParametersOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
+	return p.Err()
+}
+
+const opDescribeEndpointAccess = "DescribeEndpointAccess"
+
+// DescribeEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeEndpointAccess for more information on using the DescribeEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeEndpointAccessRequest method.
+//    req, resp := client.DescribeEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEndpointAccess
+func (c *Redshift) DescribeEndpointAccessRequest(input *DescribeEndpointAccessInput) (req *request.Request, output *DescribeEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opDescribeEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeEndpointAccessInput{}
+	}
+
+	output = &DescribeEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeEndpointAccess API operation for Amazon Redshift.
+//
+// Describes a Redshift-managed VPC endpoint.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DescribeEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeEndpointNotFoundFault "EndpointNotFound"
+//   The endpoint name doesn't refer to an existing endpoint.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEndpointAccess
+func (c *Redshift) DescribeEndpointAccess(input *DescribeEndpointAccessInput) (*DescribeEndpointAccessOutput, error) {
+	req, out := c.DescribeEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// DescribeEndpointAccessWithContext is the same as DescribeEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeEndpointAccessWithContext(ctx aws.Context, input *DescribeEndpointAccessInput, opts ...request.Option) (*DescribeEndpointAccessOutput, error) {
+	req, out := c.DescribeEndpointAccessRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeEndpointAccessPages iterates over the pages of a DescribeEndpointAccess operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeEndpointAccess method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeEndpointAccess operation.
+//    pageNum := 0
+//    err := client.DescribeEndpointAccessPages(params,
+//        func(page *redshift.DescribeEndpointAccessOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeEndpointAccessPages(input *DescribeEndpointAccessInput, fn func(*DescribeEndpointAccessOutput, bool) bool) error {
+	return c.DescribeEndpointAccessPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeEndpointAccessPagesWithContext same as DescribeEndpointAccessPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeEndpointAccessPagesWithContext(ctx aws.Context, input *DescribeEndpointAccessInput, fn func(*DescribeEndpointAccessOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeEndpointAccessInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeEndpointAccessRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeEndpointAccessOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
+const opDescribeEndpointAuthorization = "DescribeEndpointAuthorization"
+
+// DescribeEndpointAuthorizationRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeEndpointAuthorization operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeEndpointAuthorization for more information on using the DescribeEndpointAuthorization
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeEndpointAuthorizationRequest method.
+//    req, resp := client.DescribeEndpointAuthorizationRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEndpointAuthorization
+func (c *Redshift) DescribeEndpointAuthorizationRequest(input *DescribeEndpointAuthorizationInput) (req *request.Request, output *DescribeEndpointAuthorizationOutput) {
+	op := &request.Operation{
+		Name:       opDescribeEndpointAuthorization,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeEndpointAuthorizationInput{}
+	}
+
+	output = &DescribeEndpointAuthorizationOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeEndpointAuthorization API operation for Amazon Redshift.
+//
+// Describes an endpoint authorization.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DescribeEndpointAuthorization for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEndpointAuthorization
+func (c *Redshift) DescribeEndpointAuthorization(input *DescribeEndpointAuthorizationInput) (*DescribeEndpointAuthorizationOutput, error) {
+	req, out := c.DescribeEndpointAuthorizationRequest(input)
+	return out, req.Send()
+}
+
+// DescribeEndpointAuthorizationWithContext is the same as DescribeEndpointAuthorization with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeEndpointAuthorization for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeEndpointAuthorizationWithContext(ctx aws.Context, input *DescribeEndpointAuthorizationInput, opts ...request.Option) (*DescribeEndpointAuthorizationOutput, error) {
+	req, out := c.DescribeEndpointAuthorizationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeEndpointAuthorizationPages iterates over the pages of a DescribeEndpointAuthorization operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeEndpointAuthorization method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeEndpointAuthorization operation.
+//    pageNum := 0
+//    err := client.DescribeEndpointAuthorizationPages(params,
+//        func(page *redshift.DescribeEndpointAuthorizationOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeEndpointAuthorizationPages(input *DescribeEndpointAuthorizationInput, fn func(*DescribeEndpointAuthorizationOutput, bool) bool) error {
+	return c.DescribeEndpointAuthorizationPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeEndpointAuthorizationPagesWithContext same as DescribeEndpointAuthorizationPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeEndpointAuthorizationPagesWithContext(ctx aws.Context, input *DescribeEndpointAuthorizationInput, fn func(*DescribeEndpointAuthorizationOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeEndpointAuthorizationInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeEndpointAuthorizationRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeEndpointAuthorizationOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
 	return p.Err()
 }
 
@@ -4497,10 +5747,12 @@ func (c *Redshift) DescribeEventSubscriptionsPagesWithContext(ctx aws.Context, i
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventSubscriptionsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeEventSubscriptionsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -4630,10 +5882,12 @@ func (c *Redshift) DescribeEventsPagesWithContext(ctx aws.Context, input *Descri
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeEventsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -4780,10 +6034,12 @@ func (c *Redshift) DescribeHsmClientCertificatesPagesWithContext(ctx aws.Context
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeHsmClientCertificatesOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeHsmClientCertificatesOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -4930,10 +6186,12 @@ func (c *Redshift) DescribeHsmConfigurationsPagesWithContext(ctx aws.Context, in
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeHsmConfigurationsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeHsmConfigurationsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -5085,6 +6343,13 @@ func (c *Redshift) DescribeNodeConfigurationOptionsRequest(input *DescribeNodeCo
 //   The specified cluster snapshot is not in the available state, or other accounts
 //   are authorized to access the snapshot.
 //
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeAccessToSnapshotDeniedFault "AccessToSnapshotDenied"
+//   The owner of the specified snapshot has not authorized your account to access
+//   the snapshot.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeNodeConfigurationOptions
 func (c *Redshift) DescribeNodeConfigurationOptions(input *DescribeNodeConfigurationOptionsInput) (*DescribeNodeConfigurationOptionsOutput, error) {
 	req, out := c.DescribeNodeConfigurationOptionsRequest(input)
@@ -5150,10 +6415,12 @@ func (c *Redshift) DescribeNodeConfigurationOptionsPagesWithContext(ctx aws.Cont
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeNodeConfigurationOptionsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeNodeConfigurationOptionsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -5288,11 +6555,95 @@ func (c *Redshift) DescribeOrderableClusterOptionsPagesWithContext(ctx aws.Conte
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeOrderableClusterOptionsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeOrderableClusterOptionsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
+}
+
+const opDescribePartners = "DescribePartners"
+
+// DescribePartnersRequest generates a "aws/request.Request" representing the
+// client's request for the DescribePartners operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribePartners for more information on using the DescribePartners
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribePartnersRequest method.
+//    req, resp := client.DescribePartnersRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribePartners
+func (c *Redshift) DescribePartnersRequest(input *DescribePartnersInput) (req *request.Request, output *DescribePartnersOutput) {
+	op := &request.Operation{
+		Name:       opDescribePartners,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribePartnersInput{}
+	}
+
+	output = &DescribePartnersOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribePartners API operation for Amazon Redshift.
+//
+// Returns information about the partner integrations defined for a cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DescribePartners for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnauthorizedPartnerIntegrationFault "UnauthorizedPartnerIntegration"
+//   The partner integration is not authorized.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribePartners
+func (c *Redshift) DescribePartners(input *DescribePartnersInput) (*DescribePartnersOutput, error) {
+	req, out := c.DescribePartnersRequest(input)
+	return out, req.Send()
+}
+
+// DescribePartnersWithContext is the same as DescribePartners with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribePartners for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribePartnersWithContext(ctx aws.Context, input *DescribePartnersInput, opts ...request.Option) (*DescribePartnersOutput, error) {
+	req, out := c.DescribePartnersRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
 }
 
 const opDescribeReservedNodeOfferings = "DescribeReservedNodeOfferings"
@@ -5439,10 +6790,12 @@ func (c *Redshift) DescribeReservedNodeOfferingsPagesWithContext(ctx aws.Context
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeReservedNodeOfferingsOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeReservedNodeOfferingsOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -5578,10 +6931,12 @@ func (c *Redshift) DescribeReservedNodesPagesWithContext(ctx aws.Context, input 
 		},
 	}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeReservedNodesOutput), !p.HasNextPage())
+	for p.Next() {
+		if !fn(p.Page().(*DescribeReservedNodesOutput), !p.HasNextPage()) {
+			break
+		}
 	}
+
 	return p.Err()
 }
 
@@ -5673,6 +7028,146 @@ func (c *Redshift) DescribeResizeWithContext(ctx aws.Context, input *DescribeRes
 	return out, req.Send()
 }
 
+const opDescribeScheduledActions = "DescribeScheduledActions"
+
+// DescribeScheduledActionsRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeScheduledActions operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeScheduledActions for more information on using the DescribeScheduledActions
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeScheduledActionsRequest method.
+//    req, resp := client.DescribeScheduledActionsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeScheduledActions
+func (c *Redshift) DescribeScheduledActionsRequest(input *DescribeScheduledActionsInput) (req *request.Request, output *DescribeScheduledActionsOutput) {
+	op := &request.Operation{
+		Name:       opDescribeScheduledActions,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeScheduledActionsInput{}
+	}
+
+	output = &DescribeScheduledActionsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeScheduledActions API operation for Amazon Redshift.
+//
+// Describes properties of scheduled actions.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DescribeScheduledActions for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeScheduledActionNotFoundFault "ScheduledActionNotFound"
+//   The scheduled action cannot be found.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeScheduledActions
+func (c *Redshift) DescribeScheduledActions(input *DescribeScheduledActionsInput) (*DescribeScheduledActionsOutput, error) {
+	req, out := c.DescribeScheduledActionsRequest(input)
+	return out, req.Send()
+}
+
+// DescribeScheduledActionsWithContext is the same as DescribeScheduledActions with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeScheduledActions for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeScheduledActionsWithContext(ctx aws.Context, input *DescribeScheduledActionsInput, opts ...request.Option) (*DescribeScheduledActionsOutput, error) {
+	req, out := c.DescribeScheduledActionsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeScheduledActionsPages iterates over the pages of a DescribeScheduledActions operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeScheduledActions method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeScheduledActions operation.
+//    pageNum := 0
+//    err := client.DescribeScheduledActionsPages(params,
+//        func(page *redshift.DescribeScheduledActionsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeScheduledActionsPages(input *DescribeScheduledActionsInput, fn func(*DescribeScheduledActionsOutput, bool) bool) error {
+	return c.DescribeScheduledActionsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeScheduledActionsPagesWithContext same as DescribeScheduledActionsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeScheduledActionsPagesWithContext(ctx aws.Context, input *DescribeScheduledActionsInput, fn func(*DescribeScheduledActionsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeScheduledActionsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeScheduledActionsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeScheduledActionsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 const opDescribeSnapshotCopyGrants = "DescribeSnapshotCopyGrants"
 
 // DescribeSnapshotCopyGrantsRequest generates a "aws/request.Request" representing the
@@ -5704,6 +7199,12 @@ func (c *Redshift) DescribeSnapshotCopyGrantsRequest(input *DescribeSnapshotCopy
 		Name:       opDescribeSnapshotCopyGrants,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -5761,6 +7262,58 @@ func (c *Redshift) DescribeSnapshotCopyGrantsWithContext(ctx aws.Context, input 
 	return out, req.Send()
 }
 
+// DescribeSnapshotCopyGrantsPages iterates over the pages of a DescribeSnapshotCopyGrants operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeSnapshotCopyGrants method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeSnapshotCopyGrants operation.
+//    pageNum := 0
+//    err := client.DescribeSnapshotCopyGrantsPages(params,
+//        func(page *redshift.DescribeSnapshotCopyGrantsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeSnapshotCopyGrantsPages(input *DescribeSnapshotCopyGrantsInput, fn func(*DescribeSnapshotCopyGrantsOutput, bool) bool) error {
+	return c.DescribeSnapshotCopyGrantsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeSnapshotCopyGrantsPagesWithContext same as DescribeSnapshotCopyGrantsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeSnapshotCopyGrantsPagesWithContext(ctx aws.Context, input *DescribeSnapshotCopyGrantsInput, fn func(*DescribeSnapshotCopyGrantsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeSnapshotCopyGrantsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeSnapshotCopyGrantsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeSnapshotCopyGrantsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 const opDescribeSnapshotSchedules = "DescribeSnapshotSchedules"
 
 // DescribeSnapshotSchedulesRequest generates a "aws/request.Request" representing the
@@ -5792,6 +7345,12 @@ func (c *Redshift) DescribeSnapshotSchedulesRequest(input *DescribeSnapshotSched
 		Name:       opDescribeSnapshotSchedules,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -5833,6 +7392,58 @@ func (c *Redshift) DescribeSnapshotSchedulesWithContext(ctx aws.Context, input *
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
+}
+
+// DescribeSnapshotSchedulesPages iterates over the pages of a DescribeSnapshotSchedules operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeSnapshotSchedules method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeSnapshotSchedules operation.
+//    pageNum := 0
+//    err := client.DescribeSnapshotSchedulesPages(params,
+//        func(page *redshift.DescribeSnapshotSchedulesOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeSnapshotSchedulesPages(input *DescribeSnapshotSchedulesInput, fn func(*DescribeSnapshotSchedulesOutput, bool) bool) error {
+	return c.DescribeSnapshotSchedulesPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeSnapshotSchedulesPagesWithContext same as DescribeSnapshotSchedulesPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeSnapshotSchedulesPagesWithContext(ctx aws.Context, input *DescribeSnapshotSchedulesInput, fn func(*DescribeSnapshotSchedulesOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeSnapshotSchedulesInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeSnapshotSchedulesRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeSnapshotSchedulesOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
 }
 
 const opDescribeStorage = "DescribeStorage"
@@ -5879,7 +7490,7 @@ func (c *Redshift) DescribeStorageRequest(input *DescribeStorageInput) (req *req
 
 // DescribeStorage API operation for Amazon Redshift.
 //
-// Returns the total amount of snapshot usage and provisioned storage in megabytes.
+// Returns account level backups storage size and provisional storage.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -5940,6 +7551,12 @@ func (c *Redshift) DescribeTableRestoreStatusRequest(input *DescribeTableRestore
 		Name:       opDescribeTableRestoreStatus,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -5995,6 +7612,58 @@ func (c *Redshift) DescribeTableRestoreStatusWithContext(ctx aws.Context, input 
 	return out, req.Send()
 }
 
+// DescribeTableRestoreStatusPages iterates over the pages of a DescribeTableRestoreStatus operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeTableRestoreStatus method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeTableRestoreStatus operation.
+//    pageNum := 0
+//    err := client.DescribeTableRestoreStatusPages(params,
+//        func(page *redshift.DescribeTableRestoreStatusOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeTableRestoreStatusPages(input *DescribeTableRestoreStatusInput, fn func(*DescribeTableRestoreStatusOutput, bool) bool) error {
+	return c.DescribeTableRestoreStatusPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeTableRestoreStatusPagesWithContext same as DescribeTableRestoreStatusPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeTableRestoreStatusPagesWithContext(ctx aws.Context, input *DescribeTableRestoreStatusInput, fn func(*DescribeTableRestoreStatusOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeTableRestoreStatusInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeTableRestoreStatusRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeTableRestoreStatusOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 const opDescribeTags = "DescribeTags"
 
 // DescribeTagsRequest generates a "aws/request.Request" representing the
@@ -6026,6 +7695,12 @@ func (c *Redshift) DescribeTagsRequest(input *DescribeTagsInput) (req *request.R
 		Name:       opDescribeTags,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -6097,6 +7772,212 @@ func (c *Redshift) DescribeTagsWithContext(ctx aws.Context, input *DescribeTagsI
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
+}
+
+// DescribeTagsPages iterates over the pages of a DescribeTags operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeTags method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeTags operation.
+//    pageNum := 0
+//    err := client.DescribeTagsPages(params,
+//        func(page *redshift.DescribeTagsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeTagsPages(input *DescribeTagsInput, fn func(*DescribeTagsOutput, bool) bool) error {
+	return c.DescribeTagsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeTagsPagesWithContext same as DescribeTagsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeTagsPagesWithContext(ctx aws.Context, input *DescribeTagsInput, fn func(*DescribeTagsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeTagsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeTagsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeTagsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
+const opDescribeUsageLimits = "DescribeUsageLimits"
+
+// DescribeUsageLimitsRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeUsageLimits operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeUsageLimits for more information on using the DescribeUsageLimits
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeUsageLimitsRequest method.
+//    req, resp := client.DescribeUsageLimitsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeUsageLimits
+func (c *Redshift) DescribeUsageLimitsRequest(input *DescribeUsageLimitsInput) (req *request.Request, output *DescribeUsageLimitsOutput) {
+	op := &request.Operation{
+		Name:       opDescribeUsageLimits,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeUsageLimitsInput{}
+	}
+
+	output = &DescribeUsageLimitsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeUsageLimits API operation for Amazon Redshift.
+//
+// Shows usage limits on a cluster. Results are filtered based on the combination
+// of input usage limit identifier, cluster identifier, and feature type parameters:
+//
+//    * If usage limit identifier, cluster identifier, and feature type are
+//    not provided, then all usage limit objects for the current account in
+//    the current region are returned.
+//
+//    * If usage limit identifier is provided, then the corresponding usage
+//    limit object is returned.
+//
+//    * If cluster identifier is provided, then all usage limit objects for
+//    the specified cluster are returned.
+//
+//    * If cluster identifier and feature type are provided, then all usage
+//    limit objects for the combination of cluster and feature are returned.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation DescribeUsageLimits for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeUsageLimits
+func (c *Redshift) DescribeUsageLimits(input *DescribeUsageLimitsInput) (*DescribeUsageLimitsOutput, error) {
+	req, out := c.DescribeUsageLimitsRequest(input)
+	return out, req.Send()
+}
+
+// DescribeUsageLimitsWithContext is the same as DescribeUsageLimits with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeUsageLimits for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeUsageLimitsWithContext(ctx aws.Context, input *DescribeUsageLimitsInput, opts ...request.Option) (*DescribeUsageLimitsOutput, error) {
+	req, out := c.DescribeUsageLimitsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeUsageLimitsPages iterates over the pages of a DescribeUsageLimits operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeUsageLimits method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeUsageLimits operation.
+//    pageNum := 0
+//    err := client.DescribeUsageLimitsPages(params,
+//        func(page *redshift.DescribeUsageLimitsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) DescribeUsageLimitsPages(input *DescribeUsageLimitsInput, fn func(*DescribeUsageLimitsOutput, bool) bool) error {
+	return c.DescribeUsageLimitsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeUsageLimitsPagesWithContext same as DescribeUsageLimitsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) DescribeUsageLimitsPagesWithContext(ctx aws.Context, input *DescribeUsageLimitsInput, fn func(*DescribeUsageLimitsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeUsageLimitsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeUsageLimitsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeUsageLimitsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
 }
 
 const opDisableLogging = "DisableLogging"
@@ -6345,6 +8226,9 @@ func (c *Redshift) EnableLoggingRequest(input *EnableLoggingInput) (req *request
 //   The S3 bucket name is invalid. For more information about naming rules, go
 //   to Bucket Restrictions and Limitations (https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html)
 //   in the Amazon Simple Storage Service (S3) Developer Guide.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableLogging
 func (c *Redshift) EnableLogging(input *EnableLoggingInput) (*LoggingStatus, error) {
@@ -6618,6 +8502,12 @@ func (c *Redshift) GetReservedNodeExchangeOfferingsRequest(input *GetReservedNod
 		Name:       opGetReservedNodeExchangeOfferings,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"Marker"},
+			OutputTokens:    []string{"Marker"},
+			LimitToken:      "MaxRecords",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -6683,6 +8573,143 @@ func (c *Redshift) GetReservedNodeExchangeOfferingsWithContext(ctx aws.Context, 
 	return out, req.Send()
 }
 
+// GetReservedNodeExchangeOfferingsPages iterates over the pages of a GetReservedNodeExchangeOfferings operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See GetReservedNodeExchangeOfferings method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a GetReservedNodeExchangeOfferings operation.
+//    pageNum := 0
+//    err := client.GetReservedNodeExchangeOfferingsPages(params,
+//        func(page *redshift.GetReservedNodeExchangeOfferingsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Redshift) GetReservedNodeExchangeOfferingsPages(input *GetReservedNodeExchangeOfferingsInput, fn func(*GetReservedNodeExchangeOfferingsOutput, bool) bool) error {
+	return c.GetReservedNodeExchangeOfferingsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// GetReservedNodeExchangeOfferingsPagesWithContext same as GetReservedNodeExchangeOfferingsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) GetReservedNodeExchangeOfferingsPagesWithContext(ctx aws.Context, input *GetReservedNodeExchangeOfferingsInput, fn func(*GetReservedNodeExchangeOfferingsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *GetReservedNodeExchangeOfferingsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.GetReservedNodeExchangeOfferingsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*GetReservedNodeExchangeOfferingsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
+const opModifyAquaConfiguration = "ModifyAquaConfiguration"
+
+// ModifyAquaConfigurationRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyAquaConfiguration operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyAquaConfiguration for more information on using the ModifyAquaConfiguration
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ModifyAquaConfigurationRequest method.
+//    req, resp := client.ModifyAquaConfigurationRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyAquaConfiguration
+func (c *Redshift) ModifyAquaConfigurationRequest(input *ModifyAquaConfigurationInput) (req *request.Request, output *ModifyAquaConfigurationOutput) {
+	op := &request.Operation{
+		Name:       opModifyAquaConfiguration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyAquaConfigurationInput{}
+	}
+
+	output = &ModifyAquaConfigurationOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyAquaConfiguration API operation for Amazon Redshift.
+//
+// Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation ModifyAquaConfiguration for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyAquaConfiguration
+func (c *Redshift) ModifyAquaConfiguration(input *ModifyAquaConfigurationInput) (*ModifyAquaConfigurationOutput, error) {
+	req, out := c.ModifyAquaConfigurationRequest(input)
+	return out, req.Send()
+}
+
+// ModifyAquaConfigurationWithContext is the same as ModifyAquaConfiguration with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyAquaConfiguration for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) ModifyAquaConfigurationWithContext(ctx aws.Context, input *ModifyAquaConfigurationInput, opts ...request.Option) (*ModifyAquaConfigurationOutput, error) {
+	req, out := c.ModifyAquaConfigurationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opModifyCluster = "ModifyCluster"
 
 // ModifyClusterRequest generates a "aws/request.Request" representing the
@@ -6727,17 +8754,18 @@ func (c *Redshift) ModifyClusterRequest(input *ModifyClusterInput) (req *request
 
 // ModifyCluster API operation for Amazon Redshift.
 //
-// Modifies the settings for a cluster. For example, you can add another security
-// or parameter group, update the preferred maintenance window, or change the
-// master user password. Resetting a cluster password or modifying the security
-// groups associated with a cluster do not need a reboot. However, modifying
-// a parameter group requires a reboot for parameters to take effect. For more
-// information about managing clusters, go to Amazon Redshift Clusters (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
-// in the Amazon Redshift Cluster Management Guide.
+// Modifies the settings for a cluster.
 //
 // You can also change node type and the number of nodes to scale up or down
 // the cluster. When resizing a cluster, you must specify both the number of
 // nodes and the node type even if one of the parameters does not change.
+//
+// You can add another security or parameter group, or change the master user
+// password. Resetting a cluster password or modifying the security groups associated
+// with a cluster do not need a reboot. However, modifying a parameter group
+// requires a reboot for parameters to take effect. For more information about
+// managing clusters, go to Amazon Redshift Clusters (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
+// in the Amazon Redshift Cluster Management Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -7049,8 +9077,7 @@ func (c *Redshift) ModifyClusterMaintenanceRequest(input *ModifyClusterMaintenan
 
 // ModifyClusterMaintenance API operation for Amazon Redshift.
 //
-// Modifies the maintenance settings of a cluster. For example, you can defer
-// a maintenance window. You can also update or cancel a deferment.
+// Modifies the maintenance settings of a cluster.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -7062,6 +9089,9 @@ func (c *Redshift) ModifyClusterMaintenanceRequest(input *ModifyClusterMaintenan
 // Returned Error Codes:
 //   * ErrCodeClusterNotFoundFault "ClusterNotFound"
 //   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMaintenance
 func (c *Redshift) ModifyClusterMaintenance(input *ModifyClusterMaintenanceInput) (*ModifyClusterMaintenanceOutput, error) {
@@ -7218,6 +9248,9 @@ func (c *Redshift) ModifyClusterSnapshotRequest(input *ModifyClusterSnapshotInpu
 // ModifyClusterSnapshot API operation for Amazon Redshift.
 //
 // Modifies the settings for a snapshot.
+//
+// This exanmple modifies the manual retention period setting for a cluster
+// snapshot.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -7449,6 +9482,100 @@ func (c *Redshift) ModifyClusterSubnetGroupWithContext(ctx aws.Context, input *M
 	return out, req.Send()
 }
 
+const opModifyEndpointAccess = "ModifyEndpointAccess"
+
+// ModifyEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyEndpointAccess for more information on using the ModifyEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ModifyEndpointAccessRequest method.
+//    req, resp := client.ModifyEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEndpointAccess
+func (c *Redshift) ModifyEndpointAccessRequest(input *ModifyEndpointAccessInput) (req *request.Request, output *ModifyEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opModifyEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyEndpointAccessInput{}
+	}
+
+	output = &ModifyEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyEndpointAccess API operation for Amazon Redshift.
+//
+// Modifies a Redshift-managed VPC endpoint.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation ModifyEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeInvalidClusterSecurityGroupStateFault "InvalidClusterSecurityGroupState"
+//   The state of the cluster security group is not available.
+//
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidEndpointStateFault "InvalidEndpointState"
+//   The status of the endpoint is not valid.
+//
+//   * ErrCodeEndpointNotFoundFault "EndpointNotFound"
+//   The endpoint name doesn't refer to an existing endpoint.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEndpointAccess
+func (c *Redshift) ModifyEndpointAccess(input *ModifyEndpointAccessInput) (*ModifyEndpointAccessOutput, error) {
+	req, out := c.ModifyEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// ModifyEndpointAccessWithContext is the same as ModifyEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) ModifyEndpointAccessWithContext(ctx aws.Context, input *ModifyEndpointAccessInput, opts ...request.Option) (*ModifyEndpointAccessOutput, error) {
+	req, out := c.ModifyEndpointAccessRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opModifyEventSubscription = "ModifyEventSubscription"
 
 // ModifyEventSubscriptionRequest generates a "aws/request.Request" representing the
@@ -7555,6 +9682,97 @@ func (c *Redshift) ModifyEventSubscription(input *ModifyEventSubscriptionInput) 
 // for more information on using Contexts.
 func (c *Redshift) ModifyEventSubscriptionWithContext(ctx aws.Context, input *ModifyEventSubscriptionInput, opts ...request.Option) (*ModifyEventSubscriptionOutput, error) {
 	req, out := c.ModifyEventSubscriptionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opModifyScheduledAction = "ModifyScheduledAction"
+
+// ModifyScheduledActionRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyScheduledAction operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyScheduledAction for more information on using the ModifyScheduledAction
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ModifyScheduledActionRequest method.
+//    req, resp := client.ModifyScheduledActionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyScheduledAction
+func (c *Redshift) ModifyScheduledActionRequest(input *ModifyScheduledActionInput) (req *request.Request, output *ModifyScheduledActionOutput) {
+	op := &request.Operation{
+		Name:       opModifyScheduledAction,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyScheduledActionInput{}
+	}
+
+	output = &ModifyScheduledActionOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyScheduledAction API operation for Amazon Redshift.
+//
+// Modifies a scheduled action.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation ModifyScheduledAction for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeScheduledActionNotFoundFault "ScheduledActionNotFound"
+//   The scheduled action cannot be found.
+//
+//   * ErrCodeScheduledActionTypeUnsupportedFault "ScheduledActionTypeUnsupported"
+//   The action type specified for a scheduled action is not supported.
+//
+//   * ErrCodeInvalidScheduleFault "InvalidSchedule"
+//   The schedule you submitted isn't valid.
+//
+//   * ErrCodeInvalidScheduledActionFault "InvalidScheduledAction"
+//   The scheduled action is not valid.
+//
+//   * ErrCodeUnauthorizedOperation "UnauthorizedOperation"
+//   Your account is not authorized to perform the requested operation.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyScheduledAction
+func (c *Redshift) ModifyScheduledAction(input *ModifyScheduledActionInput) (*ModifyScheduledActionOutput, error) {
+	req, out := c.ModifyScheduledActionRequest(input)
+	return out, req.Send()
+}
+
+// ModifyScheduledActionWithContext is the same as ModifyScheduledAction with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyScheduledAction for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) ModifyScheduledActionWithContext(ctx aws.Context, input *ModifyScheduledActionInput, opts ...request.Option) (*ModifyScheduledActionOutput, error) {
+	req, out := c.ModifyScheduledActionRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -7740,6 +9958,174 @@ func (c *Redshift) ModifySnapshotSchedule(input *ModifySnapshotScheduleInput) (*
 // for more information on using Contexts.
 func (c *Redshift) ModifySnapshotScheduleWithContext(ctx aws.Context, input *ModifySnapshotScheduleInput, opts ...request.Option) (*ModifySnapshotScheduleOutput, error) {
 	req, out := c.ModifySnapshotScheduleRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opModifyUsageLimit = "ModifyUsageLimit"
+
+// ModifyUsageLimitRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyUsageLimit operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyUsageLimit for more information on using the ModifyUsageLimit
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ModifyUsageLimitRequest method.
+//    req, resp := client.ModifyUsageLimitRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyUsageLimit
+func (c *Redshift) ModifyUsageLimitRequest(input *ModifyUsageLimitInput) (req *request.Request, output *ModifyUsageLimitOutput) {
+	op := &request.Operation{
+		Name:       opModifyUsageLimit,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyUsageLimitInput{}
+	}
+
+	output = &ModifyUsageLimitOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyUsageLimit API operation for Amazon Redshift.
+//
+// Modifies a usage limit in a cluster. You can't modify the feature type or
+// period of a usage limit.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation ModifyUsageLimit for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeInvalidUsageLimitFault "InvalidUsageLimit"
+//   The usage limit is not valid.
+//
+//   * ErrCodeUsageLimitNotFoundFault "UsageLimitNotFound"
+//   The usage limit identifier can't be found.
+//
+//   * ErrCodeUnsupportedOperationFault "UnsupportedOperation"
+//   The requested operation isn't supported.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyUsageLimit
+func (c *Redshift) ModifyUsageLimit(input *ModifyUsageLimitInput) (*ModifyUsageLimitOutput, error) {
+	req, out := c.ModifyUsageLimitRequest(input)
+	return out, req.Send()
+}
+
+// ModifyUsageLimitWithContext is the same as ModifyUsageLimit with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyUsageLimit for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) ModifyUsageLimitWithContext(ctx aws.Context, input *ModifyUsageLimitInput, opts ...request.Option) (*ModifyUsageLimitOutput, error) {
+	req, out := c.ModifyUsageLimitRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opPauseCluster = "PauseCluster"
+
+// PauseClusterRequest generates a "aws/request.Request" representing the
+// client's request for the PauseCluster operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See PauseCluster for more information on using the PauseCluster
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the PauseClusterRequest method.
+//    req, resp := client.PauseClusterRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster
+func (c *Redshift) PauseClusterRequest(input *PauseClusterInput) (req *request.Request, output *PauseClusterOutput) {
+	op := &request.Operation{
+		Name:       opPauseCluster,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &PauseClusterInput{}
+	}
+
+	output = &PauseClusterOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// PauseCluster API operation for Amazon Redshift.
+//
+// Pauses a cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation PauseCluster for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster
+func (c *Redshift) PauseCluster(input *PauseClusterInput) (*PauseClusterOutput, error) {
+	req, out := c.PauseClusterRequest(input)
+	return out, req.Send()
+}
+
+// PauseClusterWithContext is the same as PauseCluster with the addition of
+// the ability to pass a context and additional request options.
+//
+// See PauseCluster for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) PauseClusterWithContext(ctx aws.Context, input *PauseClusterInput, opts ...request.Option) (*PauseClusterOutput, error) {
+	req, out := c.PauseClusterRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -8069,8 +10455,9 @@ func (c *Redshift) ResizeClusterRequest(input *ResizeClusterInput) (req *request
 //
 // Elastic resize operations have the following restrictions:
 //
-//    * You can only resize clusters of the following types: dc2.large dc2.8xlarge
-//    ds2.xlarge ds2.8xlarge
+//    * You can only resize clusters of the following types: dc1.large (if your
+//    cluster is in a VPC) dc1.8xlarge (if your cluster is in a VPC) dc2.large
+//    dc2.8xlarge ds2.xlarge ds2.8xlarge ra3.xlplus ra3.4xlarge ra3.16xlarge
 //
 //    * The type of nodes that you add must match the node type for the cluster.
 //
@@ -8423,6 +10810,91 @@ func (c *Redshift) RestoreTableFromClusterSnapshotWithContext(ctx aws.Context, i
 	return out, req.Send()
 }
 
+const opResumeCluster = "ResumeCluster"
+
+// ResumeClusterRequest generates a "aws/request.Request" representing the
+// client's request for the ResumeCluster operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ResumeCluster for more information on using the ResumeCluster
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ResumeClusterRequest method.
+//    req, resp := client.ResumeClusterRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster
+func (c *Redshift) ResumeClusterRequest(input *ResumeClusterInput) (req *request.Request, output *ResumeClusterOutput) {
+	op := &request.Operation{
+		Name:       opResumeCluster,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ResumeClusterInput{}
+	}
+
+	output = &ResumeClusterOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ResumeCluster API operation for Amazon Redshift.
+//
+// Resumes a paused cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation ResumeCluster for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+//   * ErrCodeInsufficientClusterCapacityFault "InsufficientClusterCapacity"
+//   The number of nodes specified exceeds the allotted capacity of the cluster.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster
+func (c *Redshift) ResumeCluster(input *ResumeClusterInput) (*ResumeClusterOutput, error) {
+	req, out := c.ResumeClusterRequest(input)
+	return out, req.Send()
+}
+
+// ResumeClusterWithContext is the same as ResumeCluster with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ResumeCluster for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) ResumeClusterWithContext(ctx aws.Context, input *ResumeClusterInput, opts ...request.Option) (*ResumeClusterOutput, error) {
+	req, out := c.ResumeClusterRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opRevokeClusterSecurityGroupIngress = "RevokeClusterSecurityGroupIngress"
 
 // RevokeClusterSecurityGroupIngressRequest generates a "aws/request.Request" representing the
@@ -8509,6 +10981,103 @@ func (c *Redshift) RevokeClusterSecurityGroupIngress(input *RevokeClusterSecurit
 // for more information on using Contexts.
 func (c *Redshift) RevokeClusterSecurityGroupIngressWithContext(ctx aws.Context, input *RevokeClusterSecurityGroupIngressInput, opts ...request.Option) (*RevokeClusterSecurityGroupIngressOutput, error) {
 	req, out := c.RevokeClusterSecurityGroupIngressRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opRevokeEndpointAccess = "RevokeEndpointAccess"
+
+// RevokeEndpointAccessRequest generates a "aws/request.Request" representing the
+// client's request for the RevokeEndpointAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See RevokeEndpointAccess for more information on using the RevokeEndpointAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the RevokeEndpointAccessRequest method.
+//    req, resp := client.RevokeEndpointAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeEndpointAccess
+func (c *Redshift) RevokeEndpointAccessRequest(input *RevokeEndpointAccessInput) (req *request.Request, output *RevokeEndpointAccessOutput) {
+	op := &request.Operation{
+		Name:       opRevokeEndpointAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &RevokeEndpointAccessInput{}
+	}
+
+	output = &RevokeEndpointAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// RevokeEndpointAccess API operation for Amazon Redshift.
+//
+// Revokes access to a cluster.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation RevokeEndpointAccess for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeInvalidEndpointStateFault "InvalidEndpointState"
+//   The status of the endpoint is not valid.
+//
+//   * ErrCodeInvalidClusterSecurityGroupStateFault "InvalidClusterSecurityGroupState"
+//   The state of the cluster security group is not available.
+//
+//   * ErrCodeEndpointNotFoundFault "EndpointNotFound"
+//   The endpoint name doesn't refer to an existing endpoint.
+//
+//   * ErrCodeEndpointAuthorizationNotFoundFault "EndpointAuthorizationNotFound"
+//   The authorization for this endpoint can't be found.
+//
+//   * ErrCodeInvalidAuthorizationStateFault "InvalidAuthorizationState"
+//   The status of the authorization is not valid.
+//
+//   * ErrCodeInvalidClusterStateFault "InvalidClusterState"
+//   The specified cluster is not in the available state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeEndpointAccess
+func (c *Redshift) RevokeEndpointAccess(input *RevokeEndpointAccessInput) (*RevokeEndpointAccessOutput, error) {
+	req, out := c.RevokeEndpointAccessRequest(input)
+	return out, req.Send()
+}
+
+// RevokeEndpointAccessWithContext is the same as RevokeEndpointAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See RevokeEndpointAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) RevokeEndpointAccessWithContext(ctx aws.Context, input *RevokeEndpointAccessInput, opts ...request.Option) (*RevokeEndpointAccessOutput, error) {
+	req, out := c.RevokeEndpointAccessRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -8693,6 +11262,91 @@ func (c *Redshift) RotateEncryptionKeyWithContext(ctx aws.Context, input *Rotate
 	return out, req.Send()
 }
 
+const opUpdatePartnerStatus = "UpdatePartnerStatus"
+
+// UpdatePartnerStatusRequest generates a "aws/request.Request" representing the
+// client's request for the UpdatePartnerStatus operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UpdatePartnerStatus for more information on using the UpdatePartnerStatus
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UpdatePartnerStatusRequest method.
+//    req, resp := client.UpdatePartnerStatusRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/UpdatePartnerStatus
+func (c *Redshift) UpdatePartnerStatusRequest(input *UpdatePartnerStatusInput) (req *request.Request, output *UpdatePartnerStatusOutput) {
+	op := &request.Operation{
+		Name:       opUpdatePartnerStatus,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdatePartnerStatusInput{}
+	}
+
+	output = &UpdatePartnerStatusOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// UpdatePartnerStatus API operation for Amazon Redshift.
+//
+// Updates the status of a partner integration.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Redshift's
+// API operation UpdatePartnerStatus for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodePartnerNotFoundFault "PartnerNotFound"
+//   The name of the partner was not found.
+//
+//   * ErrCodeClusterNotFoundFault "ClusterNotFound"
+//   The ClusterIdentifier parameter does not refer to an existing cluster.
+//
+//   * ErrCodeUnauthorizedPartnerIntegrationFault "UnauthorizedPartnerIntegration"
+//   The partner integration is not authorized.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/UpdatePartnerStatus
+func (c *Redshift) UpdatePartnerStatus(input *UpdatePartnerStatusInput) (*UpdatePartnerStatusOutput, error) {
+	req, out := c.UpdatePartnerStatusRequest(input)
+	return out, req.Send()
+}
+
+// UpdatePartnerStatusWithContext is the same as UpdatePartnerStatus with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UpdatePartnerStatus for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Redshift) UpdatePartnerStatusWithContext(ctx aws.Context, input *UpdatePartnerStatusInput, opts ...request.Option) (*UpdatePartnerStatusOutput, error) {
+	req, out := c.UpdatePartnerStatusRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 type AcceptReservedNodeExchangeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -8838,6 +11492,169 @@ func (s *AccountWithRestoreAccess) SetAccountId(v string) *AccountWithRestoreAcc
 	return s
 }
 
+type AddPartnerInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID that owns the cluster.
+	//
+	// AccountId is a required field
+	AccountId *string `min:"12" type:"string" required:"true"`
+
+	// The cluster identifier of the cluster that receives data from the partner.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The name of the database that receives data from the partner.
+	//
+	// DatabaseName is a required field
+	DatabaseName *string `type:"string" required:"true"`
+
+	// The name of the partner that is authorized to send data.
+	//
+	// PartnerName is a required field
+	PartnerName *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AddPartnerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AddPartnerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AddPartnerInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AddPartnerInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 12 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 12))
+	}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+	if s.DatabaseName == nil {
+		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
+	}
+	if s.PartnerName == nil {
+		invalidParams.Add(request.NewErrParamRequired("PartnerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *AddPartnerInput) SetAccountId(v string) *AddPartnerInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *AddPartnerInput) SetClusterIdentifier(v string) *AddPartnerInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *AddPartnerInput) SetDatabaseName(v string) *AddPartnerInput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *AddPartnerInput) SetPartnerName(v string) *AddPartnerInput {
+	s.PartnerName = &v
+	return s
+}
+
+type AddPartnerOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the database that receives data from the partner.
+	DatabaseName *string `type:"string"`
+
+	// The name of the partner that is authorized to send data.
+	PartnerName *string `type:"string"`
+}
+
+// String returns the string representation
+func (s AddPartnerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AddPartnerOutput) GoString() string {
+	return s.String()
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *AddPartnerOutput) SetDatabaseName(v string) *AddPartnerOutput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *AddPartnerOutput) SetPartnerName(v string) *AddPartnerOutput {
+	s.PartnerName = &v
+	return s
+}
+
+// The AQUA (Advanced Query Accelerator) configuration of the cluster.
+type AquaConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// The value represents how the cluster is configured to use AQUA. Possible
+	// values include the following.
+	//
+	//    * enabled - Use AQUA if it is available for the current AWS Region and
+	//    Amazon Redshift node type.
+	//
+	//    * disabled - Don't use AQUA.
+	//
+	//    * auto - Amazon Redshift determines whether to use AQUA.
+	AquaConfigurationStatus *string `type:"string" enum:"AquaConfigurationStatus"`
+
+	// The value indicates the status of AQUA on the cluster. Possible values include
+	// the following.
+	//
+	//    * enabled - AQUA is enabled.
+	//
+	//    * disabled - AQUA is not enabled.
+	//
+	//    * applying - AQUA status is being applied.
+	AquaStatus *string `type:"string" enum:"AquaStatus"`
+}
+
+// String returns the string representation
+func (s AquaConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AquaConfiguration) GoString() string {
+	return s.String()
+}
+
+// SetAquaConfigurationStatus sets the AquaConfigurationStatus field's value.
+func (s *AquaConfiguration) SetAquaConfigurationStatus(v string) *AquaConfiguration {
+	s.AquaConfigurationStatus = &v
+	return s
+}
+
+// SetAquaStatus sets the AquaStatus field's value.
+func (s *AquaConfiguration) SetAquaStatus(v string) *AquaConfiguration {
+	s.AquaStatus = &v
+	return s
+}
+
 // Describes an attribute value.
 type AttributeValueTarget struct {
 	_ struct{} `type:"structure"`
@@ -8951,6 +11768,160 @@ func (s AuthorizeClusterSecurityGroupIngressOutput) GoString() string {
 // SetClusterSecurityGroup sets the ClusterSecurityGroup field's value.
 func (s *AuthorizeClusterSecurityGroupIngressOutput) SetClusterSecurityGroup(v *ClusterSecurityGroup) *AuthorizeClusterSecurityGroupIngressOutput {
 	s.ClusterSecurityGroup = v
+	return s
+}
+
+type AuthorizeEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID to grant access to.
+	//
+	// Account is a required field
+	Account *string `type:"string" required:"true"`
+
+	// The cluster identifier of the cluster to grant access to.
+	ClusterIdentifier *string `type:"string"`
+
+	// The virtual private cloud (VPC) identifiers to grant access to.
+	VpcIds []*string `locationNameList:"VpcIdentifier" type:"list"`
+}
+
+// String returns the string representation
+func (s AuthorizeEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AuthorizeEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AuthorizeEndpointAccessInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AuthorizeEndpointAccessInput"}
+	if s.Account == nil {
+		invalidParams.Add(request.NewErrParamRequired("Account"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccount sets the Account field's value.
+func (s *AuthorizeEndpointAccessInput) SetAccount(v string) *AuthorizeEndpointAccessInput {
+	s.Account = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *AuthorizeEndpointAccessInput) SetClusterIdentifier(v string) *AuthorizeEndpointAccessInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetVpcIds sets the VpcIds field's value.
+func (s *AuthorizeEndpointAccessInput) SetVpcIds(v []*string) *AuthorizeEndpointAccessInput {
+	s.VpcIds = v
+	return s
+}
+
+// Describes an endpoint authorization for authorizing Redshift-managed VPC
+// endpoint access to a cluster across AWS accounts.
+type AuthorizeEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Indicates whether all VPCs in the grantee account are allowed access to the
+	// cluster.
+	AllowedAllVPCs *bool `type:"boolean"`
+
+	// The VPCs allowed access to the cluster.
+	AllowedVPCs []*string `locationNameList:"VpcIdentifier" type:"list"`
+
+	// The time (UTC) when the authorization was created.
+	AuthorizeTime *time.Time `type:"timestamp"`
+
+	// The cluster identifier.
+	ClusterIdentifier *string `type:"string"`
+
+	// The status of the cluster.
+	ClusterStatus *string `type:"string"`
+
+	// The number of Redshift-managed VPC endpoints created for the authorization.
+	EndpointCount *int64 `type:"integer"`
+
+	// The AWS account ID of the grantee of the cluster.
+	Grantee *string `type:"string"`
+
+	// The AWS account ID of the cluster owner.
+	Grantor *string `type:"string"`
+
+	// The status of the authorization action.
+	Status *string `type:"string" enum:"AuthorizationStatus"`
+}
+
+// String returns the string representation
+func (s AuthorizeEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AuthorizeEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetAllowedAllVPCs sets the AllowedAllVPCs field's value.
+func (s *AuthorizeEndpointAccessOutput) SetAllowedAllVPCs(v bool) *AuthorizeEndpointAccessOutput {
+	s.AllowedAllVPCs = &v
+	return s
+}
+
+// SetAllowedVPCs sets the AllowedVPCs field's value.
+func (s *AuthorizeEndpointAccessOutput) SetAllowedVPCs(v []*string) *AuthorizeEndpointAccessOutput {
+	s.AllowedVPCs = v
+	return s
+}
+
+// SetAuthorizeTime sets the AuthorizeTime field's value.
+func (s *AuthorizeEndpointAccessOutput) SetAuthorizeTime(v time.Time) *AuthorizeEndpointAccessOutput {
+	s.AuthorizeTime = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *AuthorizeEndpointAccessOutput) SetClusterIdentifier(v string) *AuthorizeEndpointAccessOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetClusterStatus sets the ClusterStatus field's value.
+func (s *AuthorizeEndpointAccessOutput) SetClusterStatus(v string) *AuthorizeEndpointAccessOutput {
+	s.ClusterStatus = &v
+	return s
+}
+
+// SetEndpointCount sets the EndpointCount field's value.
+func (s *AuthorizeEndpointAccessOutput) SetEndpointCount(v int64) *AuthorizeEndpointAccessOutput {
+	s.EndpointCount = &v
+	return s
+}
+
+// SetGrantee sets the Grantee field's value.
+func (s *AuthorizeEndpointAccessOutput) SetGrantee(v string) *AuthorizeEndpointAccessOutput {
+	s.Grantee = &v
+	return s
+}
+
+// SetGrantor sets the Grantor field's value.
+func (s *AuthorizeEndpointAccessOutput) SetGrantor(v string) *AuthorizeEndpointAccessOutput {
+	s.Grantor = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *AuthorizeEndpointAccessOutput) SetStatus(v string) *AuthorizeEndpointAccessOutput {
+	s.Status = &v
 	return s
 }
 
@@ -9355,8 +12326,7 @@ type CancelResizeOutput struct {
 
 	// The type of encryption for the cluster after the resize is complete.
 	//
-	// Possible values are KMS and None. In the China region possible values are:
-	// Legacy and None.
+	// Possible values are KMS and None.
 	TargetEncryptionType *string `type:"string"`
 
 	// The node type that the cluster will have after the resize operation is complete.
@@ -9485,11 +12455,17 @@ type Cluster struct {
 	// be applied automatically to the cluster during the maintenance window.
 	AllowVersionUpgrade *bool `type:"boolean"`
 
+	// The AQUA (Advanced Query Accelerator) configuration of the cluster.
+	AquaConfiguration *AquaConfiguration `type:"structure"`
+
 	// The number of days that automatic cluster snapshots are retained.
 	AutomatedSnapshotRetentionPeriod *int64 `type:"integer"`
 
 	// The name of the Availability Zone in which the cluster is located.
 	AvailabilityZone *string `type:"string"`
+
+	// Describes the status of the Availability Zone relocation operation.
+	AvailabilityZoneRelocationStatus *string `type:"string"`
 
 	// The availability status of the cluster for queries. Possible values are the
 	// following:
@@ -9512,6 +12488,9 @@ type Cluster struct {
 
 	// The unique identifier of the cluster.
 	ClusterIdentifier *string `type:"string"`
+
+	// The namespace Amazon Resource Name (ARN) of the cluster.
+	ClusterNamespaceArn *string `type:"string"`
 
 	// The nodes in the cluster.
 	ClusterNodes []*ClusterNode `type:"list"`
@@ -9566,6 +12545,8 @@ type Cluster struct {
 	//    * incompatible-restore
 	//
 	//    * modifying
+	//
+	//    * paused
 	//
 	//    * rebooting
 	//
@@ -9713,6 +12694,9 @@ type Cluster struct {
 	// The list of tags for the cluster.
 	Tags []*Tag `locationNameList:"Tag" type:"list"`
 
+	// The total storage capacity of the cluster in megabytes.
+	TotalStorageCapacityInMegaBytes *int64 `type:"long"`
+
 	// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
 	VpcId *string `type:"string"`
 
@@ -9738,6 +12722,12 @@ func (s *Cluster) SetAllowVersionUpgrade(v bool) *Cluster {
 	return s
 }
 
+// SetAquaConfiguration sets the AquaConfiguration field's value.
+func (s *Cluster) SetAquaConfiguration(v *AquaConfiguration) *Cluster {
+	s.AquaConfiguration = v
+	return s
+}
+
 // SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
 func (s *Cluster) SetAutomatedSnapshotRetentionPeriod(v int64) *Cluster {
 	s.AutomatedSnapshotRetentionPeriod = &v
@@ -9747,6 +12737,12 @@ func (s *Cluster) SetAutomatedSnapshotRetentionPeriod(v int64) *Cluster {
 // SetAvailabilityZone sets the AvailabilityZone field's value.
 func (s *Cluster) SetAvailabilityZone(v string) *Cluster {
 	s.AvailabilityZone = &v
+	return s
+}
+
+// SetAvailabilityZoneRelocationStatus sets the AvailabilityZoneRelocationStatus field's value.
+func (s *Cluster) SetAvailabilityZoneRelocationStatus(v string) *Cluster {
+	s.AvailabilityZoneRelocationStatus = &v
 	return s
 }
 
@@ -9765,6 +12761,12 @@ func (s *Cluster) SetClusterCreateTime(v time.Time) *Cluster {
 // SetClusterIdentifier sets the ClusterIdentifier field's value.
 func (s *Cluster) SetClusterIdentifier(v string) *Cluster {
 	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetClusterNamespaceArn sets the ClusterNamespaceArn field's value.
+func (s *Cluster) SetClusterNamespaceArn(v string) *Cluster {
+	s.ClusterNamespaceArn = &v
 	return s
 }
 
@@ -9993,6 +12995,12 @@ func (s *Cluster) SetSnapshotScheduleState(v string) *Cluster {
 // SetTags sets the Tags field's value.
 func (s *Cluster) SetTags(v []*Tag) *Cluster {
 	s.Tags = v
+	return s
+}
+
+// SetTotalStorageCapacityInMegaBytes sets the TotalStorageCapacityInMegaBytes field's value.
+func (s *Cluster) SetTotalStorageCapacityInMegaBytes(v int64) *Cluster {
+	s.TotalStorageCapacityInMegaBytes = &v
 	return s
 }
 
@@ -10776,9 +13784,23 @@ type CreateClusterInput struct {
 	// Default: true
 	AllowVersionUpgrade *bool `type:"boolean"`
 
+	// The value represents how the cluster is configured to use AQUA (Advanced
+	// Query Accelerator) when it is created. Possible values include the following.
+	//
+	//    * enabled - Use AQUA if it is available for the current AWS Region and
+	//    Amazon Redshift node type.
+	//
+	//    * disabled - Don't use AQUA.
+	//
+	//    * auto - Amazon Redshift determines whether to use AQUA.
+	AquaConfigurationStatus *string `type:"string" enum:"AquaConfigurationStatus"`
+
 	// The number of days that automated snapshots are retained. If the value is
 	// 0, automated snapshots are disabled. Even if automated snapshots are disabled,
 	// you can still create manual snapshots when you want with CreateClusterSnapshot.
+	//
+	// You can't disable automated snapshots for RA3 node types. Set the automated
+	// retention period from 1-35 days.
 	//
 	// Default: 1
 	//
@@ -10793,11 +13815,15 @@ type CreateClusterInput struct {
 	// Default: A random, system-chosen Availability Zone in the region that is
 	// specified by the endpoint.
 	//
-	// Example: us-east-1d
+	// Example: us-east-2d
 	//
 	// Constraint: The specified Availability Zone must be in the same region as
 	// the current endpoint.
 	AvailabilityZone *string `type:"string"`
+
+	// The option to enable relocation for an Amazon Redshift cluster between Availability
+	// Zones after the cluster is created.
+	AvailabilityZoneRelocation *bool `type:"boolean"`
 
 	// A unique identifier for the cluster. You use this identifier to refer to
 	// the cluster for any subsequent cluster operations such as deleting or modifying.
@@ -10982,8 +14008,8 @@ type CreateClusterInput struct {
 	// types, go to Working with Clusters (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
 	// in the Amazon Redshift Cluster Management Guide.
 	//
-	// Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large
-	// | dc1.8xlarge | dc2.large | dc2.8xlarge
+	// Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large
+	// | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
 	//
 	// NodeType is a required field
 	NodeType *string `type:"string" required:"true"`
@@ -11090,6 +14116,12 @@ func (s *CreateClusterInput) SetAllowVersionUpgrade(v bool) *CreateClusterInput 
 	return s
 }
 
+// SetAquaConfigurationStatus sets the AquaConfigurationStatus field's value.
+func (s *CreateClusterInput) SetAquaConfigurationStatus(v string) *CreateClusterInput {
+	s.AquaConfigurationStatus = &v
+	return s
+}
+
 // SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
 func (s *CreateClusterInput) SetAutomatedSnapshotRetentionPeriod(v int64) *CreateClusterInput {
 	s.AutomatedSnapshotRetentionPeriod = &v
@@ -11099,6 +14131,12 @@ func (s *CreateClusterInput) SetAutomatedSnapshotRetentionPeriod(v int64) *Creat
 // SetAvailabilityZone sets the AvailabilityZone field's value.
 func (s *CreateClusterInput) SetAvailabilityZone(v string) *CreateClusterInput {
 	s.AvailabilityZone = &v
+	return s
+}
+
+// SetAvailabilityZoneRelocation sets the AvailabilityZoneRelocation field's value.
+func (s *CreateClusterInput) SetAvailabilityZoneRelocation(v bool) *CreateClusterInput {
+	s.AvailabilityZoneRelocation = &v
 	return s
 }
 
@@ -11716,6 +14754,198 @@ func (s *CreateClusterSubnetGroupOutput) SetClusterSubnetGroup(v *ClusterSubnetG
 	return s
 }
 
+type CreateEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The cluster identifier of the cluster to access.
+	ClusterIdentifier *string `type:"string"`
+
+	// The Redshift-managed VPC endpoint name.
+	//
+	// An endpoint name must contain 1-30 characters. Valid characters are A-Z,
+	// a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't
+	// contain two consecutive hyphens or end with a hyphen.
+	//
+	// EndpointName is a required field
+	EndpointName *string `type:"string" required:"true"`
+
+	// The AWS account ID of the owner of the cluster. This is only required if
+	// the cluster is in another AWS account.
+	ResourceOwner *string `type:"string"`
+
+	// The subnet group from which Amazon Redshift chooses the subnet to deploy
+	// the endpoint.
+	//
+	// SubnetGroupName is a required field
+	SubnetGroupName *string `type:"string" required:"true"`
+
+	// The security group that defines the ports, protocols, and sources for inbound
+	// traffic that you are authorizing into your endpoint.
+	VpcSecurityGroupIds []*string `locationNameList:"VpcSecurityGroupId" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateEndpointAccessInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateEndpointAccessInput"}
+	if s.EndpointName == nil {
+		invalidParams.Add(request.NewErrParamRequired("EndpointName"))
+	}
+	if s.SubnetGroupName == nil {
+		invalidParams.Add(request.NewErrParamRequired("SubnetGroupName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *CreateEndpointAccessInput) SetClusterIdentifier(v string) *CreateEndpointAccessInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *CreateEndpointAccessInput) SetEndpointName(v string) *CreateEndpointAccessInput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *CreateEndpointAccessInput) SetResourceOwner(v string) *CreateEndpointAccessInput {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetSubnetGroupName sets the SubnetGroupName field's value.
+func (s *CreateEndpointAccessInput) SetSubnetGroupName(v string) *CreateEndpointAccessInput {
+	s.SubnetGroupName = &v
+	return s
+}
+
+// SetVpcSecurityGroupIds sets the VpcSecurityGroupIds field's value.
+func (s *CreateEndpointAccessInput) SetVpcSecurityGroupIds(v []*string) *CreateEndpointAccessInput {
+	s.VpcSecurityGroupIds = v
+	return s
+}
+
+// Describes a Redshift-managed VPC endpoint.
+type CreateEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The DNS address of the endpoint.
+	Address *string `type:"string"`
+
+	// The cluster identifier of the cluster associated with the endpoint.
+	ClusterIdentifier *string `type:"string"`
+
+	// The time (UTC) that the endpoint was created.
+	EndpointCreateTime *time.Time `type:"timestamp"`
+
+	// The name of the endpoint.
+	EndpointName *string `type:"string"`
+
+	// The status of the endpoint.
+	EndpointStatus *string `type:"string"`
+
+	// The port number on which the cluster accepts incoming connections.
+	Port *int64 `type:"integer"`
+
+	// The AWS account ID of the owner of the cluster.
+	ResourceOwner *string `type:"string"`
+
+	// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+	SubnetGroupName *string `type:"string"`
+
+	// The connection endpoint for connecting to an Amazon Redshift cluster through
+	// the proxy.
+	VpcEndpoint *VpcEndpoint `type:"structure"`
+
+	// The security groups associated with the endpoint.
+	VpcSecurityGroups []*VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *CreateEndpointAccessOutput) SetAddress(v string) *CreateEndpointAccessOutput {
+	s.Address = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *CreateEndpointAccessOutput) SetClusterIdentifier(v string) *CreateEndpointAccessOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointCreateTime sets the EndpointCreateTime field's value.
+func (s *CreateEndpointAccessOutput) SetEndpointCreateTime(v time.Time) *CreateEndpointAccessOutput {
+	s.EndpointCreateTime = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *CreateEndpointAccessOutput) SetEndpointName(v string) *CreateEndpointAccessOutput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetEndpointStatus sets the EndpointStatus field's value.
+func (s *CreateEndpointAccessOutput) SetEndpointStatus(v string) *CreateEndpointAccessOutput {
+	s.EndpointStatus = &v
+	return s
+}
+
+// SetPort sets the Port field's value.
+func (s *CreateEndpointAccessOutput) SetPort(v int64) *CreateEndpointAccessOutput {
+	s.Port = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *CreateEndpointAccessOutput) SetResourceOwner(v string) *CreateEndpointAccessOutput {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetSubnetGroupName sets the SubnetGroupName field's value.
+func (s *CreateEndpointAccessOutput) SetSubnetGroupName(v string) *CreateEndpointAccessOutput {
+	s.SubnetGroupName = &v
+	return s
+}
+
+// SetVpcEndpoint sets the VpcEndpoint field's value.
+func (s *CreateEndpointAccessOutput) SetVpcEndpoint(v *VpcEndpoint) *CreateEndpointAccessOutput {
+	s.VpcEndpoint = v
+	return s
+}
+
+// SetVpcSecurityGroups sets the VpcSecurityGroups field's value.
+func (s *CreateEndpointAccessOutput) SetVpcSecurityGroups(v []*VpcSecurityGroupMembership) *CreateEndpointAccessOutput {
+	s.VpcSecurityGroups = v
+	return s
+}
+
 type CreateEventSubscriptionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -11759,8 +14989,8 @@ type CreateEventSubscriptionInput struct {
 	// for all Amazon Redshift objects in your AWS account. You must specify a source
 	// type in order to specify source IDs.
 	//
-	// Valid values: cluster, cluster-parameter-group, cluster-security-group, and
-	// cluster-snapshot.
+	// Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
+	// and scheduled-action.
 	SourceType *string `type:"string"`
 
 	// The name of the event subscription to be created.
@@ -12096,6 +15326,250 @@ func (s *CreateHsmConfigurationOutput) SetHsmConfiguration(v *HsmConfiguration) 
 	return s
 }
 
+type CreateScheduledActionInput struct {
+	_ struct{} `type:"structure"`
+
+	// If true, the schedule is enabled. If false, the scheduled action does not
+	// trigger. For more information about state of the scheduled action, see ScheduledAction.
+	Enable *bool `type:"boolean"`
+
+	// The end time in UTC of the scheduled action. After this time, the scheduled
+	// action does not trigger. For more information about this parameter, see ScheduledAction.
+	EndTime *time.Time `type:"timestamp"`
+
+	// The IAM role to assume to run the target action. For more information about
+	// this parameter, see ScheduledAction.
+	//
+	// IamRole is a required field
+	IamRole *string `type:"string" required:"true"`
+
+	// The schedule in at( ) or cron( ) format. For more information about this
+	// parameter, see ScheduledAction.
+	//
+	// Schedule is a required field
+	Schedule *string `type:"string" required:"true"`
+
+	// The description of the scheduled action.
+	ScheduledActionDescription *string `type:"string"`
+
+	// The name of the scheduled action. The name must be unique within an account.
+	// For more information about this parameter, see ScheduledAction.
+	//
+	// ScheduledActionName is a required field
+	ScheduledActionName *string `type:"string" required:"true"`
+
+	// The start time in UTC of the scheduled action. Before this time, the scheduled
+	// action does not trigger. For more information about this parameter, see ScheduledAction.
+	StartTime *time.Time `type:"timestamp"`
+
+	// A JSON format string of the Amazon Redshift API operation with input parameters.
+	// For more information about this parameter, see ScheduledAction.
+	//
+	// TargetAction is a required field
+	TargetAction *ScheduledActionType `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateScheduledActionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateScheduledActionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateScheduledActionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateScheduledActionInput"}
+	if s.IamRole == nil {
+		invalidParams.Add(request.NewErrParamRequired("IamRole"))
+	}
+	if s.Schedule == nil {
+		invalidParams.Add(request.NewErrParamRequired("Schedule"))
+	}
+	if s.ScheduledActionName == nil {
+		invalidParams.Add(request.NewErrParamRequired("ScheduledActionName"))
+	}
+	if s.TargetAction == nil {
+		invalidParams.Add(request.NewErrParamRequired("TargetAction"))
+	}
+	if s.TargetAction != nil {
+		if err := s.TargetAction.Validate(); err != nil {
+			invalidParams.AddNested("TargetAction", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetEnable sets the Enable field's value.
+func (s *CreateScheduledActionInput) SetEnable(v bool) *CreateScheduledActionInput {
+	s.Enable = &v
+	return s
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *CreateScheduledActionInput) SetEndTime(v time.Time) *CreateScheduledActionInput {
+	s.EndTime = &v
+	return s
+}
+
+// SetIamRole sets the IamRole field's value.
+func (s *CreateScheduledActionInput) SetIamRole(v string) *CreateScheduledActionInput {
+	s.IamRole = &v
+	return s
+}
+
+// SetSchedule sets the Schedule field's value.
+func (s *CreateScheduledActionInput) SetSchedule(v string) *CreateScheduledActionInput {
+	s.Schedule = &v
+	return s
+}
+
+// SetScheduledActionDescription sets the ScheduledActionDescription field's value.
+func (s *CreateScheduledActionInput) SetScheduledActionDescription(v string) *CreateScheduledActionInput {
+	s.ScheduledActionDescription = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *CreateScheduledActionInput) SetScheduledActionName(v string) *CreateScheduledActionInput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *CreateScheduledActionInput) SetStartTime(v time.Time) *CreateScheduledActionInput {
+	s.StartTime = &v
+	return s
+}
+
+// SetTargetAction sets the TargetAction field's value.
+func (s *CreateScheduledActionInput) SetTargetAction(v *ScheduledActionType) *CreateScheduledActionInput {
+	s.TargetAction = v
+	return s
+}
+
+// Describes a scheduled action. You can use a scheduled action to trigger some
+// Amazon Redshift API operations on a schedule. For information about which
+// API operations can be scheduled, see ScheduledActionType.
+type CreateScheduledActionOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The end time in UTC when the schedule is no longer active. After this time,
+	// the scheduled action does not trigger.
+	EndTime *time.Time `type:"timestamp"`
+
+	// The IAM role to assume to run the scheduled action. This IAM role must have
+	// permission to run the Amazon Redshift API operation in the scheduled action.
+	// This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com)
+	// to assume permissions on your behalf. For more information about the IAM
+	// role to use with the Amazon Redshift scheduler, see Using Identity-Based
+	// Policies for Amazon Redshift (https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
+	// in the Amazon Redshift Cluster Management Guide.
+	IamRole *string `type:"string"`
+
+	// List of times when the scheduled action will run.
+	NextInvocations []*time.Time `locationNameList:"ScheduledActionTime" type:"list"`
+
+	// The schedule for a one-time (at format) or recurring (cron format) scheduled
+	// action. Schedule invocations must be separated by at least one hour.
+	//
+	// Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+	//
+	// Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week
+	// Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron
+	// Expressions (https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+	// in the Amazon CloudWatch Events User Guide.
+	Schedule *string `type:"string"`
+
+	// The description of the scheduled action.
+	ScheduledActionDescription *string `type:"string"`
+
+	// The name of the scheduled action.
+	ScheduledActionName *string `type:"string"`
+
+	// The start time in UTC when the schedule is active. Before this time, the
+	// scheduled action does not trigger.
+	StartTime *time.Time `type:"timestamp"`
+
+	// The state of the scheduled action. For example, DISABLED.
+	State *string `type:"string" enum:"ScheduledActionState"`
+
+	// A JSON format string of the Amazon Redshift API operation with input parameters.
+	//
+	// "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+	TargetAction *ScheduledActionType `type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateScheduledActionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateScheduledActionOutput) GoString() string {
+	return s.String()
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *CreateScheduledActionOutput) SetEndTime(v time.Time) *CreateScheduledActionOutput {
+	s.EndTime = &v
+	return s
+}
+
+// SetIamRole sets the IamRole field's value.
+func (s *CreateScheduledActionOutput) SetIamRole(v string) *CreateScheduledActionOutput {
+	s.IamRole = &v
+	return s
+}
+
+// SetNextInvocations sets the NextInvocations field's value.
+func (s *CreateScheduledActionOutput) SetNextInvocations(v []*time.Time) *CreateScheduledActionOutput {
+	s.NextInvocations = v
+	return s
+}
+
+// SetSchedule sets the Schedule field's value.
+func (s *CreateScheduledActionOutput) SetSchedule(v string) *CreateScheduledActionOutput {
+	s.Schedule = &v
+	return s
+}
+
+// SetScheduledActionDescription sets the ScheduledActionDescription field's value.
+func (s *CreateScheduledActionOutput) SetScheduledActionDescription(v string) *CreateScheduledActionOutput {
+	s.ScheduledActionDescription = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *CreateScheduledActionOutput) SetScheduledActionName(v string) *CreateScheduledActionOutput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *CreateScheduledActionOutput) SetStartTime(v time.Time) *CreateScheduledActionOutput {
+	s.StartTime = &v
+	return s
+}
+
+// SetState sets the State field's value.
+func (s *CreateScheduledActionOutput) SetState(v string) *CreateScheduledActionOutput {
+	s.State = &v
+	return s
+}
+
+// SetTargetAction sets the TargetAction field's value.
+func (s *CreateScheduledActionOutput) SetTargetAction(v *ScheduledActionType) *CreateScheduledActionOutput {
+	s.TargetAction = v
+	return s
+}
+
 // The result of the CreateSnapshotCopyGrant action.
 type CreateSnapshotCopyGrantInput struct {
 	_ struct{} `type:"structure"`
@@ -12348,7 +15822,7 @@ type CreateTagsInput struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) to which you want to add the tag or tags.
-	// For example, arn:aws:redshift:us-east-1:123456789:cluster:t1.
+	// For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
 	//
 	// ResourceName is a required field
 	ResourceName *string `type:"string" required:"true"`
@@ -12413,6 +15887,216 @@ func (s CreateTagsOutput) String() string {
 // GoString returns the string representation
 func (s CreateTagsOutput) GoString() string {
 	return s.String()
+}
+
+type CreateUsageLimitInput struct {
+	_ struct{} `type:"structure"`
+
+	// The limit amount. If time-based, this amount is in minutes. If data-based,
+	// this amount is in terabytes (TB). The value must be a positive number.
+	//
+	// Amount is a required field
+	Amount *int64 `type:"long" required:"true"`
+
+	// The action that Amazon Redshift takes when the limit is reached. The default
+	// is log. For more information about this parameter, see UsageLimit.
+	BreachAction *string `type:"string" enum:"UsageLimitBreachAction"`
+
+	// The identifier of the cluster that you want to limit usage.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The Amazon Redshift feature that you want to limit.
+	//
+	// FeatureType is a required field
+	FeatureType *string `type:"string" required:"true" enum:"UsageLimitFeatureType"`
+
+	// The type of limit. Depending on the feature type, this can be based on a
+	// time duration or data size. If FeatureType is spectrum, then LimitType must
+	// be data-scanned. If FeatureType is concurrency-scaling, then LimitType must
+	// be time.
+	//
+	// LimitType is a required field
+	LimitType *string `type:"string" required:"true" enum:"UsageLimitLimitType"`
+
+	// The time period that the amount applies to. A weekly period begins on Sunday.
+	// The default is monthly.
+	Period *string `type:"string" enum:"UsageLimitPeriod"`
+
+	// A list of tag instances.
+	Tags []*Tag `locationNameList:"Tag" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateUsageLimitInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateUsageLimitInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateUsageLimitInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateUsageLimitInput"}
+	if s.Amount == nil {
+		invalidParams.Add(request.NewErrParamRequired("Amount"))
+	}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+	if s.FeatureType == nil {
+		invalidParams.Add(request.NewErrParamRequired("FeatureType"))
+	}
+	if s.LimitType == nil {
+		invalidParams.Add(request.NewErrParamRequired("LimitType"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAmount sets the Amount field's value.
+func (s *CreateUsageLimitInput) SetAmount(v int64) *CreateUsageLimitInput {
+	s.Amount = &v
+	return s
+}
+
+// SetBreachAction sets the BreachAction field's value.
+func (s *CreateUsageLimitInput) SetBreachAction(v string) *CreateUsageLimitInput {
+	s.BreachAction = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *CreateUsageLimitInput) SetClusterIdentifier(v string) *CreateUsageLimitInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetFeatureType sets the FeatureType field's value.
+func (s *CreateUsageLimitInput) SetFeatureType(v string) *CreateUsageLimitInput {
+	s.FeatureType = &v
+	return s
+}
+
+// SetLimitType sets the LimitType field's value.
+func (s *CreateUsageLimitInput) SetLimitType(v string) *CreateUsageLimitInput {
+	s.LimitType = &v
+	return s
+}
+
+// SetPeriod sets the Period field's value.
+func (s *CreateUsageLimitInput) SetPeriod(v string) *CreateUsageLimitInput {
+	s.Period = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateUsageLimitInput) SetTags(v []*Tag) *CreateUsageLimitInput {
+	s.Tags = v
+	return s
+}
+
+// Describes a usage limit object for a cluster.
+type CreateUsageLimitOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The limit amount. If time-based, this amount is in minutes. If data-based,
+	// this amount is in terabytes (TB).
+	Amount *int64 `type:"long"`
+
+	// The action that Amazon Redshift takes when the limit is reached. Possible
+	// values are:
+	//
+	//    * log - To log an event in a system table. The default is log.
+	//
+	//    * emit-metric - To emit CloudWatch metrics.
+	//
+	//    * disable - To disable the feature until the next usage period begins.
+	BreachAction *string `type:"string" enum:"UsageLimitBreachAction"`
+
+	// The identifier of the cluster with a usage limit.
+	ClusterIdentifier *string `type:"string"`
+
+	// The Amazon Redshift feature to which the limit applies.
+	FeatureType *string `type:"string" enum:"UsageLimitFeatureType"`
+
+	// The type of limit. Depending on the feature type, this can be based on a
+	// time duration or data size.
+	LimitType *string `type:"string" enum:"UsageLimitLimitType"`
+
+	// The time period that the amount applies to. A weekly period begins on Sunday.
+	// The default is monthly.
+	Period *string `type:"string" enum:"UsageLimitPeriod"`
+
+	// A list of tag instances.
+	Tags []*Tag `locationNameList:"Tag" type:"list"`
+
+	// The identifier of the usage limit.
+	UsageLimitId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s CreateUsageLimitOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateUsageLimitOutput) GoString() string {
+	return s.String()
+}
+
+// SetAmount sets the Amount field's value.
+func (s *CreateUsageLimitOutput) SetAmount(v int64) *CreateUsageLimitOutput {
+	s.Amount = &v
+	return s
+}
+
+// SetBreachAction sets the BreachAction field's value.
+func (s *CreateUsageLimitOutput) SetBreachAction(v string) *CreateUsageLimitOutput {
+	s.BreachAction = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *CreateUsageLimitOutput) SetClusterIdentifier(v string) *CreateUsageLimitOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetFeatureType sets the FeatureType field's value.
+func (s *CreateUsageLimitOutput) SetFeatureType(v string) *CreateUsageLimitOutput {
+	s.FeatureType = &v
+	return s
+}
+
+// SetLimitType sets the LimitType field's value.
+func (s *CreateUsageLimitOutput) SetLimitType(v string) *CreateUsageLimitOutput {
+	s.LimitType = &v
+	return s
+}
+
+// SetPeriod sets the Period field's value.
+func (s *CreateUsageLimitOutput) SetPeriod(v string) *CreateUsageLimitOutput {
+	s.Period = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateUsageLimitOutput) SetTags(v []*Tag) *CreateUsageLimitOutput {
+	s.Tags = v
+	return s
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *CreateUsageLimitOutput) SetUsageLimitId(v string) *CreateUsageLimitOutput {
+	s.UsageLimitId = &v
+	return s
 }
 
 // Describes the status of a cluster while it is in the process of resizing
@@ -12988,6 +16672,150 @@ func (s DeleteClusterSubnetGroupOutput) GoString() string {
 	return s.String()
 }
 
+type DeleteEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Redshift-managed VPC endpoint to delete.
+	//
+	// EndpointName is a required field
+	EndpointName *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteEndpointAccessInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteEndpointAccessInput"}
+	if s.EndpointName == nil {
+		invalidParams.Add(request.NewErrParamRequired("EndpointName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *DeleteEndpointAccessInput) SetEndpointName(v string) *DeleteEndpointAccessInput {
+	s.EndpointName = &v
+	return s
+}
+
+// Describes a Redshift-managed VPC endpoint.
+type DeleteEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The DNS address of the endpoint.
+	Address *string `type:"string"`
+
+	// The cluster identifier of the cluster associated with the endpoint.
+	ClusterIdentifier *string `type:"string"`
+
+	// The time (UTC) that the endpoint was created.
+	EndpointCreateTime *time.Time `type:"timestamp"`
+
+	// The name of the endpoint.
+	EndpointName *string `type:"string"`
+
+	// The status of the endpoint.
+	EndpointStatus *string `type:"string"`
+
+	// The port number on which the cluster accepts incoming connections.
+	Port *int64 `type:"integer"`
+
+	// The AWS account ID of the owner of the cluster.
+	ResourceOwner *string `type:"string"`
+
+	// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+	SubnetGroupName *string `type:"string"`
+
+	// The connection endpoint for connecting to an Amazon Redshift cluster through
+	// the proxy.
+	VpcEndpoint *VpcEndpoint `type:"structure"`
+
+	// The security groups associated with the endpoint.
+	VpcSecurityGroups []*VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
+}
+
+// String returns the string representation
+func (s DeleteEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *DeleteEndpointAccessOutput) SetAddress(v string) *DeleteEndpointAccessOutput {
+	s.Address = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DeleteEndpointAccessOutput) SetClusterIdentifier(v string) *DeleteEndpointAccessOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointCreateTime sets the EndpointCreateTime field's value.
+func (s *DeleteEndpointAccessOutput) SetEndpointCreateTime(v time.Time) *DeleteEndpointAccessOutput {
+	s.EndpointCreateTime = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *DeleteEndpointAccessOutput) SetEndpointName(v string) *DeleteEndpointAccessOutput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetEndpointStatus sets the EndpointStatus field's value.
+func (s *DeleteEndpointAccessOutput) SetEndpointStatus(v string) *DeleteEndpointAccessOutput {
+	s.EndpointStatus = &v
+	return s
+}
+
+// SetPort sets the Port field's value.
+func (s *DeleteEndpointAccessOutput) SetPort(v int64) *DeleteEndpointAccessOutput {
+	s.Port = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *DeleteEndpointAccessOutput) SetResourceOwner(v string) *DeleteEndpointAccessOutput {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetSubnetGroupName sets the SubnetGroupName field's value.
+func (s *DeleteEndpointAccessOutput) SetSubnetGroupName(v string) *DeleteEndpointAccessOutput {
+	s.SubnetGroupName = &v
+	return s
+}
+
+// SetVpcEndpoint sets the VpcEndpoint field's value.
+func (s *DeleteEndpointAccessOutput) SetVpcEndpoint(v *VpcEndpoint) *DeleteEndpointAccessOutput {
+	s.VpcEndpoint = v
+	return s
+}
+
+// SetVpcSecurityGroups sets the VpcSecurityGroups field's value.
+func (s *DeleteEndpointAccessOutput) SetVpcSecurityGroups(v []*VpcSecurityGroupMembership) *DeleteEndpointAccessOutput {
+	s.VpcSecurityGroups = v
+	return s
+}
+
 type DeleteEventSubscriptionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -13144,6 +16972,173 @@ func (s DeleteHsmConfigurationOutput) GoString() string {
 	return s.String()
 }
 
+type DeletePartnerInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID that owns the cluster.
+	//
+	// AccountId is a required field
+	AccountId *string `min:"12" type:"string" required:"true"`
+
+	// The cluster identifier of the cluster that receives data from the partner.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The name of the database that receives data from the partner.
+	//
+	// DatabaseName is a required field
+	DatabaseName *string `type:"string" required:"true"`
+
+	// The name of the partner that is authorized to send data.
+	//
+	// PartnerName is a required field
+	PartnerName *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeletePartnerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeletePartnerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeletePartnerInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeletePartnerInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 12 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 12))
+	}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+	if s.DatabaseName == nil {
+		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
+	}
+	if s.PartnerName == nil {
+		invalidParams.Add(request.NewErrParamRequired("PartnerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *DeletePartnerInput) SetAccountId(v string) *DeletePartnerInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DeletePartnerInput) SetClusterIdentifier(v string) *DeletePartnerInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *DeletePartnerInput) SetDatabaseName(v string) *DeletePartnerInput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *DeletePartnerInput) SetPartnerName(v string) *DeletePartnerInput {
+	s.PartnerName = &v
+	return s
+}
+
+type DeletePartnerOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the database that receives data from the partner.
+	DatabaseName *string `type:"string"`
+
+	// The name of the partner that is authorized to send data.
+	PartnerName *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DeletePartnerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeletePartnerOutput) GoString() string {
+	return s.String()
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *DeletePartnerOutput) SetDatabaseName(v string) *DeletePartnerOutput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *DeletePartnerOutput) SetPartnerName(v string) *DeletePartnerOutput {
+	s.PartnerName = &v
+	return s
+}
+
+type DeleteScheduledActionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the scheduled action to delete.
+	//
+	// ScheduledActionName is a required field
+	ScheduledActionName *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteScheduledActionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteScheduledActionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteScheduledActionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteScheduledActionInput"}
+	if s.ScheduledActionName == nil {
+		invalidParams.Add(request.NewErrParamRequired("ScheduledActionName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *DeleteScheduledActionInput) SetScheduledActionName(v string) *DeleteScheduledActionInput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+type DeleteScheduledActionOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DeleteScheduledActionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteScheduledActionOutput) GoString() string {
+	return s.String()
+}
+
 // The result of the DeleteSnapshotCopyGrant action.
 type DeleteSnapshotCopyGrantInput struct {
 	_ struct{} `type:"structure"`
@@ -13254,7 +17249,7 @@ type DeleteTagsInput struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) from which you want to remove the tag or tags.
-	// For example, arn:aws:redshift:us-east-1:123456789:cluster:t1.
+	// For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
 	//
 	// ResourceName is a required field
 	ResourceName *string `type:"string" required:"true"`
@@ -13314,6 +17309,58 @@ func (s DeleteTagsOutput) String() string {
 
 // GoString returns the string representation
 func (s DeleteTagsOutput) GoString() string {
+	return s.String()
+}
+
+type DeleteUsageLimitInput struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the usage limit to delete.
+	//
+	// UsageLimitId is a required field
+	UsageLimitId *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteUsageLimitInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteUsageLimitInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteUsageLimitInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteUsageLimitInput"}
+	if s.UsageLimitId == nil {
+		invalidParams.Add(request.NewErrParamRequired("UsageLimitId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *DeleteUsageLimitInput) SetUsageLimitId(v string) *DeleteUsageLimitInput {
+	s.UsageLimitId = &v
+	return s
+}
+
+type DeleteUsageLimitOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DeleteUsageLimitOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteUsageLimitOutput) GoString() string {
 	return s.String()
 }
 
@@ -14571,13 +18618,221 @@ func (s *DescribeDefaultClusterParametersOutput) SetDefaultClusterParameters(v *
 	return s
 }
 
+type DescribeEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The cluster identifier associated with the described endpoint.
+	ClusterIdentifier *string `type:"string"`
+
+	// The name of the endpoint to be described.
+	EndpointName *string `type:"string"`
+
+	// An optional pagination token provided by a previous DescribeEndpointAccess
+	// request. If this parameter is specified, the response includes only records
+	// beyond the marker, up to the value specified by the MaxRecords parameter.
+	Marker *string `type:"string"`
+
+	// The maximum number of records to include in the response. If more records
+	// exist than the specified MaxRecords value, a pagination token called a Marker
+	// is included in the response so that the remaining results can be retrieved.
+	MaxRecords *int64 `type:"integer"`
+
+	// The AWS account ID of the owner of the cluster.
+	ResourceOwner *string `type:"string"`
+
+	// The virtual private cloud (VPC) identifier with access to the cluster.
+	VpcId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DescribeEndpointAccessInput) SetClusterIdentifier(v string) *DescribeEndpointAccessInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *DescribeEndpointAccessInput) SetEndpointName(v string) *DescribeEndpointAccessInput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeEndpointAccessInput) SetMarker(v string) *DescribeEndpointAccessInput {
+	s.Marker = &v
+	return s
+}
+
+// SetMaxRecords sets the MaxRecords field's value.
+func (s *DescribeEndpointAccessInput) SetMaxRecords(v int64) *DescribeEndpointAccessInput {
+	s.MaxRecords = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *DescribeEndpointAccessInput) SetResourceOwner(v string) *DescribeEndpointAccessInput {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetVpcId sets the VpcId field's value.
+func (s *DescribeEndpointAccessInput) SetVpcId(v string) *DescribeEndpointAccessInput {
+	s.VpcId = &v
+	return s
+}
+
+type DescribeEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The list of endpoints with access to the cluster.
+	EndpointAccessList []*EndpointAccess `type:"list"`
+
+	// An optional pagination token provided by a previous DescribeEndpointAccess
+	// request. If this parameter is specified, the response includes only records
+	// beyond the marker, up to the value specified by the MaxRecords parameter.
+	Marker *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetEndpointAccessList sets the EndpointAccessList field's value.
+func (s *DescribeEndpointAccessOutput) SetEndpointAccessList(v []*EndpointAccess) *DescribeEndpointAccessOutput {
+	s.EndpointAccessList = v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeEndpointAccessOutput) SetMarker(v string) *DescribeEndpointAccessOutput {
+	s.Marker = &v
+	return s
+}
+
+type DescribeEndpointAuthorizationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID of either the cluster owner (grantor) or grantee. If Grantee
+	// parameter is true, then the Account value is of the grantor.
+	Account *string `type:"string"`
+
+	// The cluster identifier of the cluster to access.
+	ClusterIdentifier *string `type:"string"`
+
+	// Indicates whether to check authorization from a grantor or grantee point
+	// of view. If true, Amazon Redshift returns endpoint authorizations that you've
+	// been granted. If false (default), checks authorization from a grantor point
+	// of view.
+	Grantee *bool `type:"boolean"`
+
+	// An optional pagination token provided by a previous DescribeEndpointAuthorization
+	// request. If this parameter is specified, the response includes only records
+	// beyond the marker, up to the value specified by the MaxRecords parameter.
+	Marker *string `type:"string"`
+
+	// The maximum number of records to include in the response. If more records
+	// exist than the specified MaxRecords value, a pagination token called a Marker
+	// is included in the response so that the remaining results can be retrieved.
+	MaxRecords *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s DescribeEndpointAuthorizationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEndpointAuthorizationInput) GoString() string {
+	return s.String()
+}
+
+// SetAccount sets the Account field's value.
+func (s *DescribeEndpointAuthorizationInput) SetAccount(v string) *DescribeEndpointAuthorizationInput {
+	s.Account = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DescribeEndpointAuthorizationInput) SetClusterIdentifier(v string) *DescribeEndpointAuthorizationInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetGrantee sets the Grantee field's value.
+func (s *DescribeEndpointAuthorizationInput) SetGrantee(v bool) *DescribeEndpointAuthorizationInput {
+	s.Grantee = &v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeEndpointAuthorizationInput) SetMarker(v string) *DescribeEndpointAuthorizationInput {
+	s.Marker = &v
+	return s
+}
+
+// SetMaxRecords sets the MaxRecords field's value.
+func (s *DescribeEndpointAuthorizationInput) SetMaxRecords(v int64) *DescribeEndpointAuthorizationInput {
+	s.MaxRecords = &v
+	return s
+}
+
+type DescribeEndpointAuthorizationOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The authorizations to an endpoint.
+	EndpointAuthorizationList []*EndpointAuthorization `type:"list"`
+
+	// An optional pagination token provided by a previous DescribeEndpointAuthorization
+	// request. If this parameter is specified, the response includes only records
+	// beyond the marker, up to the value specified by the MaxRecords parameter.
+	Marker *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeEndpointAuthorizationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEndpointAuthorizationOutput) GoString() string {
+	return s.String()
+}
+
+// SetEndpointAuthorizationList sets the EndpointAuthorizationList field's value.
+func (s *DescribeEndpointAuthorizationOutput) SetEndpointAuthorizationList(v []*EndpointAuthorization) *DescribeEndpointAuthorizationOutput {
+	s.EndpointAuthorizationList = v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeEndpointAuthorizationOutput) SetMarker(v string) *DescribeEndpointAuthorizationOutput {
+	s.Marker = &v
+	return s
+}
+
 type DescribeEventCategoriesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The source type, such as cluster or parameter group, to which the described
 	// event categories apply.
 	//
-	// Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
+	// Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group,
+	// and scheduled-action.
 	SourceType *string `type:"string"`
 }
 
@@ -15185,11 +19440,17 @@ func (s *DescribeLoggingStatusInput) SetClusterIdentifier(v string) *DescribeLog
 type DescribeNodeConfigurationOptionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The action type to evaluate for possible node configurations. Currently,
-	// it must be "restore-cluster".
+	// The action type to evaluate for possible node configurations. Specify "restore-cluster"
+	// to get configuration combinations based on an existing snapshot. Specify
+	// "recommend-node-config" to get configuration recommendations based on an
+	// existing cluster or snapshot. Specify "resize-cluster" to get configuration
+	// combinations for elastic resize based on an existing cluster.
 	//
 	// ActionType is a required field
 	ActionType *string `type:"string" required:"true" enum:"ActionType"`
+
+	// The identifier of the cluster to evaluate for possible node configurations.
+	ClusterIdentifier *string `type:"string"`
 
 	// A set of name, operator, and value items to filter the results.
 	Filters []*NodeConfigurationOptionsFilter `locationName:"Filter" locationNameList:"NodeConfigurationOptionsFilter" type:"list"`
@@ -15246,6 +19507,12 @@ func (s *DescribeNodeConfigurationOptionsInput) Validate() error {
 // SetActionType sets the ActionType field's value.
 func (s *DescribeNodeConfigurationOptionsInput) SetActionType(v string) *DescribeNodeConfigurationOptionsInput {
 	s.ActionType = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DescribeNodeConfigurationOptionsInput) SetClusterIdentifier(v string) *DescribeNodeConfigurationOptionsInput {
+	s.ClusterIdentifier = &v
 	return s
 }
 
@@ -15418,6 +19685,105 @@ func (s *DescribeOrderableClusterOptionsOutput) SetMarker(v string) *DescribeOrd
 // SetOrderableClusterOptions sets the OrderableClusterOptions field's value.
 func (s *DescribeOrderableClusterOptionsOutput) SetOrderableClusterOptions(v []*OrderableClusterOption) *DescribeOrderableClusterOptionsOutput {
 	s.OrderableClusterOptions = v
+	return s
+}
+
+type DescribePartnersInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID that owns the cluster.
+	//
+	// AccountId is a required field
+	AccountId *string `min:"12" type:"string" required:"true"`
+
+	// The cluster identifier of the cluster whose partner integration is being
+	// described.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The name of the database whose partner integration is being described. If
+	// database name is not specified, then all databases in the cluster are described.
+	DatabaseName *string `type:"string"`
+
+	// The name of the partner that is being described. If partner name is not specified,
+	// then all partner integrations are described.
+	PartnerName *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribePartnersInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribePartnersInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribePartnersInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribePartnersInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 12 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 12))
+	}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *DescribePartnersInput) SetAccountId(v string) *DescribePartnersInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DescribePartnersInput) SetClusterIdentifier(v string) *DescribePartnersInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *DescribePartnersInput) SetDatabaseName(v string) *DescribePartnersInput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *DescribePartnersInput) SetPartnerName(v string) *DescribePartnersInput {
+	s.PartnerName = &v
+	return s
+}
+
+type DescribePartnersOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A list of partner integrations.
+	PartnerIntegrationInfoList []*PartnerIntegrationInfo `locationNameList:"PartnerIntegrationInfo" type:"list"`
+}
+
+// String returns the string representation
+func (s DescribePartnersOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribePartnersOutput) GoString() string {
+	return s.String()
+}
+
+// SetPartnerIntegrationInfoList sets the PartnerIntegrationInfoList field's value.
+func (s *DescribePartnersOutput) SetPartnerIntegrationInfoList(v []*PartnerIntegrationInfo) *DescribePartnersOutput {
+	s.PartnerIntegrationInfoList = v
 	return s
 }
 
@@ -15704,8 +20070,7 @@ type DescribeResizeOutput struct {
 
 	// The type of encryption for the cluster after the resize is complete.
 	//
-	// Possible values are KMS and None. In the China region possible values are:
-	// Legacy and None.
+	// Possible values are KMS and None.
 	TargetEncryptionType *string `type:"string"`
 
 	// The node type that the cluster will have after the resize operation is complete.
@@ -15823,6 +20188,164 @@ func (s *DescribeResizeOutput) SetTargetNumberOfNodes(v int64) *DescribeResizeOu
 // SetTotalResizeDataInMegaBytes sets the TotalResizeDataInMegaBytes field's value.
 func (s *DescribeResizeOutput) SetTotalResizeDataInMegaBytes(v int64) *DescribeResizeOutput {
 	s.TotalResizeDataInMegaBytes = &v
+	return s
+}
+
+type DescribeScheduledActionsInput struct {
+	_ struct{} `type:"structure"`
+
+	// If true, retrieve only active scheduled actions. If false, retrieve only
+	// disabled scheduled actions.
+	Active *bool `type:"boolean"`
+
+	// The end time in UTC of the scheduled action to retrieve. Only active scheduled
+	// actions that have invocations before this time are retrieved.
+	EndTime *time.Time `type:"timestamp"`
+
+	// List of scheduled action filters.
+	Filters []*ScheduledActionFilter `locationNameList:"ScheduledActionFilter" type:"list"`
+
+	// An optional parameter that specifies the starting point to return a set of
+	// response records. When the results of a DescribeScheduledActions request
+	// exceed the value specified in MaxRecords, AWS returns a value in the Marker
+	// field of the response. You can retrieve the next set of response records
+	// by providing the returned marker value in the Marker parameter and retrying
+	// the request.
+	Marker *string `type:"string"`
+
+	// The maximum number of response records to return in each call. If the number
+	// of remaining response records exceeds the specified MaxRecords value, a value
+	// is returned in a marker field of the response. You can retrieve the next
+	// set of records by retrying the command with the returned marker value.
+	//
+	// Default: 100
+	//
+	// Constraints: minimum 20, maximum 100.
+	MaxRecords *int64 `type:"integer"`
+
+	// The name of the scheduled action to retrieve.
+	ScheduledActionName *string `type:"string"`
+
+	// The start time in UTC of the scheduled actions to retrieve. Only active scheduled
+	// actions that have invocations after this time are retrieved.
+	StartTime *time.Time `type:"timestamp"`
+
+	// The type of the scheduled actions to retrieve.
+	TargetActionType *string `type:"string" enum:"ScheduledActionTypeValues"`
+}
+
+// String returns the string representation
+func (s DescribeScheduledActionsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeScheduledActionsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeScheduledActionsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeScheduledActionsInput"}
+	if s.Filters != nil {
+		for i, v := range s.Filters {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetActive sets the Active field's value.
+func (s *DescribeScheduledActionsInput) SetActive(v bool) *DescribeScheduledActionsInput {
+	s.Active = &v
+	return s
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *DescribeScheduledActionsInput) SetEndTime(v time.Time) *DescribeScheduledActionsInput {
+	s.EndTime = &v
+	return s
+}
+
+// SetFilters sets the Filters field's value.
+func (s *DescribeScheduledActionsInput) SetFilters(v []*ScheduledActionFilter) *DescribeScheduledActionsInput {
+	s.Filters = v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeScheduledActionsInput) SetMarker(v string) *DescribeScheduledActionsInput {
+	s.Marker = &v
+	return s
+}
+
+// SetMaxRecords sets the MaxRecords field's value.
+func (s *DescribeScheduledActionsInput) SetMaxRecords(v int64) *DescribeScheduledActionsInput {
+	s.MaxRecords = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *DescribeScheduledActionsInput) SetScheduledActionName(v string) *DescribeScheduledActionsInput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *DescribeScheduledActionsInput) SetStartTime(v time.Time) *DescribeScheduledActionsInput {
+	s.StartTime = &v
+	return s
+}
+
+// SetTargetActionType sets the TargetActionType field's value.
+func (s *DescribeScheduledActionsInput) SetTargetActionType(v string) *DescribeScheduledActionsInput {
+	s.TargetActionType = &v
+	return s
+}
+
+type DescribeScheduledActionsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// An optional parameter that specifies the starting point to return a set of
+	// response records. When the results of a DescribeScheduledActions request
+	// exceed the value specified in MaxRecords, AWS returns a value in the Marker
+	// field of the response. You can retrieve the next set of response records
+	// by providing the returned marker value in the Marker parameter and retrying
+	// the request.
+	Marker *string `type:"string"`
+
+	// List of retrieved scheduled actions.
+	ScheduledActions []*ScheduledAction `locationNameList:"ScheduledAction" type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeScheduledActionsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeScheduledActionsOutput) GoString() string {
+	return s.String()
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeScheduledActionsOutput) SetMarker(v string) *DescribeScheduledActionsOutput {
+	s.Marker = &v
+	return s
+}
+
+// SetScheduledActions sets the ScheduledActions field's value.
+func (s *DescribeScheduledActionsOutput) SetScheduledActions(v []*ScheduledAction) *DescribeScheduledActionsOutput {
+	s.ScheduledActions = v
 	return s
 }
 
@@ -16215,7 +20738,7 @@ type DescribeTagsInput struct {
 	MaxRecords *int64 `type:"integer"`
 
 	// The Amazon Resource Name (ARN) for which you want to describe the tag or
-	// tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1.
+	// tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
 	ResourceName *string `type:"string"`
 
 	// The type of resource with which you want to view tags. Valid resource types
@@ -16343,6 +20866,140 @@ func (s *DescribeTagsOutput) SetMarker(v string) *DescribeTagsOutput {
 // SetTaggedResources sets the TaggedResources field's value.
 func (s *DescribeTagsOutput) SetTaggedResources(v []*TaggedResource) *DescribeTagsOutput {
 	s.TaggedResources = v
+	return s
+}
+
+type DescribeUsageLimitsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the cluster for which you want to describe usage limits.
+	ClusterIdentifier *string `type:"string"`
+
+	// The feature type for which you want to describe usage limits.
+	FeatureType *string `type:"string" enum:"UsageLimitFeatureType"`
+
+	// An optional parameter that specifies the starting point to return a set of
+	// response records. When the results of a DescribeUsageLimits request exceed
+	// the value specified in MaxRecords, AWS returns a value in the Marker field
+	// of the response. You can retrieve the next set of response records by providing
+	// the returned marker value in the Marker parameter and retrying the request.
+	Marker *string `type:"string"`
+
+	// The maximum number of response records to return in each call. If the number
+	// of remaining response records exceeds the specified MaxRecords value, a value
+	// is returned in a marker field of the response. You can retrieve the next
+	// set of records by retrying the command with the returned marker value.
+	//
+	// Default: 100
+	//
+	// Constraints: minimum 20, maximum 100.
+	MaxRecords *int64 `type:"integer"`
+
+	// A tag key or keys for which you want to return all matching usage limit objects
+	// that are associated with the specified key or keys. For example, suppose
+	// that you have parameter groups that are tagged with keys called owner and
+	// environment. If you specify both of these tag keys in the request, Amazon
+	// Redshift returns a response with the usage limit objects have either or both
+	// of these tag keys associated with them.
+	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+
+	// A tag value or values for which you want to return all matching usage limit
+	// objects that are associated with the specified tag value or values. For example,
+	// suppose that you have parameter groups that are tagged with values called
+	// admin and test. If you specify both of these tag values in the request, Amazon
+	// Redshift returns a response with the usage limit objects that have either
+	// or both of these tag values associated with them.
+	TagValues []*string `locationNameList:"TagValue" type:"list"`
+
+	// The identifier of the usage limit to describe.
+	UsageLimitId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeUsageLimitsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeUsageLimitsInput) GoString() string {
+	return s.String()
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *DescribeUsageLimitsInput) SetClusterIdentifier(v string) *DescribeUsageLimitsInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetFeatureType sets the FeatureType field's value.
+func (s *DescribeUsageLimitsInput) SetFeatureType(v string) *DescribeUsageLimitsInput {
+	s.FeatureType = &v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeUsageLimitsInput) SetMarker(v string) *DescribeUsageLimitsInput {
+	s.Marker = &v
+	return s
+}
+
+// SetMaxRecords sets the MaxRecords field's value.
+func (s *DescribeUsageLimitsInput) SetMaxRecords(v int64) *DescribeUsageLimitsInput {
+	s.MaxRecords = &v
+	return s
+}
+
+// SetTagKeys sets the TagKeys field's value.
+func (s *DescribeUsageLimitsInput) SetTagKeys(v []*string) *DescribeUsageLimitsInput {
+	s.TagKeys = v
+	return s
+}
+
+// SetTagValues sets the TagValues field's value.
+func (s *DescribeUsageLimitsInput) SetTagValues(v []*string) *DescribeUsageLimitsInput {
+	s.TagValues = v
+	return s
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *DescribeUsageLimitsInput) SetUsageLimitId(v string) *DescribeUsageLimitsInput {
+	s.UsageLimitId = &v
+	return s
+}
+
+type DescribeUsageLimitsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A value that indicates the starting point for the next set of response records
+	// in a subsequent request. If a value is returned in a response, you can retrieve
+	// the next set of records by providing this returned marker value in the Marker
+	// parameter and retrying the command. If the Marker field is empty, all response
+	// records have been retrieved for the request.
+	Marker *string `type:"string"`
+
+	// Contains the output from the DescribeUsageLimits action.
+	UsageLimits []*UsageLimit `type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeUsageLimitsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeUsageLimitsOutput) GoString() string {
+	return s.String()
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeUsageLimitsOutput) SetMarker(v string) *DescribeUsageLimitsOutput {
+	s.Marker = &v
+	return s
+}
+
+// SetUsageLimits sets the UsageLimits field's value.
+func (s *DescribeUsageLimitsOutput) SetUsageLimits(v []*UsageLimit) *DescribeUsageLimitsOutput {
+	s.UsageLimits = v
 	return s
 }
 
@@ -16741,6 +21398,9 @@ type Endpoint struct {
 
 	// The port that the database engine is listening on.
 	Port *int64 `type:"integer"`
+
+	// Describes a connection endpoint.
+	VpcEndpoints []*VpcEndpoint `locationNameList:"VpcEndpoint" type:"list"`
 }
 
 // String returns the string representation
@@ -16762,6 +21422,216 @@ func (s *Endpoint) SetAddress(v string) *Endpoint {
 // SetPort sets the Port field's value.
 func (s *Endpoint) SetPort(v int64) *Endpoint {
 	s.Port = &v
+	return s
+}
+
+// SetVpcEndpoints sets the VpcEndpoints field's value.
+func (s *Endpoint) SetVpcEndpoints(v []*VpcEndpoint) *Endpoint {
+	s.VpcEndpoints = v
+	return s
+}
+
+// Describes a Redshift-managed VPC endpoint.
+type EndpointAccess struct {
+	_ struct{} `type:"structure"`
+
+	// The DNS address of the endpoint.
+	Address *string `type:"string"`
+
+	// The cluster identifier of the cluster associated with the endpoint.
+	ClusterIdentifier *string `type:"string"`
+
+	// The time (UTC) that the endpoint was created.
+	EndpointCreateTime *time.Time `type:"timestamp"`
+
+	// The name of the endpoint.
+	EndpointName *string `type:"string"`
+
+	// The status of the endpoint.
+	EndpointStatus *string `type:"string"`
+
+	// The port number on which the cluster accepts incoming connections.
+	Port *int64 `type:"integer"`
+
+	// The AWS account ID of the owner of the cluster.
+	ResourceOwner *string `type:"string"`
+
+	// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+	SubnetGroupName *string `type:"string"`
+
+	// The connection endpoint for connecting to an Amazon Redshift cluster through
+	// the proxy.
+	VpcEndpoint *VpcEndpoint `type:"structure"`
+
+	// The security groups associated with the endpoint.
+	VpcSecurityGroups []*VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
+}
+
+// String returns the string representation
+func (s EndpointAccess) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EndpointAccess) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *EndpointAccess) SetAddress(v string) *EndpointAccess {
+	s.Address = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *EndpointAccess) SetClusterIdentifier(v string) *EndpointAccess {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointCreateTime sets the EndpointCreateTime field's value.
+func (s *EndpointAccess) SetEndpointCreateTime(v time.Time) *EndpointAccess {
+	s.EndpointCreateTime = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *EndpointAccess) SetEndpointName(v string) *EndpointAccess {
+	s.EndpointName = &v
+	return s
+}
+
+// SetEndpointStatus sets the EndpointStatus field's value.
+func (s *EndpointAccess) SetEndpointStatus(v string) *EndpointAccess {
+	s.EndpointStatus = &v
+	return s
+}
+
+// SetPort sets the Port field's value.
+func (s *EndpointAccess) SetPort(v int64) *EndpointAccess {
+	s.Port = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *EndpointAccess) SetResourceOwner(v string) *EndpointAccess {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetSubnetGroupName sets the SubnetGroupName field's value.
+func (s *EndpointAccess) SetSubnetGroupName(v string) *EndpointAccess {
+	s.SubnetGroupName = &v
+	return s
+}
+
+// SetVpcEndpoint sets the VpcEndpoint field's value.
+func (s *EndpointAccess) SetVpcEndpoint(v *VpcEndpoint) *EndpointAccess {
+	s.VpcEndpoint = v
+	return s
+}
+
+// SetVpcSecurityGroups sets the VpcSecurityGroups field's value.
+func (s *EndpointAccess) SetVpcSecurityGroups(v []*VpcSecurityGroupMembership) *EndpointAccess {
+	s.VpcSecurityGroups = v
+	return s
+}
+
+// Describes an endpoint authorization for authorizing Redshift-managed VPC
+// endpoint access to a cluster across AWS accounts.
+type EndpointAuthorization struct {
+	_ struct{} `type:"structure"`
+
+	// Indicates whether all VPCs in the grantee account are allowed access to the
+	// cluster.
+	AllowedAllVPCs *bool `type:"boolean"`
+
+	// The VPCs allowed access to the cluster.
+	AllowedVPCs []*string `locationNameList:"VpcIdentifier" type:"list"`
+
+	// The time (UTC) when the authorization was created.
+	AuthorizeTime *time.Time `type:"timestamp"`
+
+	// The cluster identifier.
+	ClusterIdentifier *string `type:"string"`
+
+	// The status of the cluster.
+	ClusterStatus *string `type:"string"`
+
+	// The number of Redshift-managed VPC endpoints created for the authorization.
+	EndpointCount *int64 `type:"integer"`
+
+	// The AWS account ID of the grantee of the cluster.
+	Grantee *string `type:"string"`
+
+	// The AWS account ID of the cluster owner.
+	Grantor *string `type:"string"`
+
+	// The status of the authorization action.
+	Status *string `type:"string" enum:"AuthorizationStatus"`
+}
+
+// String returns the string representation
+func (s EndpointAuthorization) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EndpointAuthorization) GoString() string {
+	return s.String()
+}
+
+// SetAllowedAllVPCs sets the AllowedAllVPCs field's value.
+func (s *EndpointAuthorization) SetAllowedAllVPCs(v bool) *EndpointAuthorization {
+	s.AllowedAllVPCs = &v
+	return s
+}
+
+// SetAllowedVPCs sets the AllowedVPCs field's value.
+func (s *EndpointAuthorization) SetAllowedVPCs(v []*string) *EndpointAuthorization {
+	s.AllowedVPCs = v
+	return s
+}
+
+// SetAuthorizeTime sets the AuthorizeTime field's value.
+func (s *EndpointAuthorization) SetAuthorizeTime(v time.Time) *EndpointAuthorization {
+	s.AuthorizeTime = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *EndpointAuthorization) SetClusterIdentifier(v string) *EndpointAuthorization {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetClusterStatus sets the ClusterStatus field's value.
+func (s *EndpointAuthorization) SetClusterStatus(v string) *EndpointAuthorization {
+	s.ClusterStatus = &v
+	return s
+}
+
+// SetEndpointCount sets the EndpointCount field's value.
+func (s *EndpointAuthorization) SetEndpointCount(v int64) *EndpointAuthorization {
+	s.EndpointCount = &v
+	return s
+}
+
+// SetGrantee sets the Grantee field's value.
+func (s *EndpointAuthorization) SetGrantee(v string) *EndpointAuthorization {
+	s.Grantee = &v
+	return s
+}
+
+// SetGrantor sets the Grantor field's value.
+func (s *EndpointAuthorization) SetGrantor(v string) *EndpointAuthorization {
+	s.Grantor = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *EndpointAuthorization) SetStatus(v string) *EndpointAuthorization {
+	s.Status = &v
 	return s
 }
 
@@ -16968,8 +21838,9 @@ type EventSubscription struct {
 	// subscription.
 	SourceIdsList []*string `locationNameList:"SourceId" type:"list"`
 
-	// The source type of the events returned the Amazon Redshift event notification,
-	// such as cluster, or cluster-snapshot.
+	// The source type of the events returned by the Amazon Redshift event notification,
+	// such as cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group,
+	// or scheduled-action.
 	SourceType *string `type:"string"`
 
 	// The status of the Amazon Redshift event notification subscription.
@@ -17675,6 +22546,83 @@ func (s *MaintenanceTrack) SetUpdateTargets(v []*UpdateTarget) *MaintenanceTrack
 	return s
 }
 
+type ModifyAquaConfigurationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The new value of AQUA configuration status. Possible values include the following.
+	//
+	//    * enabled - Use AQUA if it is available for the current AWS Region and
+	//    Amazon Redshift node type.
+	//
+	//    * disabled - Don't use AQUA.
+	//
+	//    * auto - Amazon Redshift determines whether to use AQUA.
+	AquaConfigurationStatus *string `type:"string" enum:"AquaConfigurationStatus"`
+
+	// The identifier of the cluster to be modified.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ModifyAquaConfigurationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyAquaConfigurationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyAquaConfigurationInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyAquaConfigurationInput"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAquaConfigurationStatus sets the AquaConfigurationStatus field's value.
+func (s *ModifyAquaConfigurationInput) SetAquaConfigurationStatus(v string) *ModifyAquaConfigurationInput {
+	s.AquaConfigurationStatus = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ModifyAquaConfigurationInput) SetClusterIdentifier(v string) *ModifyAquaConfigurationInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+type ModifyAquaConfigurationOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The updated AQUA configuration of the cluster.
+	AquaConfiguration *AquaConfiguration `type:"structure"`
+}
+
+// String returns the string representation
+func (s ModifyAquaConfigurationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyAquaConfigurationOutput) GoString() string {
+	return s.String()
+}
+
+// SetAquaConfiguration sets the AquaConfiguration field's value.
+func (s *ModifyAquaConfigurationOutput) SetAquaConfiguration(v *AquaConfiguration) *ModifyAquaConfigurationOutput {
+	s.AquaConfiguration = v
+	return s
+}
+
 type ModifyClusterDbRevisionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -17853,10 +22801,21 @@ type ModifyClusterInput struct {
 	// value, existing automated snapshots that fall outside of the new retention
 	// period will be immediately deleted.
 	//
+	// You can't disable automated snapshots for RA3 node types. Set the automated
+	// retention period from 1-35 days.
+	//
 	// Default: Uses existing setting.
 	//
 	// Constraints: Must be a value from 0 to 35.
 	AutomatedSnapshotRetentionPeriod *int64 `type:"integer"`
+
+	// The option to initiate relocation for an Amazon Redshift cluster to the target
+	// Availability Zone.
+	AvailabilityZone *string `type:"string"`
+
+	// The option to enable relocation for an Amazon Redshift cluster between Availability
+	// Zones after the cluster modification is complete.
+	AvailabilityZoneRelocation *bool `type:"boolean"`
 
 	// The unique identifier of the cluster to be modified.
 	//
@@ -17921,11 +22880,12 @@ type ModifyClusterInput struct {
 	// in the Amazon Redshift Cluster Management Guide.
 	ElasticIp *string `type:"string"`
 
-	// Indicates whether the cluster is encrypted. If the cluster is encrypted and
-	// you provide a value for the KmsKeyId parameter, we will encrypt the cluster
-	// with the provided KmsKeyId. If you don't provide a KmsKeyId, we will encrypt
-	// with the default key. In the China region we will use legacy encryption if
-	// you specify that the cluster is encrypted.
+	// Indicates whether the cluster is encrypted. If the value is encrypted (true)
+	// and you provide a value for the KmsKeyId parameter, we encrypt the cluster
+	// with the provided KmsKeyId. If you don't provide a KmsKeyId, we encrypt with
+	// the default key.
+	//
+	// If the value is not encrypted (false), then the cluster is decrypted.
 	Encrypted *bool `type:"boolean"`
 
 	// An option that specifies whether to create the cluster with enhanced VPC
@@ -18012,31 +22972,26 @@ type ModifyClusterInput struct {
 	// The new node type of the cluster. If you specify a new node type, you must
 	// also specify the number of nodes parameter.
 	//
-	// When you submit your request to resize a cluster, Amazon Redshift sets access
-	// permissions for the cluster to read-only. After Amazon Redshift provisions
-	// a new cluster according to your resize requirements, there will be a temporary
-	// outage while the old cluster is deleted and your connection is switched to
-	// the new cluster. When the new connection is complete, the original access
-	// permissions for the cluster are restored. You can use DescribeResize to track
-	// the progress of the resize request.
+	// For more information about resizing clusters, go to Resizing Clusters in
+	// Amazon Redshift (https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html)
+	// in the Amazon Redshift Cluster Management Guide.
 	//
 	// Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large
-	// | dc2.8xlarge
+	// | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
 	NodeType *string `type:"string"`
 
 	// The new number of nodes of the cluster. If you specify a new number of nodes,
 	// you must also specify the node type parameter.
 	//
-	// When you submit your request to resize a cluster, Amazon Redshift sets access
-	// permissions for the cluster to read-only. After Amazon Redshift provisions
-	// a new cluster according to your resize requirements, there will be a temporary
-	// outage while the old cluster is deleted and your connection is switched to
-	// the new cluster. When the new connection is complete, the original access
-	// permissions for the cluster are restored. You can use DescribeResize to track
-	// the progress of the resize request.
+	// For more information about resizing clusters, go to Resizing Clusters in
+	// Amazon Redshift (https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html)
+	// in the Amazon Redshift Cluster Management Guide.
 	//
 	// Valid Values: Integer greater than 0.
 	NumberOfNodes *int64 `type:"integer"`
+
+	// The option to change the port of an Amazon Redshift cluster.
+	Port *int64 `type:"integer"`
 
 	// The weekly time range (in UTC) during which system maintenance can occur,
 	// if necessary. If system maintenance is necessary during the window, it may
@@ -18097,6 +23052,18 @@ func (s *ModifyClusterInput) SetAllowVersionUpgrade(v bool) *ModifyClusterInput 
 // SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
 func (s *ModifyClusterInput) SetAutomatedSnapshotRetentionPeriod(v int64) *ModifyClusterInput {
 	s.AutomatedSnapshotRetentionPeriod = &v
+	return s
+}
+
+// SetAvailabilityZone sets the AvailabilityZone field's value.
+func (s *ModifyClusterInput) SetAvailabilityZone(v string) *ModifyClusterInput {
+	s.AvailabilityZone = &v
+	return s
+}
+
+// SetAvailabilityZoneRelocation sets the AvailabilityZoneRelocation field's value.
+func (s *ModifyClusterInput) SetAvailabilityZoneRelocation(v bool) *ModifyClusterInput {
+	s.AvailabilityZoneRelocation = &v
 	return s
 }
 
@@ -18199,6 +23166,12 @@ func (s *ModifyClusterInput) SetNodeType(v string) *ModifyClusterInput {
 // SetNumberOfNodes sets the NumberOfNodes field's value.
 func (s *ModifyClusterInput) SetNumberOfNodes(v int64) *ModifyClusterInput {
 	s.NumberOfNodes = &v
+	return s
+}
+
+// SetPort sets the Port field's value.
+func (s *ModifyClusterInput) SetPort(v int64) *ModifyClusterInput {
+	s.Port = &v
 	return s
 }
 
@@ -18352,6 +23325,7 @@ func (s *ModifyClusterOutput) SetCluster(v *Cluster) *ModifyClusterOutput {
 	return s
 }
 
+// Describes a modify cluster parameter group operation.
 type ModifyClusterParameterGroupInput struct {
 	_ struct{} `type:"structure"`
 
@@ -18654,6 +23628,160 @@ func (s *ModifyClusterSubnetGroupOutput) SetClusterSubnetGroup(v *ClusterSubnetG
 	return s
 }
 
+type ModifyEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The endpoint to be modified.
+	//
+	// EndpointName is a required field
+	EndpointName *string `type:"string" required:"true"`
+
+	// The complete list of VPC security groups associated with the endpoint after
+	// the endpoint is modified.
+	VpcSecurityGroupIds []*string `locationNameList:"VpcSecurityGroupId" type:"list"`
+}
+
+// String returns the string representation
+func (s ModifyEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyEndpointAccessInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyEndpointAccessInput"}
+	if s.EndpointName == nil {
+		invalidParams.Add(request.NewErrParamRequired("EndpointName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *ModifyEndpointAccessInput) SetEndpointName(v string) *ModifyEndpointAccessInput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetVpcSecurityGroupIds sets the VpcSecurityGroupIds field's value.
+func (s *ModifyEndpointAccessInput) SetVpcSecurityGroupIds(v []*string) *ModifyEndpointAccessInput {
+	s.VpcSecurityGroupIds = v
+	return s
+}
+
+// Describes a Redshift-managed VPC endpoint.
+type ModifyEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The DNS address of the endpoint.
+	Address *string `type:"string"`
+
+	// The cluster identifier of the cluster associated with the endpoint.
+	ClusterIdentifier *string `type:"string"`
+
+	// The time (UTC) that the endpoint was created.
+	EndpointCreateTime *time.Time `type:"timestamp"`
+
+	// The name of the endpoint.
+	EndpointName *string `type:"string"`
+
+	// The status of the endpoint.
+	EndpointStatus *string `type:"string"`
+
+	// The port number on which the cluster accepts incoming connections.
+	Port *int64 `type:"integer"`
+
+	// The AWS account ID of the owner of the cluster.
+	ResourceOwner *string `type:"string"`
+
+	// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+	SubnetGroupName *string `type:"string"`
+
+	// The connection endpoint for connecting to an Amazon Redshift cluster through
+	// the proxy.
+	VpcEndpoint *VpcEndpoint `type:"structure"`
+
+	// The security groups associated with the endpoint.
+	VpcSecurityGroups []*VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
+}
+
+// String returns the string representation
+func (s ModifyEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *ModifyEndpointAccessOutput) SetAddress(v string) *ModifyEndpointAccessOutput {
+	s.Address = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ModifyEndpointAccessOutput) SetClusterIdentifier(v string) *ModifyEndpointAccessOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetEndpointCreateTime sets the EndpointCreateTime field's value.
+func (s *ModifyEndpointAccessOutput) SetEndpointCreateTime(v time.Time) *ModifyEndpointAccessOutput {
+	s.EndpointCreateTime = &v
+	return s
+}
+
+// SetEndpointName sets the EndpointName field's value.
+func (s *ModifyEndpointAccessOutput) SetEndpointName(v string) *ModifyEndpointAccessOutput {
+	s.EndpointName = &v
+	return s
+}
+
+// SetEndpointStatus sets the EndpointStatus field's value.
+func (s *ModifyEndpointAccessOutput) SetEndpointStatus(v string) *ModifyEndpointAccessOutput {
+	s.EndpointStatus = &v
+	return s
+}
+
+// SetPort sets the Port field's value.
+func (s *ModifyEndpointAccessOutput) SetPort(v int64) *ModifyEndpointAccessOutput {
+	s.Port = &v
+	return s
+}
+
+// SetResourceOwner sets the ResourceOwner field's value.
+func (s *ModifyEndpointAccessOutput) SetResourceOwner(v string) *ModifyEndpointAccessOutput {
+	s.ResourceOwner = &v
+	return s
+}
+
+// SetSubnetGroupName sets the SubnetGroupName field's value.
+func (s *ModifyEndpointAccessOutput) SetSubnetGroupName(v string) *ModifyEndpointAccessOutput {
+	s.SubnetGroupName = &v
+	return s
+}
+
+// SetVpcEndpoint sets the VpcEndpoint field's value.
+func (s *ModifyEndpointAccessOutput) SetVpcEndpoint(v *VpcEndpoint) *ModifyEndpointAccessOutput {
+	s.VpcEndpoint = v
+	return s
+}
+
+// SetVpcSecurityGroups sets the VpcSecurityGroups field's value.
+func (s *ModifyEndpointAccessOutput) SetVpcSecurityGroups(v []*VpcSecurityGroupMembership) *ModifyEndpointAccessOutput {
+	s.VpcSecurityGroups = v
+	return s
+}
+
 type ModifyEventSubscriptionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -18694,8 +23822,8 @@ type ModifyEventSubscriptionInput struct {
 	// for all Amazon Redshift objects in your AWS account. You must specify a source
 	// type in order to specify source IDs.
 	//
-	// Valid values: cluster, cluster-parameter-group, cluster-security-group, and
-	// cluster-snapshot.
+	// Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
+	// and scheduled-action.
 	SourceType *string `type:"string"`
 
 	// The name of the modified Amazon Redshift event notification subscription.
@@ -18789,6 +23917,234 @@ func (s ModifyEventSubscriptionOutput) GoString() string {
 // SetEventSubscription sets the EventSubscription field's value.
 func (s *ModifyEventSubscriptionOutput) SetEventSubscription(v *EventSubscription) *ModifyEventSubscriptionOutput {
 	s.EventSubscription = v
+	return s
+}
+
+type ModifyScheduledActionInput struct {
+	_ struct{} `type:"structure"`
+
+	// A modified enable flag of the scheduled action. If true, the scheduled action
+	// is active. If false, the scheduled action is disabled.
+	Enable *bool `type:"boolean"`
+
+	// A modified end time of the scheduled action. For more information about this
+	// parameter, see ScheduledAction.
+	EndTime *time.Time `type:"timestamp"`
+
+	// A different IAM role to assume to run the target action. For more information
+	// about this parameter, see ScheduledAction.
+	IamRole *string `type:"string"`
+
+	// A modified schedule in either at( ) or cron( ) format. For more information
+	// about this parameter, see ScheduledAction.
+	Schedule *string `type:"string"`
+
+	// A modified description of the scheduled action.
+	ScheduledActionDescription *string `type:"string"`
+
+	// The name of the scheduled action to modify.
+	//
+	// ScheduledActionName is a required field
+	ScheduledActionName *string `type:"string" required:"true"`
+
+	// A modified start time of the scheduled action. For more information about
+	// this parameter, see ScheduledAction.
+	StartTime *time.Time `type:"timestamp"`
+
+	// A modified JSON format of the scheduled action. For more information about
+	// this parameter, see ScheduledAction.
+	TargetAction *ScheduledActionType `type:"structure"`
+}
+
+// String returns the string representation
+func (s ModifyScheduledActionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyScheduledActionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyScheduledActionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyScheduledActionInput"}
+	if s.ScheduledActionName == nil {
+		invalidParams.Add(request.NewErrParamRequired("ScheduledActionName"))
+	}
+	if s.TargetAction != nil {
+		if err := s.TargetAction.Validate(); err != nil {
+			invalidParams.AddNested("TargetAction", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetEnable sets the Enable field's value.
+func (s *ModifyScheduledActionInput) SetEnable(v bool) *ModifyScheduledActionInput {
+	s.Enable = &v
+	return s
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *ModifyScheduledActionInput) SetEndTime(v time.Time) *ModifyScheduledActionInput {
+	s.EndTime = &v
+	return s
+}
+
+// SetIamRole sets the IamRole field's value.
+func (s *ModifyScheduledActionInput) SetIamRole(v string) *ModifyScheduledActionInput {
+	s.IamRole = &v
+	return s
+}
+
+// SetSchedule sets the Schedule field's value.
+func (s *ModifyScheduledActionInput) SetSchedule(v string) *ModifyScheduledActionInput {
+	s.Schedule = &v
+	return s
+}
+
+// SetScheduledActionDescription sets the ScheduledActionDescription field's value.
+func (s *ModifyScheduledActionInput) SetScheduledActionDescription(v string) *ModifyScheduledActionInput {
+	s.ScheduledActionDescription = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *ModifyScheduledActionInput) SetScheduledActionName(v string) *ModifyScheduledActionInput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *ModifyScheduledActionInput) SetStartTime(v time.Time) *ModifyScheduledActionInput {
+	s.StartTime = &v
+	return s
+}
+
+// SetTargetAction sets the TargetAction field's value.
+func (s *ModifyScheduledActionInput) SetTargetAction(v *ScheduledActionType) *ModifyScheduledActionInput {
+	s.TargetAction = v
+	return s
+}
+
+// Describes a scheduled action. You can use a scheduled action to trigger some
+// Amazon Redshift API operations on a schedule. For information about which
+// API operations can be scheduled, see ScheduledActionType.
+type ModifyScheduledActionOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The end time in UTC when the schedule is no longer active. After this time,
+	// the scheduled action does not trigger.
+	EndTime *time.Time `type:"timestamp"`
+
+	// The IAM role to assume to run the scheduled action. This IAM role must have
+	// permission to run the Amazon Redshift API operation in the scheduled action.
+	// This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com)
+	// to assume permissions on your behalf. For more information about the IAM
+	// role to use with the Amazon Redshift scheduler, see Using Identity-Based
+	// Policies for Amazon Redshift (https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
+	// in the Amazon Redshift Cluster Management Guide.
+	IamRole *string `type:"string"`
+
+	// List of times when the scheduled action will run.
+	NextInvocations []*time.Time `locationNameList:"ScheduledActionTime" type:"list"`
+
+	// The schedule for a one-time (at format) or recurring (cron format) scheduled
+	// action. Schedule invocations must be separated by at least one hour.
+	//
+	// Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+	//
+	// Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week
+	// Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron
+	// Expressions (https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+	// in the Amazon CloudWatch Events User Guide.
+	Schedule *string `type:"string"`
+
+	// The description of the scheduled action.
+	ScheduledActionDescription *string `type:"string"`
+
+	// The name of the scheduled action.
+	ScheduledActionName *string `type:"string"`
+
+	// The start time in UTC when the schedule is active. Before this time, the
+	// scheduled action does not trigger.
+	StartTime *time.Time `type:"timestamp"`
+
+	// The state of the scheduled action. For example, DISABLED.
+	State *string `type:"string" enum:"ScheduledActionState"`
+
+	// A JSON format string of the Amazon Redshift API operation with input parameters.
+	//
+	// "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+	TargetAction *ScheduledActionType `type:"structure"`
+}
+
+// String returns the string representation
+func (s ModifyScheduledActionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyScheduledActionOutput) GoString() string {
+	return s.String()
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *ModifyScheduledActionOutput) SetEndTime(v time.Time) *ModifyScheduledActionOutput {
+	s.EndTime = &v
+	return s
+}
+
+// SetIamRole sets the IamRole field's value.
+func (s *ModifyScheduledActionOutput) SetIamRole(v string) *ModifyScheduledActionOutput {
+	s.IamRole = &v
+	return s
+}
+
+// SetNextInvocations sets the NextInvocations field's value.
+func (s *ModifyScheduledActionOutput) SetNextInvocations(v []*time.Time) *ModifyScheduledActionOutput {
+	s.NextInvocations = v
+	return s
+}
+
+// SetSchedule sets the Schedule field's value.
+func (s *ModifyScheduledActionOutput) SetSchedule(v string) *ModifyScheduledActionOutput {
+	s.Schedule = &v
+	return s
+}
+
+// SetScheduledActionDescription sets the ScheduledActionDescription field's value.
+func (s *ModifyScheduledActionOutput) SetScheduledActionDescription(v string) *ModifyScheduledActionOutput {
+	s.ScheduledActionDescription = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *ModifyScheduledActionOutput) SetScheduledActionName(v string) *ModifyScheduledActionOutput {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *ModifyScheduledActionOutput) SetStartTime(v time.Time) *ModifyScheduledActionOutput {
+	s.StartTime = &v
+	return s
+}
+
+// SetState sets the State field's value.
+func (s *ModifyScheduledActionOutput) SetState(v string) *ModifyScheduledActionOutput {
+	s.State = &v
+	return s
+}
+
+// SetTargetAction sets the TargetAction field's value.
+func (s *ModifyScheduledActionOutput) SetTargetAction(v *ScheduledActionType) *ModifyScheduledActionOutput {
+	s.TargetAction = v
 	return s
 }
 
@@ -19033,12 +24389,220 @@ func (s *ModifySnapshotScheduleOutput) SetTags(v []*Tag) *ModifySnapshotSchedule
 	return s
 }
 
+type ModifyUsageLimitInput struct {
+	_ struct{} `type:"structure"`
+
+	// The new limit amount. For more information about this parameter, see UsageLimit.
+	Amount *int64 `type:"long"`
+
+	// The new action that Amazon Redshift takes when the limit is reached. For
+	// more information about this parameter, see UsageLimit.
+	BreachAction *string `type:"string" enum:"UsageLimitBreachAction"`
+
+	// The identifier of the usage limit to modify.
+	//
+	// UsageLimitId is a required field
+	UsageLimitId *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ModifyUsageLimitInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyUsageLimitInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyUsageLimitInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyUsageLimitInput"}
+	if s.UsageLimitId == nil {
+		invalidParams.Add(request.NewErrParamRequired("UsageLimitId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAmount sets the Amount field's value.
+func (s *ModifyUsageLimitInput) SetAmount(v int64) *ModifyUsageLimitInput {
+	s.Amount = &v
+	return s
+}
+
+// SetBreachAction sets the BreachAction field's value.
+func (s *ModifyUsageLimitInput) SetBreachAction(v string) *ModifyUsageLimitInput {
+	s.BreachAction = &v
+	return s
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *ModifyUsageLimitInput) SetUsageLimitId(v string) *ModifyUsageLimitInput {
+	s.UsageLimitId = &v
+	return s
+}
+
+// Describes a usage limit object for a cluster.
+type ModifyUsageLimitOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The limit amount. If time-based, this amount is in minutes. If data-based,
+	// this amount is in terabytes (TB).
+	Amount *int64 `type:"long"`
+
+	// The action that Amazon Redshift takes when the limit is reached. Possible
+	// values are:
+	//
+	//    * log - To log an event in a system table. The default is log.
+	//
+	//    * emit-metric - To emit CloudWatch metrics.
+	//
+	//    * disable - To disable the feature until the next usage period begins.
+	BreachAction *string `type:"string" enum:"UsageLimitBreachAction"`
+
+	// The identifier of the cluster with a usage limit.
+	ClusterIdentifier *string `type:"string"`
+
+	// The Amazon Redshift feature to which the limit applies.
+	FeatureType *string `type:"string" enum:"UsageLimitFeatureType"`
+
+	// The type of limit. Depending on the feature type, this can be based on a
+	// time duration or data size.
+	LimitType *string `type:"string" enum:"UsageLimitLimitType"`
+
+	// The time period that the amount applies to. A weekly period begins on Sunday.
+	// The default is monthly.
+	Period *string `type:"string" enum:"UsageLimitPeriod"`
+
+	// A list of tag instances.
+	Tags []*Tag `locationNameList:"Tag" type:"list"`
+
+	// The identifier of the usage limit.
+	UsageLimitId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ModifyUsageLimitOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyUsageLimitOutput) GoString() string {
+	return s.String()
+}
+
+// SetAmount sets the Amount field's value.
+func (s *ModifyUsageLimitOutput) SetAmount(v int64) *ModifyUsageLimitOutput {
+	s.Amount = &v
+	return s
+}
+
+// SetBreachAction sets the BreachAction field's value.
+func (s *ModifyUsageLimitOutput) SetBreachAction(v string) *ModifyUsageLimitOutput {
+	s.BreachAction = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ModifyUsageLimitOutput) SetClusterIdentifier(v string) *ModifyUsageLimitOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetFeatureType sets the FeatureType field's value.
+func (s *ModifyUsageLimitOutput) SetFeatureType(v string) *ModifyUsageLimitOutput {
+	s.FeatureType = &v
+	return s
+}
+
+// SetLimitType sets the LimitType field's value.
+func (s *ModifyUsageLimitOutput) SetLimitType(v string) *ModifyUsageLimitOutput {
+	s.LimitType = &v
+	return s
+}
+
+// SetPeriod sets the Period field's value.
+func (s *ModifyUsageLimitOutput) SetPeriod(v string) *ModifyUsageLimitOutput {
+	s.Period = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *ModifyUsageLimitOutput) SetTags(v []*Tag) *ModifyUsageLimitOutput {
+	s.Tags = v
+	return s
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *ModifyUsageLimitOutput) SetUsageLimitId(v string) *ModifyUsageLimitOutput {
+	s.UsageLimitId = &v
+	return s
+}
+
+// Describes a network interface.
+type NetworkInterface struct {
+	_ struct{} `type:"structure"`
+
+	// The Availability Zone.
+	AvailabilityZone *string `type:"string"`
+
+	// The network interface identifier.
+	NetworkInterfaceId *string `type:"string"`
+
+	// The IPv4 address of the network interface within the subnet.
+	PrivateIpAddress *string `type:"string"`
+
+	// The subnet identifier.
+	SubnetId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s NetworkInterface) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s NetworkInterface) GoString() string {
+	return s.String()
+}
+
+// SetAvailabilityZone sets the AvailabilityZone field's value.
+func (s *NetworkInterface) SetAvailabilityZone(v string) *NetworkInterface {
+	s.AvailabilityZone = &v
+	return s
+}
+
+// SetNetworkInterfaceId sets the NetworkInterfaceId field's value.
+func (s *NetworkInterface) SetNetworkInterfaceId(v string) *NetworkInterface {
+	s.NetworkInterfaceId = &v
+	return s
+}
+
+// SetPrivateIpAddress sets the PrivateIpAddress field's value.
+func (s *NetworkInterface) SetPrivateIpAddress(v string) *NetworkInterface {
+	s.PrivateIpAddress = &v
+	return s
+}
+
+// SetSubnetId sets the SubnetId field's value.
+func (s *NetworkInterface) SetSubnetId(v string) *NetworkInterface {
+	s.SubnetId = &v
+	return s
+}
+
 // A list of node configurations.
 type NodeConfigurationOption struct {
 	_ struct{} `type:"structure"`
 
 	// The estimated disk utilizaton percentage.
 	EstimatedDiskUtilizationPercent *float64 `type:"double"`
+
+	// The category of the node configuration recommendation.
+	Mode *string `type:"string" enum:"Mode"`
 
 	// The node type, such as, "ds2.8xlarge".
 	NodeType *string `type:"string"`
@@ -19060,6 +24624,12 @@ func (s NodeConfigurationOption) GoString() string {
 // SetEstimatedDiskUtilizationPercent sets the EstimatedDiskUtilizationPercent field's value.
 func (s *NodeConfigurationOption) SetEstimatedDiskUtilizationPercent(v float64) *NodeConfigurationOption {
 	s.EstimatedDiskUtilizationPercent = &v
+	return s
+}
+
+// SetMode sets the Mode field's value.
+func (s *NodeConfigurationOption) SetMode(v string) *NodeConfigurationOption {
+	s.Mode = &v
 	return s
 }
 
@@ -19205,7 +24775,8 @@ type Parameter struct {
 	// The name of the parameter.
 	ParameterName *string `type:"string"`
 
-	// The value of the parameter.
+	// The value of the parameter. If ParameterName is wlm_json_configuration, then
+	// the maximum size of ParameterValue is 8000 characters.
 	ParameterValue *string `type:"string"`
 
 	// The source of the parameter value, such as "engine-default" or "user".
@@ -19276,6 +24847,179 @@ func (s *Parameter) SetSource(v string) *Parameter {
 	return s
 }
 
+// Describes a partner integration.
+type PartnerIntegrationInfo struct {
+	_ struct{} `type:"structure"`
+
+	// The date (UTC) that the partner integration was created.
+	CreatedAt *time.Time `type:"timestamp"`
+
+	// The name of the database that receives data from a partner.
+	DatabaseName *string `type:"string"`
+
+	// The name of the partner.
+	PartnerName *string `type:"string"`
+
+	// The partner integration status.
+	Status *string `type:"string" enum:"PartnerIntegrationStatus"`
+
+	// The status message provided by the partner.
+	StatusMessage *string `type:"string"`
+
+	// The date (UTC) that the partner integration status was last updated by the
+	// partner.
+	UpdatedAt *time.Time `type:"timestamp"`
+}
+
+// String returns the string representation
+func (s PartnerIntegrationInfo) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PartnerIntegrationInfo) GoString() string {
+	return s.String()
+}
+
+// SetCreatedAt sets the CreatedAt field's value.
+func (s *PartnerIntegrationInfo) SetCreatedAt(v time.Time) *PartnerIntegrationInfo {
+	s.CreatedAt = &v
+	return s
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *PartnerIntegrationInfo) SetDatabaseName(v string) *PartnerIntegrationInfo {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *PartnerIntegrationInfo) SetPartnerName(v string) *PartnerIntegrationInfo {
+	s.PartnerName = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *PartnerIntegrationInfo) SetStatus(v string) *PartnerIntegrationInfo {
+	s.Status = &v
+	return s
+}
+
+// SetStatusMessage sets the StatusMessage field's value.
+func (s *PartnerIntegrationInfo) SetStatusMessage(v string) *PartnerIntegrationInfo {
+	s.StatusMessage = &v
+	return s
+}
+
+// SetUpdatedAt sets the UpdatedAt field's value.
+func (s *PartnerIntegrationInfo) SetUpdatedAt(v time.Time) *PartnerIntegrationInfo {
+	s.UpdatedAt = &v
+	return s
+}
+
+// Describes a pause cluster operation. For example, a scheduled action to run
+// the PauseCluster API operation.
+type PauseClusterInput struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the cluster to be paused.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s PauseClusterInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PauseClusterInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PauseClusterInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "PauseClusterInput"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *PauseClusterInput) SetClusterIdentifier(v string) *PauseClusterInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// Describes a pause cluster operation. For example, a scheduled action to run
+// the PauseCluster API operation.
+type PauseClusterMessage struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the cluster to be paused.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s PauseClusterMessage) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PauseClusterMessage) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PauseClusterMessage) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "PauseClusterMessage"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *PauseClusterMessage) SetClusterIdentifier(v string) *PauseClusterMessage {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+type PauseClusterOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Describes a cluster.
+	Cluster *Cluster `type:"structure"`
+}
+
+// String returns the string representation
+func (s PauseClusterOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PauseClusterOutput) GoString() string {
+	return s.String()
+}
+
+// SetCluster sets the Cluster field's value.
+func (s *PauseClusterOutput) SetCluster(v *Cluster) *PauseClusterOutput {
+	s.Cluster = v
+	return s
+}
+
 // Describes cluster attributes that are in a pending state. A change to one
 // or more the attributes was requested and is in progress or will be applied.
 type PendingModifiedValues struct {
@@ -19293,8 +25037,7 @@ type PendingModifiedValues struct {
 	// The pending or in-progress change of the service version.
 	ClusterVersion *string `type:"string"`
 
-	// The encryption type for a cluster. Possible values are: KMS and None. For
-	// the China region the possible values are None, and Legacy.
+	// The encryption type for a cluster. Possible values are: KMS and None.
 	EncryptionType *string `type:"string"`
 
 	// An option that specifies whether to create the cluster with enhanced VPC
@@ -19881,6 +25624,8 @@ func (s *ResetClusterParameterGroupInput) SetResetAllParameters(v bool) *ResetCl
 	return s
 }
 
+// Describes a resize cluster operation. For example, a scheduled action to
+// run the ResizeCluster API operation.
 type ResizeClusterInput struct {
 	_ struct{} `type:"structure"`
 
@@ -19901,10 +25646,9 @@ type ResizeClusterInput struct {
 	// current node type is used.
 	NodeType *string `type:"string"`
 
-	// The new number of nodes for the cluster.
-	//
-	// NumberOfNodes is a required field
-	NumberOfNodes *int64 `type:"integer" required:"true"`
+	// The new number of nodes for the cluster. If not specified, the cluster's
+	// current number of nodes is used.
+	NumberOfNodes *int64 `type:"integer"`
 }
 
 // String returns the string representation
@@ -19922,9 +25666,6 @@ func (s *ResizeClusterInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "ResizeClusterInput"}
 	if s.ClusterIdentifier == nil {
 		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
-	}
-	if s.NumberOfNodes == nil {
-		invalidParams.Add(request.NewErrParamRequired("NumberOfNodes"))
 	}
 
 	if invalidParams.Len() > 0 {
@@ -19959,6 +25700,86 @@ func (s *ResizeClusterInput) SetNodeType(v string) *ResizeClusterInput {
 
 // SetNumberOfNodes sets the NumberOfNodes field's value.
 func (s *ResizeClusterInput) SetNumberOfNodes(v int64) *ResizeClusterInput {
+	s.NumberOfNodes = &v
+	return s
+}
+
+// Describes a resize cluster operation. For example, a scheduled action to
+// run the ResizeCluster API operation.
+type ResizeClusterMessage struct {
+	_ struct{} `type:"structure"`
+
+	// A boolean value indicating whether the resize operation is using the classic
+	// resize process. If you don't provide this parameter or set the value to false,
+	// the resize type is elastic.
+	Classic *bool `type:"boolean"`
+
+	// The unique identifier for the cluster to resize.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The new cluster type for the specified cluster.
+	ClusterType *string `type:"string"`
+
+	// The new node type for the nodes you are adding. If not specified, the cluster's
+	// current node type is used.
+	NodeType *string `type:"string"`
+
+	// The new number of nodes for the cluster. If not specified, the cluster's
+	// current number of nodes is used.
+	NumberOfNodes *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s ResizeClusterMessage) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResizeClusterMessage) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ResizeClusterMessage) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ResizeClusterMessage"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClassic sets the Classic field's value.
+func (s *ResizeClusterMessage) SetClassic(v bool) *ResizeClusterMessage {
+	s.Classic = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ResizeClusterMessage) SetClusterIdentifier(v string) *ResizeClusterMessage {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetClusterType sets the ClusterType field's value.
+func (s *ResizeClusterMessage) SetClusterType(v string) *ResizeClusterMessage {
+	s.ClusterType = &v
+	return s
+}
+
+// SetNodeType sets the NodeType field's value.
+func (s *ResizeClusterMessage) SetNodeType(v string) *ResizeClusterMessage {
+	s.NodeType = &v
+	return s
+}
+
+// SetNumberOfNodes sets the NumberOfNodes field's value.
+func (s *ResizeClusterMessage) SetNumberOfNodes(v int64) *ResizeClusterMessage {
 	s.NumberOfNodes = &v
 	return s
 }
@@ -20031,9 +25852,24 @@ type RestoreFromClusterSnapshotInput struct {
 	// Default: true
 	AllowVersionUpgrade *bool `type:"boolean"`
 
+	// The value represents how the cluster is configured to use AQUA (Advanced
+	// Query Accelerator) after the cluster is restored. Possible values include
+	// the following.
+	//
+	//    * enabled - Use AQUA if it is available for the current AWS Region and
+	//    Amazon Redshift node type.
+	//
+	//    * disabled - Don't use AQUA.
+	//
+	//    * auto - Amazon Redshift determines whether to use AQUA.
+	AquaConfigurationStatus *string `type:"string" enum:"AquaConfigurationStatus"`
+
 	// The number of days that automated snapshots are retained. If the value is
 	// 0, automated snapshots are disabled. Even if automated snapshots are disabled,
 	// you can still create manual snapshots when you want with CreateClusterSnapshot.
+	//
+	// You can't disable automated snapshots for RA3 node types. Set the automated
+	// retention period from 1-35 days.
 	//
 	// Default: The value selected for the cluster from which the snapshot was taken.
 	//
@@ -20044,8 +25880,12 @@ type RestoreFromClusterSnapshotInput struct {
 	//
 	// Default: A random, system-chosen Availability Zone.
 	//
-	// Example: us-east-1a
+	// Example: us-east-2a
 	AvailabilityZone *string `type:"string"`
+
+	// The option to enable relocation for an Amazon Redshift cluster between Availability
+	// Zones after the cluster is restored.
+	AvailabilityZoneRelocation *bool `type:"boolean"`
 
 	// The identifier of the cluster that will be created from restoring the snapshot.
 	//
@@ -20152,7 +25992,7 @@ type RestoreFromClusterSnapshotInput struct {
 	// If you have a DC instance type, you must restore into that same instance
 	// type and size. In other words, you can only restore a dc1.large instance
 	// type into another dc1.large instance type or dc2.large instance type. You
-	// can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg
+	// can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge
 	// cluster, then resize to a dc2.8large cluster. For more information about
 	// node types, see About Clusters and Nodes (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes)
 	// in the Amazon Redshift Cluster Management Guide.
@@ -20253,6 +26093,12 @@ func (s *RestoreFromClusterSnapshotInput) SetAllowVersionUpgrade(v bool) *Restor
 	return s
 }
 
+// SetAquaConfigurationStatus sets the AquaConfigurationStatus field's value.
+func (s *RestoreFromClusterSnapshotInput) SetAquaConfigurationStatus(v string) *RestoreFromClusterSnapshotInput {
+	s.AquaConfigurationStatus = &v
+	return s
+}
+
 // SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
 func (s *RestoreFromClusterSnapshotInput) SetAutomatedSnapshotRetentionPeriod(v int64) *RestoreFromClusterSnapshotInput {
 	s.AutomatedSnapshotRetentionPeriod = &v
@@ -20262,6 +26108,12 @@ func (s *RestoreFromClusterSnapshotInput) SetAutomatedSnapshotRetentionPeriod(v 
 // SetAvailabilityZone sets the AvailabilityZone field's value.
 func (s *RestoreFromClusterSnapshotInput) SetAvailabilityZone(v string) *RestoreFromClusterSnapshotInput {
 	s.AvailabilityZone = &v
+	return s
+}
+
+// SetAvailabilityZoneRelocation sets the AvailabilityZoneRelocation field's value.
+func (s *RestoreFromClusterSnapshotInput) SetAvailabilityZoneRelocation(v bool) *RestoreFromClusterSnapshotInput {
+	s.AvailabilityZoneRelocation = &v
 	return s
 }
 
@@ -20426,21 +26278,26 @@ type RestoreStatus struct {
 	_ struct{} `type:"structure"`
 
 	// The number of megabytes per second being transferred from the backup storage.
-	// Returns the average rate for a completed backup.
+	// Returns the average rate for a completed backup. This field is only updated
+	// when you restore to DC2 and DS2 node types.
 	CurrentRestoreRateInMegaBytesPerSecond *float64 `type:"double"`
 
 	// The amount of time an in-progress restore has been running, or the amount
-	// of time it took a completed restore to finish.
+	// of time it took a completed restore to finish. This field is only updated
+	// when you restore to DC2 and DS2 node types.
 	ElapsedTimeInSeconds *int64 `type:"long"`
 
 	// The estimate of the time remaining before the restore will complete. Returns
-	// 0 for a completed restore.
+	// 0 for a completed restore. This field is only updated when you restore to
+	// DC2 and DS2 node types.
 	EstimatedTimeToCompletionInSeconds *int64 `type:"long"`
 
 	// The number of megabytes that have been transferred from snapshot storage.
+	// This field is only updated when you restore to DC2 and DS2 node types.
 	ProgressInMegaBytes *int64 `type:"long"`
 
-	// The size of the set of snapshot data used to restore the cluster.
+	// The size of the set of snapshot data used to restore the cluster. This field
+	// is only updated when you restore to DC2 and DS2 node types.
 	SnapshotSizeInMegaBytes *int64 `type:"long"`
 
 	// The status of the restore action. Returns starting, restoring, completed,
@@ -20501,6 +26358,11 @@ type RestoreTableFromClusterSnapshotInput struct {
 	//
 	// ClusterIdentifier is a required field
 	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// Indicates whether name identifiers for database, schema, and table are case
+	// sensitive. If true, the names are case sensitive. If false (default), the
+	// names are not case sensitive.
+	EnableCaseSensitiveIdentifier *bool `type:"boolean"`
 
 	// The name of the table to create as a result of the current request.
 	//
@@ -20576,6 +26438,12 @@ func (s *RestoreTableFromClusterSnapshotInput) SetClusterIdentifier(v string) *R
 	return s
 }
 
+// SetEnableCaseSensitiveIdentifier sets the EnableCaseSensitiveIdentifier field's value.
+func (s *RestoreTableFromClusterSnapshotInput) SetEnableCaseSensitiveIdentifier(v bool) *RestoreTableFromClusterSnapshotInput {
+	s.EnableCaseSensitiveIdentifier = &v
+	return s
+}
+
 // SetNewTableName sets the NewTableName field's value.
 func (s *RestoreTableFromClusterSnapshotInput) SetNewTableName(v string) *RestoreTableFromClusterSnapshotInput {
 	s.NewTableName = &v
@@ -20638,6 +26506,109 @@ func (s RestoreTableFromClusterSnapshotOutput) GoString() string {
 // SetTableRestoreStatus sets the TableRestoreStatus field's value.
 func (s *RestoreTableFromClusterSnapshotOutput) SetTableRestoreStatus(v *TableRestoreStatus) *RestoreTableFromClusterSnapshotOutput {
 	s.TableRestoreStatus = v
+	return s
+}
+
+// Describes a resume cluster operation. For example, a scheduled action to
+// run the ResumeCluster API operation.
+type ResumeClusterInput struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the cluster to be resumed.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ResumeClusterInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResumeClusterInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ResumeClusterInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ResumeClusterInput"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ResumeClusterInput) SetClusterIdentifier(v string) *ResumeClusterInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// Describes a resume cluster operation. For example, a scheduled action to
+// run the ResumeCluster API operation.
+type ResumeClusterMessage struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the cluster to be resumed.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ResumeClusterMessage) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResumeClusterMessage) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ResumeClusterMessage) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ResumeClusterMessage"}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *ResumeClusterMessage) SetClusterIdentifier(v string) *ResumeClusterMessage {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+type ResumeClusterOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Describes a cluster.
+	Cluster *Cluster `type:"structure"`
+}
+
+// String returns the string representation
+func (s ResumeClusterOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResumeClusterOutput) GoString() string {
+	return s.String()
+}
+
+// SetCluster sets the Cluster field's value.
+func (s *ResumeClusterOutput) SetCluster(v *Cluster) *ResumeClusterOutput {
+	s.Cluster = v
 	return s
 }
 
@@ -20779,6 +26750,155 @@ func (s RevokeClusterSecurityGroupIngressOutput) GoString() string {
 // SetClusterSecurityGroup sets the ClusterSecurityGroup field's value.
 func (s *RevokeClusterSecurityGroupIngressOutput) SetClusterSecurityGroup(v *ClusterSecurityGroup) *RevokeClusterSecurityGroupIngressOutput {
 	s.ClusterSecurityGroup = v
+	return s
+}
+
+type RevokeEndpointAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID whose access is to be revoked.
+	Account *string `type:"string"`
+
+	// The cluster to revoke access from.
+	ClusterIdentifier *string `type:"string"`
+
+	// Indicates whether to force the revoke action. If true, the Redshift-managed
+	// VPC endpoints associated with the endpoint authorization are also deleted.
+	Force *bool `type:"boolean"`
+
+	// The virtual private cloud (VPC) identifiers for which access is to be revoked.
+	VpcIds []*string `locationNameList:"VpcIdentifier" type:"list"`
+}
+
+// String returns the string representation
+func (s RevokeEndpointAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RevokeEndpointAccessInput) GoString() string {
+	return s.String()
+}
+
+// SetAccount sets the Account field's value.
+func (s *RevokeEndpointAccessInput) SetAccount(v string) *RevokeEndpointAccessInput {
+	s.Account = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *RevokeEndpointAccessInput) SetClusterIdentifier(v string) *RevokeEndpointAccessInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetForce sets the Force field's value.
+func (s *RevokeEndpointAccessInput) SetForce(v bool) *RevokeEndpointAccessInput {
+	s.Force = &v
+	return s
+}
+
+// SetVpcIds sets the VpcIds field's value.
+func (s *RevokeEndpointAccessInput) SetVpcIds(v []*string) *RevokeEndpointAccessInput {
+	s.VpcIds = v
+	return s
+}
+
+// Describes an endpoint authorization for authorizing Redshift-managed VPC
+// endpoint access to a cluster across AWS accounts.
+type RevokeEndpointAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Indicates whether all VPCs in the grantee account are allowed access to the
+	// cluster.
+	AllowedAllVPCs *bool `type:"boolean"`
+
+	// The VPCs allowed access to the cluster.
+	AllowedVPCs []*string `locationNameList:"VpcIdentifier" type:"list"`
+
+	// The time (UTC) when the authorization was created.
+	AuthorizeTime *time.Time `type:"timestamp"`
+
+	// The cluster identifier.
+	ClusterIdentifier *string `type:"string"`
+
+	// The status of the cluster.
+	ClusterStatus *string `type:"string"`
+
+	// The number of Redshift-managed VPC endpoints created for the authorization.
+	EndpointCount *int64 `type:"integer"`
+
+	// The AWS account ID of the grantee of the cluster.
+	Grantee *string `type:"string"`
+
+	// The AWS account ID of the cluster owner.
+	Grantor *string `type:"string"`
+
+	// The status of the authorization action.
+	Status *string `type:"string" enum:"AuthorizationStatus"`
+}
+
+// String returns the string representation
+func (s RevokeEndpointAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RevokeEndpointAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetAllowedAllVPCs sets the AllowedAllVPCs field's value.
+func (s *RevokeEndpointAccessOutput) SetAllowedAllVPCs(v bool) *RevokeEndpointAccessOutput {
+	s.AllowedAllVPCs = &v
+	return s
+}
+
+// SetAllowedVPCs sets the AllowedVPCs field's value.
+func (s *RevokeEndpointAccessOutput) SetAllowedVPCs(v []*string) *RevokeEndpointAccessOutput {
+	s.AllowedVPCs = v
+	return s
+}
+
+// SetAuthorizeTime sets the AuthorizeTime field's value.
+func (s *RevokeEndpointAccessOutput) SetAuthorizeTime(v time.Time) *RevokeEndpointAccessOutput {
+	s.AuthorizeTime = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *RevokeEndpointAccessOutput) SetClusterIdentifier(v string) *RevokeEndpointAccessOutput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetClusterStatus sets the ClusterStatus field's value.
+func (s *RevokeEndpointAccessOutput) SetClusterStatus(v string) *RevokeEndpointAccessOutput {
+	s.ClusterStatus = &v
+	return s
+}
+
+// SetEndpointCount sets the EndpointCount field's value.
+func (s *RevokeEndpointAccessOutput) SetEndpointCount(v int64) *RevokeEndpointAccessOutput {
+	s.EndpointCount = &v
+	return s
+}
+
+// SetGrantee sets the Grantee field's value.
+func (s *RevokeEndpointAccessOutput) SetGrantee(v string) *RevokeEndpointAccessOutput {
+	s.Grantee = &v
+	return s
+}
+
+// SetGrantor sets the Grantor field's value.
+func (s *RevokeEndpointAccessOutput) SetGrantor(v string) *RevokeEndpointAccessOutput {
+	s.Grantor = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *RevokeEndpointAccessOutput) SetStatus(v string) *RevokeEndpointAccessOutput {
+	s.Status = &v
 	return s
 }
 
@@ -20933,6 +27053,244 @@ func (s *RotateEncryptionKeyOutput) SetCluster(v *Cluster) *RotateEncryptionKeyO
 	return s
 }
 
+// Describes a scheduled action. You can use a scheduled action to trigger some
+// Amazon Redshift API operations on a schedule. For information about which
+// API operations can be scheduled, see ScheduledActionType.
+type ScheduledAction struct {
+	_ struct{} `type:"structure"`
+
+	// The end time in UTC when the schedule is no longer active. After this time,
+	// the scheduled action does not trigger.
+	EndTime *time.Time `type:"timestamp"`
+
+	// The IAM role to assume to run the scheduled action. This IAM role must have
+	// permission to run the Amazon Redshift API operation in the scheduled action.
+	// This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com)
+	// to assume permissions on your behalf. For more information about the IAM
+	// role to use with the Amazon Redshift scheduler, see Using Identity-Based
+	// Policies for Amazon Redshift (https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
+	// in the Amazon Redshift Cluster Management Guide.
+	IamRole *string `type:"string"`
+
+	// List of times when the scheduled action will run.
+	NextInvocations []*time.Time `locationNameList:"ScheduledActionTime" type:"list"`
+
+	// The schedule for a one-time (at format) or recurring (cron format) scheduled
+	// action. Schedule invocations must be separated by at least one hour.
+	//
+	// Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+	//
+	// Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week
+	// Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron
+	// Expressions (https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+	// in the Amazon CloudWatch Events User Guide.
+	Schedule *string `type:"string"`
+
+	// The description of the scheduled action.
+	ScheduledActionDescription *string `type:"string"`
+
+	// The name of the scheduled action.
+	ScheduledActionName *string `type:"string"`
+
+	// The start time in UTC when the schedule is active. Before this time, the
+	// scheduled action does not trigger.
+	StartTime *time.Time `type:"timestamp"`
+
+	// The state of the scheduled action. For example, DISABLED.
+	State *string `type:"string" enum:"ScheduledActionState"`
+
+	// A JSON format string of the Amazon Redshift API operation with input parameters.
+	//
+	// "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+	TargetAction *ScheduledActionType `type:"structure"`
+}
+
+// String returns the string representation
+func (s ScheduledAction) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ScheduledAction) GoString() string {
+	return s.String()
+}
+
+// SetEndTime sets the EndTime field's value.
+func (s *ScheduledAction) SetEndTime(v time.Time) *ScheduledAction {
+	s.EndTime = &v
+	return s
+}
+
+// SetIamRole sets the IamRole field's value.
+func (s *ScheduledAction) SetIamRole(v string) *ScheduledAction {
+	s.IamRole = &v
+	return s
+}
+
+// SetNextInvocations sets the NextInvocations field's value.
+func (s *ScheduledAction) SetNextInvocations(v []*time.Time) *ScheduledAction {
+	s.NextInvocations = v
+	return s
+}
+
+// SetSchedule sets the Schedule field's value.
+func (s *ScheduledAction) SetSchedule(v string) *ScheduledAction {
+	s.Schedule = &v
+	return s
+}
+
+// SetScheduledActionDescription sets the ScheduledActionDescription field's value.
+func (s *ScheduledAction) SetScheduledActionDescription(v string) *ScheduledAction {
+	s.ScheduledActionDescription = &v
+	return s
+}
+
+// SetScheduledActionName sets the ScheduledActionName field's value.
+func (s *ScheduledAction) SetScheduledActionName(v string) *ScheduledAction {
+	s.ScheduledActionName = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *ScheduledAction) SetStartTime(v time.Time) *ScheduledAction {
+	s.StartTime = &v
+	return s
+}
+
+// SetState sets the State field's value.
+func (s *ScheduledAction) SetState(v string) *ScheduledAction {
+	s.State = &v
+	return s
+}
+
+// SetTargetAction sets the TargetAction field's value.
+func (s *ScheduledAction) SetTargetAction(v *ScheduledActionType) *ScheduledAction {
+	s.TargetAction = v
+	return s
+}
+
+// A set of elements to filter the returned scheduled actions.
+type ScheduledActionFilter struct {
+	_ struct{} `type:"structure"`
+
+	// The type of element to filter.
+	//
+	// Name is a required field
+	Name *string `type:"string" required:"true" enum:"ScheduledActionFilterName"`
+
+	// List of values. Compare if the value (of type defined by Name) equals an
+	// item in the list of scheduled actions.
+	//
+	// Values is a required field
+	Values []*string `locationNameList:"item" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s ScheduledActionFilter) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ScheduledActionFilter) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ScheduledActionFilter) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ScheduledActionFilter"}
+	if s.Name == nil {
+		invalidParams.Add(request.NewErrParamRequired("Name"))
+	}
+	if s.Values == nil {
+		invalidParams.Add(request.NewErrParamRequired("Values"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetName sets the Name field's value.
+func (s *ScheduledActionFilter) SetName(v string) *ScheduledActionFilter {
+	s.Name = &v
+	return s
+}
+
+// SetValues sets the Values field's value.
+func (s *ScheduledActionFilter) SetValues(v []*string) *ScheduledActionFilter {
+	s.Values = v
+	return s
+}
+
+// The action type that specifies an Amazon Redshift API operation that is supported
+// by the Amazon Redshift scheduler.
+type ScheduledActionType struct {
+	_ struct{} `type:"structure"`
+
+	// An action that runs a PauseCluster API operation.
+	PauseCluster *PauseClusterMessage `type:"structure"`
+
+	// An action that runs a ResizeCluster API operation.
+	ResizeCluster *ResizeClusterMessage `type:"structure"`
+
+	// An action that runs a ResumeCluster API operation.
+	ResumeCluster *ResumeClusterMessage `type:"structure"`
+}
+
+// String returns the string representation
+func (s ScheduledActionType) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ScheduledActionType) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ScheduledActionType) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ScheduledActionType"}
+	if s.PauseCluster != nil {
+		if err := s.PauseCluster.Validate(); err != nil {
+			invalidParams.AddNested("PauseCluster", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.ResizeCluster != nil {
+		if err := s.ResizeCluster.Validate(); err != nil {
+			invalidParams.AddNested("ResizeCluster", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.ResumeCluster != nil {
+		if err := s.ResumeCluster.Validate(); err != nil {
+			invalidParams.AddNested("ResumeCluster", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetPauseCluster sets the PauseCluster field's value.
+func (s *ScheduledActionType) SetPauseCluster(v *PauseClusterMessage) *ScheduledActionType {
+	s.PauseCluster = v
+	return s
+}
+
+// SetResizeCluster sets the ResizeCluster field's value.
+func (s *ScheduledActionType) SetResizeCluster(v *ResizeClusterMessage) *ScheduledActionType {
+	s.ResizeCluster = v
+	return s
+}
+
+// SetResumeCluster sets the ResumeCluster field's value.
+func (s *ScheduledActionType) SetResumeCluster(v *ResumeClusterMessage) *ScheduledActionType {
+	s.ResumeCluster = v
+	return s
+}
+
 // Describes a snapshot.
 type Snapshot struct {
 	_ struct{} `type:"structure"`
@@ -20977,6 +27335,10 @@ type Snapshot struct {
 	// HSM keys of the source cluster. true indicates that the data is encrypted
 	// using HSM keys.
 	EncryptedWithHSM *bool `type:"boolean"`
+
+	// The cluster version of the cluster used to create the snapshot. For example,
+	// 1.0.15503.
+	EngineFullVersion *string `type:"string"`
 
 	// An option that specifies whether to create the cluster with enhanced VPC
 	// routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -21148,6 +27510,12 @@ func (s *Snapshot) SetEncrypted(v bool) *Snapshot {
 // SetEncryptedWithHSM sets the EncryptedWithHSM field's value.
 func (s *Snapshot) SetEncryptedWithHSM(v bool) *Snapshot {
 	s.EncryptedWithHSM = &v
+	return s
+}
+
+// SetEngineFullVersion sets the EngineFullVersion field's value.
+func (s *Snapshot) SetEngineFullVersion(v string) *Snapshot {
+	s.EngineFullVersion = &v
 	return s
 }
 
@@ -21777,7 +28145,7 @@ type TaggedResource struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) with which the tag is associated, for example:
-	// arn:aws:redshift:us-east-1:123456789:cluster:t1.
+	// arn:aws:redshift:us-east-2:123456789:cluster:t1.
 	ResourceName *string `type:"string"`
 
 	// The type of resource with which the tag is associated. Valid resource types
@@ -21838,6 +28206,145 @@ func (s *TaggedResource) SetTag(v *Tag) *TaggedResource {
 	return s
 }
 
+type UpdatePartnerStatusInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID that owns the cluster.
+	//
+	// AccountId is a required field
+	AccountId *string `min:"12" type:"string" required:"true"`
+
+	// The cluster identifier of the cluster whose partner integration status is
+	// being updated.
+	//
+	// ClusterIdentifier is a required field
+	ClusterIdentifier *string `type:"string" required:"true"`
+
+	// The name of the database whose partner integration status is being updated.
+	//
+	// DatabaseName is a required field
+	DatabaseName *string `type:"string" required:"true"`
+
+	// The name of the partner whose integration status is being updated.
+	//
+	// PartnerName is a required field
+	PartnerName *string `type:"string" required:"true"`
+
+	// The value of the updated status.
+	//
+	// Status is a required field
+	Status *string `type:"string" required:"true" enum:"PartnerIntegrationStatus"`
+
+	// The status message provided by the partner.
+	StatusMessage *string `type:"string"`
+}
+
+// String returns the string representation
+func (s UpdatePartnerStatusInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdatePartnerStatusInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdatePartnerStatusInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UpdatePartnerStatusInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 12 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 12))
+	}
+	if s.ClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("ClusterIdentifier"))
+	}
+	if s.DatabaseName == nil {
+		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
+	}
+	if s.PartnerName == nil {
+		invalidParams.Add(request.NewErrParamRequired("PartnerName"))
+	}
+	if s.Status == nil {
+		invalidParams.Add(request.NewErrParamRequired("Status"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *UpdatePartnerStatusInput) SetAccountId(v string) *UpdatePartnerStatusInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *UpdatePartnerStatusInput) SetClusterIdentifier(v string) *UpdatePartnerStatusInput {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *UpdatePartnerStatusInput) SetDatabaseName(v string) *UpdatePartnerStatusInput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *UpdatePartnerStatusInput) SetPartnerName(v string) *UpdatePartnerStatusInput {
+	s.PartnerName = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *UpdatePartnerStatusInput) SetStatus(v string) *UpdatePartnerStatusInput {
+	s.Status = &v
+	return s
+}
+
+// SetStatusMessage sets the StatusMessage field's value.
+func (s *UpdatePartnerStatusInput) SetStatusMessage(v string) *UpdatePartnerStatusInput {
+	s.StatusMessage = &v
+	return s
+}
+
+type UpdatePartnerStatusOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the database that receives data from the partner.
+	DatabaseName *string `type:"string"`
+
+	// The name of the partner that is authorized to send data.
+	PartnerName *string `type:"string"`
+}
+
+// String returns the string representation
+func (s UpdatePartnerStatusOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdatePartnerStatusOutput) GoString() string {
+	return s.String()
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *UpdatePartnerStatusOutput) SetDatabaseName(v string) *UpdatePartnerStatusOutput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetPartnerName sets the PartnerName field's value.
+func (s *UpdatePartnerStatusOutput) SetPartnerName(v string) *UpdatePartnerStatusOutput {
+	s.PartnerName = &v
+	return s
+}
+
 // A maintenance track that you can switch the current track to.
 type UpdateTarget struct {
 	_ struct{} `type:"structure"`
@@ -21880,6 +28387,148 @@ func (s *UpdateTarget) SetSupportedOperations(v []*SupportedOperation) *UpdateTa
 	return s
 }
 
+// Describes a usage limit object for a cluster.
+type UsageLimit struct {
+	_ struct{} `type:"structure"`
+
+	// The limit amount. If time-based, this amount is in minutes. If data-based,
+	// this amount is in terabytes (TB).
+	Amount *int64 `type:"long"`
+
+	// The action that Amazon Redshift takes when the limit is reached. Possible
+	// values are:
+	//
+	//    * log - To log an event in a system table. The default is log.
+	//
+	//    * emit-metric - To emit CloudWatch metrics.
+	//
+	//    * disable - To disable the feature until the next usage period begins.
+	BreachAction *string `type:"string" enum:"UsageLimitBreachAction"`
+
+	// The identifier of the cluster with a usage limit.
+	ClusterIdentifier *string `type:"string"`
+
+	// The Amazon Redshift feature to which the limit applies.
+	FeatureType *string `type:"string" enum:"UsageLimitFeatureType"`
+
+	// The type of limit. Depending on the feature type, this can be based on a
+	// time duration or data size.
+	LimitType *string `type:"string" enum:"UsageLimitLimitType"`
+
+	// The time period that the amount applies to. A weekly period begins on Sunday.
+	// The default is monthly.
+	Period *string `type:"string" enum:"UsageLimitPeriod"`
+
+	// A list of tag instances.
+	Tags []*Tag `locationNameList:"Tag" type:"list"`
+
+	// The identifier of the usage limit.
+	UsageLimitId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s UsageLimit) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UsageLimit) GoString() string {
+	return s.String()
+}
+
+// SetAmount sets the Amount field's value.
+func (s *UsageLimit) SetAmount(v int64) *UsageLimit {
+	s.Amount = &v
+	return s
+}
+
+// SetBreachAction sets the BreachAction field's value.
+func (s *UsageLimit) SetBreachAction(v string) *UsageLimit {
+	s.BreachAction = &v
+	return s
+}
+
+// SetClusterIdentifier sets the ClusterIdentifier field's value.
+func (s *UsageLimit) SetClusterIdentifier(v string) *UsageLimit {
+	s.ClusterIdentifier = &v
+	return s
+}
+
+// SetFeatureType sets the FeatureType field's value.
+func (s *UsageLimit) SetFeatureType(v string) *UsageLimit {
+	s.FeatureType = &v
+	return s
+}
+
+// SetLimitType sets the LimitType field's value.
+func (s *UsageLimit) SetLimitType(v string) *UsageLimit {
+	s.LimitType = &v
+	return s
+}
+
+// SetPeriod sets the Period field's value.
+func (s *UsageLimit) SetPeriod(v string) *UsageLimit {
+	s.Period = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *UsageLimit) SetTags(v []*Tag) *UsageLimit {
+	s.Tags = v
+	return s
+}
+
+// SetUsageLimitId sets the UsageLimitId field's value.
+func (s *UsageLimit) SetUsageLimitId(v string) *UsageLimit {
+	s.UsageLimitId = &v
+	return s
+}
+
+// The connection endpoint for connecting to an Amazon Redshift cluster through
+// the proxy.
+type VpcEndpoint struct {
+	_ struct{} `type:"structure"`
+
+	// One or more network interfaces of the endpoint. Also known as an interface
+	// endpoint.
+	NetworkInterfaces []*NetworkInterface `locationNameList:"NetworkInterface" type:"list"`
+
+	// The connection endpoint ID for connecting an Amazon Redshift cluster through
+	// the proxy.
+	VpcEndpointId *string `type:"string"`
+
+	// The VPC identifier that the endpoint is associated.
+	VpcId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s VpcEndpoint) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s VpcEndpoint) GoString() string {
+	return s.String()
+}
+
+// SetNetworkInterfaces sets the NetworkInterfaces field's value.
+func (s *VpcEndpoint) SetNetworkInterfaces(v []*NetworkInterface) *VpcEndpoint {
+	s.NetworkInterfaces = v
+	return s
+}
+
+// SetVpcEndpointId sets the VpcEndpointId field's value.
+func (s *VpcEndpoint) SetVpcEndpointId(v string) *VpcEndpoint {
+	s.VpcEndpointId = &v
+	return s
+}
+
+// SetVpcId sets the VpcId field's value.
+func (s *VpcEndpoint) SetVpcId(v string) *VpcEndpoint {
+	s.VpcId = &v
+	return s
+}
+
 // Describes the members of a VPC security group.
 type VpcSecurityGroupMembership struct {
 	_ struct{} `type:"structure"`
@@ -21916,7 +28565,94 @@ func (s *VpcSecurityGroupMembership) SetVpcSecurityGroupId(v string) *VpcSecurit
 const (
 	// ActionTypeRestoreCluster is a ActionType enum value
 	ActionTypeRestoreCluster = "restore-cluster"
+
+	// ActionTypeRecommendNodeConfig is a ActionType enum value
+	ActionTypeRecommendNodeConfig = "recommend-node-config"
+
+	// ActionTypeResizeCluster is a ActionType enum value
+	ActionTypeResizeCluster = "resize-cluster"
 )
+
+// ActionType_Values returns all elements of the ActionType enum
+func ActionType_Values() []string {
+	return []string{
+		ActionTypeRestoreCluster,
+		ActionTypeRecommendNodeConfig,
+		ActionTypeResizeCluster,
+	}
+}
+
+const (
+	// AquaConfigurationStatusEnabled is a AquaConfigurationStatus enum value
+	AquaConfigurationStatusEnabled = "enabled"
+
+	// AquaConfigurationStatusDisabled is a AquaConfigurationStatus enum value
+	AquaConfigurationStatusDisabled = "disabled"
+
+	// AquaConfigurationStatusAuto is a AquaConfigurationStatus enum value
+	AquaConfigurationStatusAuto = "auto"
+)
+
+// AquaConfigurationStatus_Values returns all elements of the AquaConfigurationStatus enum
+func AquaConfigurationStatus_Values() []string {
+	return []string{
+		AquaConfigurationStatusEnabled,
+		AquaConfigurationStatusDisabled,
+		AquaConfigurationStatusAuto,
+	}
+}
+
+const (
+	// AquaStatusEnabled is a AquaStatus enum value
+	AquaStatusEnabled = "enabled"
+
+	// AquaStatusDisabled is a AquaStatus enum value
+	AquaStatusDisabled = "disabled"
+
+	// AquaStatusApplying is a AquaStatus enum value
+	AquaStatusApplying = "applying"
+)
+
+// AquaStatus_Values returns all elements of the AquaStatus enum
+func AquaStatus_Values() []string {
+	return []string{
+		AquaStatusEnabled,
+		AquaStatusDisabled,
+		AquaStatusApplying,
+	}
+}
+
+const (
+	// AuthorizationStatusAuthorized is a AuthorizationStatus enum value
+	AuthorizationStatusAuthorized = "Authorized"
+
+	// AuthorizationStatusRevoking is a AuthorizationStatus enum value
+	AuthorizationStatusRevoking = "Revoking"
+)
+
+// AuthorizationStatus_Values returns all elements of the AuthorizationStatus enum
+func AuthorizationStatus_Values() []string {
+	return []string{
+		AuthorizationStatusAuthorized,
+		AuthorizationStatusRevoking,
+	}
+}
+
+const (
+	// ModeStandard is a Mode enum value
+	ModeStandard = "standard"
+
+	// ModeHighPerformance is a Mode enum value
+	ModeHighPerformance = "high-performance"
+)
+
+// Mode_Values returns all elements of the Mode enum
+func Mode_Values() []string {
+	return []string{
+		ModeStandard,
+		ModeHighPerformance,
+	}
+}
 
 const (
 	// NodeConfigurationOptionsFilterNameNodeType is a NodeConfigurationOptionsFilterName enum value
@@ -21927,7 +28663,20 @@ const (
 
 	// NodeConfigurationOptionsFilterNameEstimatedDiskUtilizationPercent is a NodeConfigurationOptionsFilterName enum value
 	NodeConfigurationOptionsFilterNameEstimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
+
+	// NodeConfigurationOptionsFilterNameMode is a NodeConfigurationOptionsFilterName enum value
+	NodeConfigurationOptionsFilterNameMode = "Mode"
 )
+
+// NodeConfigurationOptionsFilterName_Values returns all elements of the NodeConfigurationOptionsFilterName enum
+func NodeConfigurationOptionsFilterName_Values() []string {
+	return []string{
+		NodeConfigurationOptionsFilterNameNodeType,
+		NodeConfigurationOptionsFilterNameNumberOfNodes,
+		NodeConfigurationOptionsFilterNameEstimatedDiskUtilizationPercent,
+		NodeConfigurationOptionsFilterNameMode,
+	}
+}
 
 const (
 	// OperatorTypeEq is a OperatorType enum value
@@ -21952,6 +28701,19 @@ const (
 	OperatorTypeBetween = "between"
 )
 
+// OperatorType_Values returns all elements of the OperatorType enum
+func OperatorType_Values() []string {
+	return []string{
+		OperatorTypeEq,
+		OperatorTypeLt,
+		OperatorTypeGt,
+		OperatorTypeLe,
+		OperatorTypeGe,
+		OperatorTypeIn,
+		OperatorTypeBetween,
+	}
+}
+
 const (
 	// ParameterApplyTypeStatic is a ParameterApplyType enum value
 	ParameterApplyTypeStatic = "static"
@@ -21960,6 +28722,38 @@ const (
 	ParameterApplyTypeDynamic = "dynamic"
 )
 
+// ParameterApplyType_Values returns all elements of the ParameterApplyType enum
+func ParameterApplyType_Values() []string {
+	return []string{
+		ParameterApplyTypeStatic,
+		ParameterApplyTypeDynamic,
+	}
+}
+
+const (
+	// PartnerIntegrationStatusActive is a PartnerIntegrationStatus enum value
+	PartnerIntegrationStatusActive = "Active"
+
+	// PartnerIntegrationStatusInactive is a PartnerIntegrationStatus enum value
+	PartnerIntegrationStatusInactive = "Inactive"
+
+	// PartnerIntegrationStatusRuntimeFailure is a PartnerIntegrationStatus enum value
+	PartnerIntegrationStatusRuntimeFailure = "RuntimeFailure"
+
+	// PartnerIntegrationStatusConnectionFailure is a PartnerIntegrationStatus enum value
+	PartnerIntegrationStatusConnectionFailure = "ConnectionFailure"
+)
+
+// PartnerIntegrationStatus_Values returns all elements of the PartnerIntegrationStatus enum
+func PartnerIntegrationStatus_Values() []string {
+	return []string{
+		PartnerIntegrationStatusActive,
+		PartnerIntegrationStatusInactive,
+		PartnerIntegrationStatusRuntimeFailure,
+		PartnerIntegrationStatusConnectionFailure,
+	}
+}
+
 const (
 	// ReservedNodeOfferingTypeRegular is a ReservedNodeOfferingType enum value
 	ReservedNodeOfferingTypeRegular = "Regular"
@@ -21967,6 +28761,14 @@ const (
 	// ReservedNodeOfferingTypeUpgradable is a ReservedNodeOfferingType enum value
 	ReservedNodeOfferingTypeUpgradable = "Upgradable"
 )
+
+// ReservedNodeOfferingType_Values returns all elements of the ReservedNodeOfferingType enum
+func ReservedNodeOfferingType_Values() []string {
+	return []string{
+		ReservedNodeOfferingTypeRegular,
+		ReservedNodeOfferingTypeUpgradable,
+	}
+}
 
 const (
 	// ScheduleStateModifying is a ScheduleState enum value
@@ -21979,6 +28781,67 @@ const (
 	ScheduleStateFailed = "FAILED"
 )
 
+// ScheduleState_Values returns all elements of the ScheduleState enum
+func ScheduleState_Values() []string {
+	return []string{
+		ScheduleStateModifying,
+		ScheduleStateActive,
+		ScheduleStateFailed,
+	}
+}
+
+const (
+	// ScheduledActionFilterNameClusterIdentifier is a ScheduledActionFilterName enum value
+	ScheduledActionFilterNameClusterIdentifier = "cluster-identifier"
+
+	// ScheduledActionFilterNameIamRole is a ScheduledActionFilterName enum value
+	ScheduledActionFilterNameIamRole = "iam-role"
+)
+
+// ScheduledActionFilterName_Values returns all elements of the ScheduledActionFilterName enum
+func ScheduledActionFilterName_Values() []string {
+	return []string{
+		ScheduledActionFilterNameClusterIdentifier,
+		ScheduledActionFilterNameIamRole,
+	}
+}
+
+const (
+	// ScheduledActionStateActive is a ScheduledActionState enum value
+	ScheduledActionStateActive = "ACTIVE"
+
+	// ScheduledActionStateDisabled is a ScheduledActionState enum value
+	ScheduledActionStateDisabled = "DISABLED"
+)
+
+// ScheduledActionState_Values returns all elements of the ScheduledActionState enum
+func ScheduledActionState_Values() []string {
+	return []string{
+		ScheduledActionStateActive,
+		ScheduledActionStateDisabled,
+	}
+}
+
+const (
+	// ScheduledActionTypeValuesResizeCluster is a ScheduledActionTypeValues enum value
+	ScheduledActionTypeValuesResizeCluster = "ResizeCluster"
+
+	// ScheduledActionTypeValuesPauseCluster is a ScheduledActionTypeValues enum value
+	ScheduledActionTypeValuesPauseCluster = "PauseCluster"
+
+	// ScheduledActionTypeValuesResumeCluster is a ScheduledActionTypeValues enum value
+	ScheduledActionTypeValuesResumeCluster = "ResumeCluster"
+)
+
+// ScheduledActionTypeValues_Values returns all elements of the ScheduledActionTypeValues enum
+func ScheduledActionTypeValues_Values() []string {
+	return []string{
+		ScheduledActionTypeValuesResizeCluster,
+		ScheduledActionTypeValuesPauseCluster,
+		ScheduledActionTypeValuesResumeCluster,
+	}
+}
+
 const (
 	// SnapshotAttributeToSortBySourceType is a SnapshotAttributeToSortBy enum value
 	SnapshotAttributeToSortBySourceType = "SOURCE_TYPE"
@@ -21990,6 +28853,15 @@ const (
 	SnapshotAttributeToSortByCreateTime = "CREATE_TIME"
 )
 
+// SnapshotAttributeToSortBy_Values returns all elements of the SnapshotAttributeToSortBy enum
+func SnapshotAttributeToSortBy_Values() []string {
+	return []string{
+		SnapshotAttributeToSortBySourceType,
+		SnapshotAttributeToSortByTotalSize,
+		SnapshotAttributeToSortByCreateTime,
+	}
+}
+
 const (
 	// SortByOrderAsc is a SortByOrder enum value
 	SortByOrderAsc = "ASC"
@@ -21997,6 +28869,14 @@ const (
 	// SortByOrderDesc is a SortByOrder enum value
 	SortByOrderDesc = "DESC"
 )
+
+// SortByOrder_Values returns all elements of the SortByOrder enum
+func SortByOrder_Values() []string {
+	return []string{
+		SortByOrderAsc,
+		SortByOrderDesc,
+	}
+}
 
 const (
 	// SourceTypeCluster is a SourceType enum value
@@ -22010,7 +28890,21 @@ const (
 
 	// SourceTypeClusterSnapshot is a SourceType enum value
 	SourceTypeClusterSnapshot = "cluster-snapshot"
+
+	// SourceTypeScheduledAction is a SourceType enum value
+	SourceTypeScheduledAction = "scheduled-action"
 )
+
+// SourceType_Values returns all elements of the SourceType enum
+func SourceType_Values() []string {
+	return []string{
+		SourceTypeCluster,
+		SourceTypeClusterParameterGroup,
+		SourceTypeClusterSecurityGroup,
+		SourceTypeClusterSnapshot,
+		SourceTypeScheduledAction,
+	}
+}
 
 const (
 	// TableRestoreStatusTypePending is a TableRestoreStatusType enum value
@@ -22028,3 +28922,86 @@ const (
 	// TableRestoreStatusTypeCanceled is a TableRestoreStatusType enum value
 	TableRestoreStatusTypeCanceled = "CANCELED"
 )
+
+// TableRestoreStatusType_Values returns all elements of the TableRestoreStatusType enum
+func TableRestoreStatusType_Values() []string {
+	return []string{
+		TableRestoreStatusTypePending,
+		TableRestoreStatusTypeInProgress,
+		TableRestoreStatusTypeSucceeded,
+		TableRestoreStatusTypeFailed,
+		TableRestoreStatusTypeCanceled,
+	}
+}
+
+const (
+	// UsageLimitBreachActionLog is a UsageLimitBreachAction enum value
+	UsageLimitBreachActionLog = "log"
+
+	// UsageLimitBreachActionEmitMetric is a UsageLimitBreachAction enum value
+	UsageLimitBreachActionEmitMetric = "emit-metric"
+
+	// UsageLimitBreachActionDisable is a UsageLimitBreachAction enum value
+	UsageLimitBreachActionDisable = "disable"
+)
+
+// UsageLimitBreachAction_Values returns all elements of the UsageLimitBreachAction enum
+func UsageLimitBreachAction_Values() []string {
+	return []string{
+		UsageLimitBreachActionLog,
+		UsageLimitBreachActionEmitMetric,
+		UsageLimitBreachActionDisable,
+	}
+}
+
+const (
+	// UsageLimitFeatureTypeSpectrum is a UsageLimitFeatureType enum value
+	UsageLimitFeatureTypeSpectrum = "spectrum"
+
+	// UsageLimitFeatureTypeConcurrencyScaling is a UsageLimitFeatureType enum value
+	UsageLimitFeatureTypeConcurrencyScaling = "concurrency-scaling"
+)
+
+// UsageLimitFeatureType_Values returns all elements of the UsageLimitFeatureType enum
+func UsageLimitFeatureType_Values() []string {
+	return []string{
+		UsageLimitFeatureTypeSpectrum,
+		UsageLimitFeatureTypeConcurrencyScaling,
+	}
+}
+
+const (
+	// UsageLimitLimitTypeTime is a UsageLimitLimitType enum value
+	UsageLimitLimitTypeTime = "time"
+
+	// UsageLimitLimitTypeDataScanned is a UsageLimitLimitType enum value
+	UsageLimitLimitTypeDataScanned = "data-scanned"
+)
+
+// UsageLimitLimitType_Values returns all elements of the UsageLimitLimitType enum
+func UsageLimitLimitType_Values() []string {
+	return []string{
+		UsageLimitLimitTypeTime,
+		UsageLimitLimitTypeDataScanned,
+	}
+}
+
+const (
+	// UsageLimitPeriodDaily is a UsageLimitPeriod enum value
+	UsageLimitPeriodDaily = "daily"
+
+	// UsageLimitPeriodWeekly is a UsageLimitPeriod enum value
+	UsageLimitPeriodWeekly = "weekly"
+
+	// UsageLimitPeriodMonthly is a UsageLimitPeriod enum value
+	UsageLimitPeriodMonthly = "monthly"
+)
+
+// UsageLimitPeriod_Values returns all elements of the UsageLimitPeriod enum
+func UsageLimitPeriod_Values() []string {
+	return []string{
+		UsageLimitPeriodDaily,
+		UsageLimitPeriodWeekly,
+		UsageLimitPeriodMonthly,
+	}
+}
