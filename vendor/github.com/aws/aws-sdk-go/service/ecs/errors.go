@@ -2,6 +2,10 @@
 
 package ecs
 
+import (
+	"github.com/aws/aws-sdk-go/private/protocol"
+)
+
 const (
 
 	// ErrCodeAccessDeniedException for service response error code
@@ -21,8 +25,8 @@ const (
 	// ErrCodeBlockedException for service response error code
 	// "BlockedException".
 	//
-	// Your AWS account has been blocked. For more information, contact AWS Support
-	// (http://aws.amazon.com/contact-us/).
+	// Your Amazon Web Services account has been blocked. For more information,
+	// contact Amazon Web Services Support (http://aws.amazon.com/contact-us/).
 	ErrCodeBlockedException = "BlockedException"
 
 	// ErrCodeClientException for service response error code
@@ -69,6 +73,12 @@ const (
 	// API request.
 	ErrCodeInvalidParameterException = "InvalidParameterException"
 
+	// ErrCodeLimitExceededException for service response error code
+	// "LimitExceededException".
+	//
+	// The limit for the resource has been exceeded.
+	ErrCodeLimitExceededException = "LimitExceededException"
+
 	// ErrCodeMissingVersionException for service response error code
 	// "MissingVersionException".
 	//
@@ -99,6 +109,12 @@ const (
 	// The specified platform version does not exist.
 	ErrCodePlatformUnknownException = "PlatformUnknownException"
 
+	// ErrCodeResourceInUseException for service response error code
+	// "ResourceInUseException".
+	//
+	// The specified resource is in-use and cannot be removed.
+	ErrCodeResourceInUseException = "ResourceInUseException"
+
 	// ErrCodeResourceNotFoundException for service response error code
 	// "ResourceNotFoundException".
 	//
@@ -125,6 +141,13 @@ const (
 	// with ListServices. Amazon ECS services are cluster-specific and Region-specific.
 	ErrCodeServiceNotFoundException = "ServiceNotFoundException"
 
+	// ErrCodeTargetNotConnectedException for service response error code
+	// "TargetNotConnectedException".
+	//
+	// The target container is not properly configured with the execute command
+	// agent or the container is no longer active or running.
+	ErrCodeTargetNotConnectedException = "TargetNotConnectedException"
+
 	// ErrCodeTargetNotFoundException for service response error code
 	// "TargetNotFoundException".
 	//
@@ -136,9 +159,9 @@ const (
 	// ErrCodeTaskSetNotFoundException for service response error code
 	// "TaskSetNotFoundException".
 	//
-	// The specified task set could not be found. You can view your available container
-	// instances with DescribeTaskSets. Task sets are specific to each cluster,
-	// service and Region.
+	// The specified task set could not be found. You can view your available task
+	// sets with DescribeTaskSets. Task sets are specific to each cluster, service
+	// and Region.
 	ErrCodeTaskSetNotFoundException = "TaskSetNotFoundException"
 
 	// ErrCodeUnsupportedFeatureException for service response error code
@@ -157,3 +180,30 @@ const (
 	// it resumes where it stopped previously.
 	ErrCodeUpdateInProgressException = "UpdateInProgressException"
 )
+
+var exceptionFromCode = map[string]func(protocol.ResponseMetadata) error{
+	"AccessDeniedException":                          newErrorAccessDeniedException,
+	"AttributeLimitExceededException":                newErrorAttributeLimitExceededException,
+	"BlockedException":                               newErrorBlockedException,
+	"ClientException":                                newErrorClientException,
+	"ClusterContainsContainerInstancesException":     newErrorClusterContainsContainerInstancesException,
+	"ClusterContainsServicesException":               newErrorClusterContainsServicesException,
+	"ClusterContainsTasksException":                  newErrorClusterContainsTasksException,
+	"ClusterNotFoundException":                       newErrorClusterNotFoundException,
+	"InvalidParameterException":                      newErrorInvalidParameterException,
+	"LimitExceededException":                         newErrorLimitExceededException,
+	"MissingVersionException":                        newErrorMissingVersionException,
+	"NoUpdateAvailableException":                     newErrorNoUpdateAvailableException,
+	"PlatformTaskDefinitionIncompatibilityException": newErrorPlatformTaskDefinitionIncompatibilityException,
+	"PlatformUnknownException":                       newErrorPlatformUnknownException,
+	"ResourceInUseException":                         newErrorResourceInUseException,
+	"ResourceNotFoundException":                      newErrorResourceNotFoundException,
+	"ServerException":                                newErrorServerException,
+	"ServiceNotActiveException":                      newErrorServiceNotActiveException,
+	"ServiceNotFoundException":                       newErrorServiceNotFoundException,
+	"TargetNotConnectedException":                    newErrorTargetNotConnectedException,
+	"TargetNotFoundException":                        newErrorTargetNotFoundException,
+	"TaskSetNotFoundException":                       newErrorTaskSetNotFoundException,
+	"UnsupportedFeatureException":                    newErrorUnsupportedFeatureException,
+	"UpdateInProgressException":                      newErrorUpdateInProgressException,
+}

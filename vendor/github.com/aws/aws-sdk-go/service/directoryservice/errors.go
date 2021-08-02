@@ -2,12 +2,16 @@
 
 package directoryservice
 
+import (
+	"github.com/aws/aws-sdk-go/private/protocol"
+)
+
 const (
 
 	// ErrCodeAccessDeniedException for service response error code
 	// "AccessDeniedException".
 	//
-	// You do not have sufficient access to perform this action.
+	// Client authentication is not available in this region at this time.
 	ErrCodeAccessDeniedException = "AccessDeniedException"
 
 	// ErrCodeAuthenticationFailedException for service response error code
@@ -16,17 +20,56 @@ const (
 	// An authentication error occurred.
 	ErrCodeAuthenticationFailedException = "AuthenticationFailedException"
 
+	// ErrCodeCertificateAlreadyExistsException for service response error code
+	// "CertificateAlreadyExistsException".
+	//
+	// The certificate has already been registered into the system.
+	ErrCodeCertificateAlreadyExistsException = "CertificateAlreadyExistsException"
+
+	// ErrCodeCertificateDoesNotExistException for service response error code
+	// "CertificateDoesNotExistException".
+	//
+	// The certificate is not present in the system for describe or deregister activities.
+	ErrCodeCertificateDoesNotExistException = "CertificateDoesNotExistException"
+
+	// ErrCodeCertificateInUseException for service response error code
+	// "CertificateInUseException".
+	//
+	// The certificate is being used for the LDAP security connection and cannot
+	// be removed without disabling LDAP security.
+	ErrCodeCertificateInUseException = "CertificateInUseException"
+
+	// ErrCodeCertificateLimitExceededException for service response error code
+	// "CertificateLimitExceededException".
+	//
+	// The certificate could not be added because the certificate limit has been
+	// reached.
+	ErrCodeCertificateLimitExceededException = "CertificateLimitExceededException"
+
 	// ErrCodeClientException for service response error code
 	// "ClientException".
 	//
 	// A client exception has occurred.
 	ErrCodeClientException = "ClientException"
 
+	// ErrCodeDirectoryAlreadyInRegionException for service response error code
+	// "DirectoryAlreadyInRegionException".
+	//
+	// The Region you specified is the same Region where the AWS Managed Microsoft
+	// AD directory was created. Specify a different Region and try again.
+	ErrCodeDirectoryAlreadyInRegionException = "DirectoryAlreadyInRegionException"
+
 	// ErrCodeDirectoryAlreadySharedException for service response error code
 	// "DirectoryAlreadySharedException".
 	//
 	// The specified directory has already been shared with this AWS account.
 	ErrCodeDirectoryAlreadySharedException = "DirectoryAlreadySharedException"
+
+	// ErrCodeDirectoryDoesNotExistException for service response error code
+	// "DirectoryDoesNotExistException".
+	//
+	// The specified directory does not exist in the system.
+	ErrCodeDirectoryDoesNotExistException = "DirectoryDoesNotExistException"
 
 	// ErrCodeDirectoryLimitExceededException for service response error code
 	// "DirectoryLimitExceededException".
@@ -73,6 +116,25 @@ const (
 	// The account does not have sufficient permission to perform the operation.
 	ErrCodeInsufficientPermissionsException = "InsufficientPermissionsException"
 
+	// ErrCodeInvalidCertificateException for service response error code
+	// "InvalidCertificateException".
+	//
+	// The certificate PEM that was provided has incorrect encoding.
+	ErrCodeInvalidCertificateException = "InvalidCertificateException"
+
+	// ErrCodeInvalidClientAuthStatusException for service response error code
+	// "InvalidClientAuthStatusException".
+	//
+	// Client authentication is already enabled.
+	ErrCodeInvalidClientAuthStatusException = "InvalidClientAuthStatusException"
+
+	// ErrCodeInvalidLDAPSStatusException for service response error code
+	// "InvalidLDAPSStatusException".
+	//
+	// The LDAP activities could not be performed because they are limited by the
+	// LDAPS status.
+	ErrCodeInvalidLDAPSStatusException = "InvalidLDAPSStatusException"
+
 	// ErrCodeInvalidNextTokenException for service response error code
 	// "InvalidNextTokenException".
 	//
@@ -105,11 +167,25 @@ const (
 	// is 100 IP address blocks.
 	ErrCodeIpRouteLimitExceededException = "IpRouteLimitExceededException"
 
+	// ErrCodeNoAvailableCertificateException for service response error code
+	// "NoAvailableCertificateException".
+	//
+	// Client authentication setup could not be completed because at least one valid
+	// certificate must be registered in the system.
+	ErrCodeNoAvailableCertificateException = "NoAvailableCertificateException"
+
 	// ErrCodeOrganizationsException for service response error code
 	// "OrganizationsException".
 	//
 	// Exception encountered while trying to access your AWS organization.
 	ErrCodeOrganizationsException = "OrganizationsException"
+
+	// ErrCodeRegionLimitExceededException for service response error code
+	// "RegionLimitExceededException".
+	//
+	// You have reached the limit for maximum number of simultaneous Region replications
+	// per directory.
+	ErrCodeRegionLimitExceededException = "RegionLimitExceededException"
 
 	// ErrCodeServiceException for service response error code
 	// "ServiceException".
@@ -150,3 +226,40 @@ const (
 	// The user provided a username that does not exist in your directory.
 	ErrCodeUserDoesNotExistException = "UserDoesNotExistException"
 )
+
+var exceptionFromCode = map[string]func(protocol.ResponseMetadata) error{
+	"AccessDeniedException":                  newErrorAccessDeniedException,
+	"AuthenticationFailedException":          newErrorAuthenticationFailedException,
+	"CertificateAlreadyExistsException":      newErrorCertificateAlreadyExistsException,
+	"CertificateDoesNotExistException":       newErrorCertificateDoesNotExistException,
+	"CertificateInUseException":              newErrorCertificateInUseException,
+	"CertificateLimitExceededException":      newErrorCertificateLimitExceededException,
+	"ClientException":                        newErrorClientException,
+	"DirectoryAlreadyInRegionException":      newErrorDirectoryAlreadyInRegionException,
+	"DirectoryAlreadySharedException":        newErrorDirectoryAlreadySharedException,
+	"DirectoryDoesNotExistException":         newErrorDirectoryDoesNotExistException,
+	"DirectoryLimitExceededException":        newErrorDirectoryLimitExceededException,
+	"DirectoryNotSharedException":            newErrorDirectoryNotSharedException,
+	"DirectoryUnavailableException":          newErrorDirectoryUnavailableException,
+	"DomainControllerLimitExceededException": newErrorDomainControllerLimitExceededException,
+	"EntityAlreadyExistsException":           newErrorEntityAlreadyExistsException,
+	"EntityDoesNotExistException":            newErrorEntityDoesNotExistException,
+	"InsufficientPermissionsException":       newErrorInsufficientPermissionsException,
+	"InvalidCertificateException":            newErrorInvalidCertificateException,
+	"InvalidClientAuthStatusException":       newErrorInvalidClientAuthStatusException,
+	"InvalidLDAPSStatusException":            newErrorInvalidLDAPSStatusException,
+	"InvalidNextTokenException":              newErrorInvalidNextTokenException,
+	"InvalidParameterException":              newErrorInvalidParameterException,
+	"InvalidPasswordException":               newErrorInvalidPasswordException,
+	"InvalidTargetException":                 newErrorInvalidTargetException,
+	"IpRouteLimitExceededException":          newErrorIpRouteLimitExceededException,
+	"NoAvailableCertificateException":        newErrorNoAvailableCertificateException,
+	"OrganizationsException":                 newErrorOrganizationsException,
+	"RegionLimitExceededException":           newErrorRegionLimitExceededException,
+	"ServiceException":                       newErrorServiceException,
+	"ShareLimitExceededException":            newErrorShareLimitExceededException,
+	"SnapshotLimitExceededException":         newErrorSnapshotLimitExceededException,
+	"TagLimitExceededException":              newErrorTagLimitExceededException,
+	"UnsupportedOperationException":          newErrorUnsupportedOperationException,
+	"UserDoesNotExistException":              newErrorUserDoesNotExistException,
+}
