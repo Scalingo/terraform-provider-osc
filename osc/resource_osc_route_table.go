@@ -301,7 +301,7 @@ func resourceAwsRouteTableUpdate(d *schema.ResourceData, meta interface{}) error
 			}
 
 			if m["instance_id"].(string) != "" {
-				opts.InstanceId = aws.String(m["InstanceId"].(string))
+				opts.InstanceId = aws.String(m["instance_id"].(string))
 			}
 
 			if m["gateway_id"].(string) != "" {

@@ -1,3 +1,7 @@
+# Version 0.2.1
+
+* Fix bug preventing an route to be created with an instance_id
+
 # Version 0.2.0
 
 * Migrate to official terraform provider SDK, using official tool
