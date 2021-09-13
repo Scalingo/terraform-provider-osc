@@ -1,8 +1,12 @@
-# Version 0.2.1
+## To be Released
 
-* Fix bug preventing an route to be created with an instance_id
+* Bump go version to 1.16
 
-# Version 0.2.0
+## Version 0.2.1
+
+* Fix bug preventing a route to be created with an instance_id
+
+## Version 0.2.0
 
 * Migrate to official terraform provider SDK, using official tool
   https://www.terraform.io/docs/extend/guides/v1-upgrade-guide.html

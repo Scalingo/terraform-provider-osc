@@ -2,7 +2,6 @@ package osc
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"reflect"
 	"sort"
@@ -17,7 +16,7 @@ import (
 )
 
 func TestAccAWSS3BucketObject_source(t *testing.T) {
-	tmpFile, err := ioutil.TempFile("", "tf-acc-s3-obj-source")
+	tmpFile, err := os.CreateTemp("", "tf-acc-s3-obj-source")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +24,7 @@ func TestAccAWSS3BucketObject_source(t *testing.T) {
 
 	rInt := acctest.RandInt()
 	// first write some data to the tempfile just so it's not 0 bytes.
-	err = ioutil.WriteFile(tmpFile.Name(), []byte("{anything will do }"), 0644)
+	err = os.WriteFile(tmpFile.Name(), []byte("{anything will do }"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,7 +62,7 @@ func TestAccAWSS3BucketObject_content(t *testing.T) {
 }
 
 func TestAccAWSS3BucketObject_withContentCharacteristics(t *testing.T) {
-	tmpFile, err := ioutil.TempFile("", "tf-acc-s3-obj-content-characteristics")
+	tmpFile, err := os.CreateTemp("", "tf-acc-s3-obj-content-characteristics")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,7 +70,7 @@ func TestAccAWSS3BucketObject_withContentCharacteristics(t *testing.T) {
 
 	rInt := acctest.RandInt()
 	// first write some data to the tempfile just so it's not 0 bytes.
-	err = ioutil.WriteFile(tmpFile.Name(), []byte("{anything will do }"), 0644)
+	err = os.WriteFile(tmpFile.Name(), []byte("{anything will do }"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,14 +95,14 @@ func TestAccAWSS3BucketObject_withContentCharacteristics(t *testing.T) {
 }
 
 func TestAccAWSS3BucketObject_updates(t *testing.T) {
-	tmpFile, err := ioutil.TempFile("", "tf-acc-s3-obj-updates")
+	tmpFile, err := os.CreateTemp("", "tf-acc-s3-obj-updates")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.Remove(tmpFile.Name())
 
 	rInt := acctest.RandInt()
-	err = ioutil.WriteFile(tmpFile.Name(), []byte("initial object state"), 0644)
+	err = os.WriteFile(tmpFile.Name(), []byte("initial object state"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,7 +122,7 @@ func TestAccAWSS3BucketObject_updates(t *testing.T) {
 			},
 			resource.TestStep{
 				PreConfig: func() {
-					err = ioutil.WriteFile(tmpFile.Name(), []byte("modified object"), 0644)
+					err = os.WriteFile(tmpFile.Name(), []byte("modified object"), 0644)
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -139,14 +138,14 @@ func TestAccAWSS3BucketObject_updates(t *testing.T) {
 }
 
 func TestAccAWSS3BucketObject_updatesWithVersioning(t *testing.T) {
-	tmpFile, err := ioutil.TempFile("", "tf-acc-s3-obj-updates-w-versions")
+	tmpFile, err := os.CreateTemp("", "tf-acc-s3-obj-updates-w-versions")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.Remove(tmpFile.Name())
 
 	rInt := acctest.RandInt()
-	err = ioutil.WriteFile(tmpFile.Name(), []byte("initial versioned object state"), 0644)
+	err = os.WriteFile(tmpFile.Name(), []byte("initial versioned object state"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -167,7 +166,7 @@ func TestAccAWSS3BucketObject_updatesWithVersioning(t *testing.T) {
 			},
 			resource.TestStep{
 				PreConfig: func() {
-					err = ioutil.WriteFile(tmpFile.Name(), []byte("modified versioned object"), 0644)
+					err = os.WriteFile(tmpFile.Name(), []byte("modified versioned object"), 0644)
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -268,14 +267,14 @@ func TestAccAWSS3BucketObject_kms(t *testing.T) {
 }
 
 func TestAccAWSS3BucketObject_sse(t *testing.T) {
-	tmpFile, err := ioutil.TempFile("", "tf-acc-s3-obj-source-sse")
+	tmpFile, err := os.CreateTemp("", "tf-acc-s3-obj-source-sse")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.Remove(tmpFile.Name())
 
 	// first write some data to the tempfile just so it's not 0 bytes.
-	err = ioutil.WriteFile(tmpFile.Name(), []byte("{anything will do}"), 0644)
+	err = os.WriteFile(tmpFile.Name(), []byte("{anything will do}"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
