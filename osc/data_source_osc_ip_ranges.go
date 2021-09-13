@@ -3,7 +3,7 @@ package osc
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"sort"
 	"strconv"
@@ -71,7 +71,7 @@ func dataSourceAwsIPRangesRead(d *schema.ResourceData, meta interface{}) error {
 
 	defer res.Body.Close()
 
-	data, err := ioutil.ReadAll(res.Body)
+	data, err := io.ReadAll(res.Body)
 
 	if err != nil {
 		return fmt.Errorf("Error reading response body: %s", err)

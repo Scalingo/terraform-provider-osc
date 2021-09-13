@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -499,7 +498,7 @@ aws_secret_access_key = secretkey
 `
 
 func TestAWSGetCredentials_shouldBeShared(t *testing.T) {
-	file, err := ioutil.TempFile(os.TempDir(), "terraform_aws_cred")
+	file, err := os.CreateTemp(os.TempDir(), "terraform_aws_cred")
 	if err != nil {
 		t.Fatalf("Error writing temporary credentials file: %s", err)
 	}
