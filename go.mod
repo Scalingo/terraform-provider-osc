@@ -4,7 +4,7 @@ require (
 	github.com/aws/aws-sdk-go v1.25.3
 	github.com/davecgh/go-spew v1.1.1
 	github.com/hashicorp/errwrap v1.1.0
-	github.com/hashicorp/go-cleanhttp v0.5.1
+	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/terraform-plugin-sdk v1.7.0
 	github.com/hashicorp/vault v1.0.2
