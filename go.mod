@@ -1,7 +1,7 @@
 module github.com/remijouannet/terraform-provider-osc
 
 require (
-	github.com/aws/aws-sdk-go v1.25.3
+	github.com/aws/aws-sdk-go v1.44.4
 	github.com/davecgh/go-spew v1.1.1
 	github.com/hashicorp/errwrap v1.1.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
