@@ -4,6 +4,7 @@
 
 * Bump go version to 1.17
 * Bump github.com/aws/aws-sdk-go from 1.25.3 to 1.44.30
+* Bump github.com/hashicorp/vault from 1.0.2 to 1.7.6
 
 ## Version 0.2.1
 
