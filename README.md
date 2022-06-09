@@ -33,3 +33,7 @@ Build the binaries, you'll find all the binaries in pkg/
 ```
 $ make docker-build
 ```
+
+## Release a New Version
+
+Instructions on this [Notion page](https://www.notion.so/scalingooriginal/New-Terraform-Provider-Release-40cd0af66b1f48148fb641ea138a22e5).
