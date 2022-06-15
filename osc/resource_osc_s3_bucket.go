@@ -174,30 +174,6 @@ func resourceAwsS3Bucket() *schema.Resource {
 				},
 			},
 
-			"logging": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"target_bucket": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"target_prefix": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-					},
-				},
-				Set: func(v interface{}) int {
-					var buf bytes.Buffer
-					m := v.(map[string]interface{})
-					buf.WriteString(fmt.Sprintf("%s-", m["target_bucket"]))
-					buf.WriteString(fmt.Sprintf("%s-", m["target_prefix"]))
-					return hashcode.String(buf.String())
-				},
-			},
-
 			"lifecycle_rule": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -306,22 +282,6 @@ func resourceAwsS3Bucket() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
-
-			"acceleration_status": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				Computed:     true,
-				ValidateFunc: validateS3BucketAccelerationStatus,
-			},
-
-			"request_payer": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				Computed:     true,
-				ValidateFunc: validateS3BucketRequestPayerType,
-			},
-
-			"tags": tagsSchema(),
 		},
 	}
 }
@@ -390,9 +350,6 @@ func resourceAwsS3BucketCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceAwsS3BucketUpdate(d *schema.ResourceData, meta interface{}) error {
 	s3conn := meta.(*AWSClient).s3conn
-	if err := setTagsS3(s3conn, d); err != nil {
-		return err
-	}
 
 	if d.HasChange("policy") {
 		if err := resourceAwsS3BucketPolicyUpdate(s3conn, d); err != nil {
@@ -423,26 +380,8 @@ func resourceAwsS3BucketUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 
-	if d.HasChange("logging") {
-		if err := resourceAwsS3BucketLoggingUpdate(s3conn, d); err != nil {
-			return err
-		}
-	}
-
 	if d.HasChange("lifecycle_rule") {
 		if err := resourceAwsS3BucketLifecycleUpdate(s3conn, d); err != nil {
-			return err
-		}
-	}
-
-	if d.HasChange("acceleration_status") {
-		if err := resourceAwsS3BucketAccelerationUpdate(s3conn, d); err != nil {
-			return err
-		}
-	}
-
-	if d.HasChange("request_payer") {
-		if err := resourceAwsS3BucketRequestPayerUpdate(s3conn, d); err != nil {
 			return err
 		}
 	}
@@ -525,69 +464,6 @@ func resourceAwsS3BucketRead(d *schema.ResourceData, meta interface{}) error {
 		}
 		vcl = append(vcl, vc)
 		if err := d.Set("versioning", vcl); err != nil {
-			return err
-		}
-	}
-
-	// Read the acceleration status
-	accelerate, err := s3conn.GetBucketAccelerateConfiguration(&s3.GetBucketAccelerateConfigurationInput{
-		Bucket: aws.String(d.Id()),
-	})
-	if err != nil {
-		// Amazon S3 Transfer Acceleration might not be supported in the
-		// given region, for example, China (Beijing) and the Government
-		// Cloud does not support this feature at the moment.
-		if awsErr, ok := err.(awserr.Error); ok && awsErr.Code() != "UnsupportedArgument" {
-			return err
-		}
-
-		var awsRegion string
-		if region, ok := d.GetOk("region"); ok {
-			awsRegion = region.(string)
-		} else {
-			awsRegion = meta.(*AWSClient).region
-		}
-
-		log.Printf("[WARN] S3 bucket: %s, the S3 Transfer Acceleration is not supported in the region: %s", d.Id(), awsRegion)
-	} else {
-		log.Printf("[DEBUG] S3 bucket: %s, read Acceleration: %v", d.Id(), accelerate)
-		d.Set("acceleration_status", accelerate.Status)
-	}
-
-	// Read the request payer configuration.
-	payer, err := s3conn.GetBucketRequestPayment(&s3.GetBucketRequestPaymentInput{
-		Bucket: aws.String(d.Id()),
-	})
-	if err != nil {
-		return err
-	}
-	log.Printf("[DEBUG] S3 Bucket: %s, read request payer: %v", d.Id(), payer)
-	if payer.Payer != nil {
-		if err := d.Set("request_payer", *payer.Payer); err != nil {
-			return err
-		}
-	}
-
-	// Read the logging configuration
-	logging, err := s3conn.GetBucketLogging(&s3.GetBucketLoggingInput{
-		Bucket: aws.String(d.Id()),
-	})
-	if err != nil {
-		return err
-	}
-
-	log.Printf("[DEBUG] S3 Bucket: %s, logging: %v", d.Id(), logging)
-	if v := logging.LoggingEnabled; v != nil {
-		lcl := make([]map[string]interface{}, 0, 1)
-		lc := make(map[string]interface{})
-		if *v.TargetBucket != "" {
-			lc["target_bucket"] = *v.TargetBucket
-		}
-		if *v.TargetPrefix != "" {
-			lc["target_prefix"] = *v.TargetPrefix
-		}
-		lcl = append(lcl, lc)
-		if err := d.Set("logging", lcl); err != nil {
 			return err
 		}
 	}
@@ -732,15 +608,6 @@ func resourceAwsS3BucketRead(d *schema.ResourceData, meta interface{}) error {
 		if err := d.Set("website_domain", websiteEndpoint.Domain); err != nil {
 			return err
 		}
-	}
-
-	tagSet, err := getTagSetS3(s3conn, d.Id())
-	if err != nil {
-		return err
-	}
-
-	if err := d.Set("tags", tagsToMapS3(tagSet)); err != nil {
-		return err
 	}
 
 	d.Set("arn", fmt.Sprintf("arn:%s:s3:::%s", meta.(*AWSClient).partition, d.Id()))
@@ -1141,79 +1008,6 @@ func resourceAwsS3BucketVersioningUpdate(s3conn *s3.S3, d *schema.ResourceData) 
 	return nil
 }
 
-func resourceAwsS3BucketLoggingUpdate(s3conn *s3.S3, d *schema.ResourceData) error {
-	logging := d.Get("logging").(*schema.Set).List()
-	bucket := d.Get("bucket").(string)
-	loggingStatus := &s3.BucketLoggingStatus{}
-
-	if len(logging) > 0 {
-		c := logging[0].(map[string]interface{})
-
-		loggingEnabled := &s3.LoggingEnabled{}
-		if val, ok := c["target_bucket"]; ok {
-			loggingEnabled.TargetBucket = aws.String(val.(string))
-		}
-		if val, ok := c["target_prefix"]; ok {
-			loggingEnabled.TargetPrefix = aws.String(val.(string))
-		}
-
-		loggingStatus.LoggingEnabled = loggingEnabled
-	}
-
-	i := &s3.PutBucketLoggingInput{
-		Bucket:              aws.String(bucket),
-		BucketLoggingStatus: loggingStatus,
-	}
-	log.Printf("[DEBUG] S3 put bucket logging: %#v", i)
-
-	_, err := s3conn.PutBucketLogging(i)
-	if err != nil {
-		return fmt.Errorf("Error putting S3 logging: %s", err)
-	}
-
-	return nil
-}
-
-func resourceAwsS3BucketAccelerationUpdate(s3conn *s3.S3, d *schema.ResourceData) error {
-	bucket := d.Get("bucket").(string)
-	enableAcceleration := d.Get("acceleration_status").(string)
-
-	i := &s3.PutBucketAccelerateConfigurationInput{
-		Bucket: aws.String(bucket),
-		AccelerateConfiguration: &s3.AccelerateConfiguration{
-			Status: aws.String(enableAcceleration),
-		},
-	}
-	log.Printf("[DEBUG] S3 put bucket acceleration: %#v", i)
-
-	_, err := s3conn.PutBucketAccelerateConfiguration(i)
-	if err != nil {
-		return fmt.Errorf("Error putting S3 acceleration: %s", err)
-	}
-
-	return nil
-}
-
-func resourceAwsS3BucketRequestPayerUpdate(s3conn *s3.S3, d *schema.ResourceData) error {
-	bucket := d.Get("bucket").(string)
-	payer := d.Get("request_payer").(string)
-
-	i := &s3.PutBucketRequestPaymentInput{
-		Bucket: aws.String(bucket),
-		RequestPaymentConfiguration: &s3.RequestPaymentConfiguration{
-			Payer: aws.String(payer),
-		},
-	}
-	log.Printf("[DEBUG] S3 put bucket request payer: %#v", i)
-
-	_, err := s3conn.PutBucketRequestPayment(i)
-	if err != nil {
-		return fmt.Errorf("Error putting S3 request payer: %s", err)
-	}
-
-	return nil
-}
-
 func resourceAwsS3BucketLifecycleUpdate(s3conn *s3.S3, d *schema.ResourceData) error {
 	bucket := d.Get("bucket").(string)
 
@@ -1427,28 +1221,6 @@ func normalizeRegion(region string) string {
 	}
 
 	return region
-}
-
-func validateS3BucketAccelerationStatus(v interface{}, k string) (ws []string, errors []error) {
-	validTypes := map[string]struct{}{
-		"Enabled":   struct{}{},
-		"Suspended": struct{}{},
-	}
-
-	if _, ok := validTypes[v.(string)]; !ok {
-		errors = append(errors, fmt.Errorf("S3 Bucket Acceleration Status %q is invalid, must be %q or %q", v.(string), "Enabled", "Suspended"))
-	}
-	return
-}
-
-func validateS3BucketRequestPayerType(v interface{}, k string) (ws []string, errors []error) {
-	value := v.(string)
-	if value != s3.PayerRequester && value != s3.PayerBucketOwner {
-		errors = append(errors, fmt.Errorf(
-			"%q contains an invalid Request Payer type %q. Valid types are either %q or %q",
-			k, value, s3.PayerRequester, s3.PayerBucketOwner))
-	}
-	return
 }
 
 // validateS3BucketName validates any S3 bucket name that is not inside the us-east-1 region.
