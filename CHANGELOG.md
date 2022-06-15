@@ -2,6 +2,10 @@
 
 ## To be Released
 
+## v0.3.0
+
+* Fix osc_s3_bucket resource to support OOS buckets
+
 ## v0.2.2
 
 * Bump go version to 1.17
