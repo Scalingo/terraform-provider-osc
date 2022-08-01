@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/errwrap v1.1.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
-	github.com/hashicorp/vault v1.11.0
+	github.com/hashicorp/vault v1.11.1
 	github.com/jen20/awspolicyequivalence v1.1.0
 	github.com/mitchellh/go-homedir v1.1.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -51,7 +51,7 @@ require (
 	github.com/hashicorp/terraform-json v0.10.0 // indirect
 	github.com/hashicorp/terraform-plugin-test/v2 v2.2.1 // indirect
 	github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734 // indirect
-	github.com/hashicorp/vault/sdk v0.5.2 // indirect
+	github.com/hashicorp/vault/sdk v0.5.3-0.20220621155127-c9ca5e0e239b // indirect
 	github.com/hashicorp/yamux v0.0.0-20211028200310-0bc27b27de87 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
@@ -78,7 +78,7 @@ require (
 	github.com/zclconf/go-cty v1.8.2 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.2 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.4.2 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
