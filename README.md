@@ -5,14 +5,14 @@ Terraform Provider for Outscale (unofficial)
 Requirements
 ------------
 
-- [Terraform](https://www.terraform.io/downloads.html) 0.12.20
-- [Go](https://golang.org/doc/install) 1.13 at least (to build the provider plugin)
+- [Terraform](https://www.terraform.io/downloads) 0.15.5
+- [Go](https://go.dev/doc/install) 1.17 at least (to build the provider plugin)
 
 Build and Install
 ---------------------
 
 Compile the binary and install it:
-```shell
+```bash
 go get -v
 go install
 mkdir -p ~/.terraform.d/plugins/linux_amd64
@@ -24,13 +24,13 @@ Build with Docker (not tested)
 
 Build the Docker image
 
-```
+```bash
 $ make docker-image
 ```
 
 Build the binaries, you'll find all the binaries in pkg/
 
-```
+```bash
 $ make docker-build
 ```
 

@@ -2,6 +2,8 @@
 
 ## To be Released
 
+## v0.4.0
+
 * Bump github.com/aws/aws-sdk-go from 1.44.30 to 1.44.46 [#47](https://github.com/Scalingo/terraform-provider-osc/pull/47)
 * Bump github.com/hashicorp/vault from 1.7.6 to 1.11.0 [#48](https://github.com/Scalingo/terraform-provider-osc/pull/48)
 * Bump github.com/hashicorp/terraform-plugin-sdk from 1.7.0 to 1.17.2 [#49](https://github.com/Scalingo/terraform-provider-osc/pull/49)
