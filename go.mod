@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/errwrap v1.1.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
-	github.com/hashicorp/vault v1.11.3
+	github.com/hashicorp/vault v1.11.4
 	github.com/jen20/awspolicyequivalence v1.1.0
 	github.com/mitchellh/go-homedir v1.1.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -51,7 +51,7 @@ require (
 	github.com/hashicorp/terraform-json v0.10.0 // indirect
 	github.com/hashicorp/terraform-plugin-test/v2 v2.2.1 // indirect
 	github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734 // indirect
-	github.com/hashicorp/vault/sdk v0.5.3-0.20220803145622-430daff0f040 // indirect
+	github.com/hashicorp/vault/sdk v0.5.3-0.20220826205147-7caf353e8124 // indirect
 	github.com/hashicorp/yamux v0.0.0-20211028200310-0bc27b27de87 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
