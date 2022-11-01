@@ -15924,14 +15924,23 @@ type ManagedScaling struct {
 	// is omitted, the default value of 300 seconds is used.
 	InstanceWarmupPeriod *int64 `locationName:"instanceWarmupPeriod" type:"integer"`
 
-	// The maximum number of container instances that Amazon ECS scales in or scales
-	// out at one time. If this parameter is omitted, the default value of 10000
-	// is used.
+	// The maximum number of Amazon EC2 instances that Amazon ECS will scale out
+	// at one time. The scale in process is not affected by this parameter. If this
+	// parameter is omitted, the default value of 10000 is used.
 	MaximumScalingStepSize *int64 `locationName:"maximumScalingStepSize" min:"1" type:"integer"`
 
-	// The minimum number of container instances that Amazon ECS scales in or scales
-	// out at one time. If this parameter is omitted, the default value of 1 is
-	// used.
+	// The minimum number of Amazon EC2 instances that Amazon ECS will scale out
+	// at one time. The scale in process is not affected by this parameter If this
+	// parameter is omitted, the default value of 1 is used.
+	//
+	// When additional capacity is required, Amazon ECS will scale up the minimum
+	// scaling step size even if the actual demand is less than the minimum scaling
+	// step size.
+	//
+	// If you use a capacity provider with an Auto Scaling group configured with
+	// more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will
+	// scale up by the exact minimum scaling step size value and will ignore both
+	// the maximum scaling step size as well as the capacity demand.
 	MinimumScalingStepSize *int64 `locationName:"minimumScalingStepSize" min:"1" type:"integer"`
 
 	// Determines whether to use managed scaling for the capacity provider.
@@ -16706,9 +16715,6 @@ type PortMapping struct {
 	// range as these are reserved for automatic assignment. In general, ports below
 	// 32768 are outside of the ephemeral port range.
 	//
-	// The default ephemeral port range from 49153 through 65535 is always used
-	// for Docker versions before 1.6.0.
-	//
 	// The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376,
 	// and the Amazon ECS container agent ports 51678-51680. Any host port that
 	// was previously specified in a running task is also reserved while the task
@@ -16871,6 +16877,12 @@ type PutAccountSettingDefaultInput struct {
 	// the ENI limit for your Amazon ECS container instances is affected. If containerInsights
 	// is specified, the default setting for CloudWatch Container Insights for your
 	// clusters is affected.
+	//
+	// Fargate is transitioning from task count-based quotas to vCPU-based quotas.
+	// You can set the name to fargateVCPULimit to opt in or opt out of the vCPU-based
+	// quotas. For information about the opt in timeline, see Fargate vCPU-based
+	// quotas timeline (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#fargate-quota-timeline)
+	// in the Amazon ECS Developer Guide.
 	//
 	// Name is a required field
 	Name *string `locationName:"name" type:"string" required:"true" enum:"SettingName"`
@@ -17584,8 +17596,6 @@ type RegisterTaskDefinitionInput struct {
 	// platform versions:
 	//
 	//    * Linux platform version 1.4.0 or later.
-	//
-	//    * Windows platform version 1.0.0 or later.
 	EphemeralStorage *EphemeralStorage `locationName:"ephemeralStorage" type:"structure"`
 
 	// The Amazon Resource Name (ARN) of the task execution role that grants the
@@ -18997,9 +19007,7 @@ type Service struct {
 	// deployment and the ordering of stopping and starting tasks.
 	DeploymentConfiguration *DeploymentConfiguration `locationName:"deploymentConfiguration" type:"structure"`
 
-	// The deployment controller type the service is using. When using the DescribeServices
-	// API, this field is omitted if the service uses the ECS deployment controller
-	// type.
+	// The deployment controller type the service is using.
 	DeploymentController *DeploymentController `locationName:"deploymentController" type:"structure"`
 
 	// The current state of deployments for the service.
