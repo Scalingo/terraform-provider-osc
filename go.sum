@@ -999,8 +999,8 @@ github.com/hashicorp/terraform-plugin-test/v2 v2.2.1 h1:d3Rzmi5bnRzcAZon91FY4TDC
 github.com/hashicorp/terraform-plugin-test/v2 v2.2.1/go.mod h1:eZ9JL3O69Cb71Skn6OhHyj17sLmHRb+H6VrDcJjKrYU=
 github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734 h1:HKLsbzeOsfXmKNpr3GiT18XAblV0BjCbzL8KQAMZGa0=
 github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734/go.mod h1:kNDNcF7sN4DocDLBkQYz73HGKwN1ANB1blq4lIYLYvg=
-github.com/hashicorp/vault v1.12.1 h1:jlj890PIKnLLCAr8R6j44jQpO6CNbNKU8XZ7omTNYgk=
-github.com/hashicorp/vault v1.12.1/go.mod h1:TczTL21v70gAd4Y0Pj+U2CiInrmPLNJGgUqDZZQXviE=
+github.com/hashicorp/vault v1.12.2 h1:PwyIICn7BPEK3WwttT9JS/raCDQfAR1EvgeC4t1VfUw=
+github.com/hashicorp/vault v1.12.2/go.mod h1:8vvin/hC1qj3wIiW2TDS5nwgmkXYMf6H1Qje69OI/mw=
 github.com/hashicorp/vault-plugin-auth-alicloud v0.13.0/go.mod h1:UO140aqMmOpWVfot9kpowLHhbbJ1alBJBjctIxKtpkY=
 github.com/hashicorp/vault-plugin-auth-azure v0.12.0/go.mod h1:r0Wlg9xgS7dOx/H2rgkVgXS77m289ON291g+/txFdv8=
 github.com/hashicorp/vault-plugin-auth-centrify v0.13.0/go.mod h1:3fDbIVdwA/hkOVhwktKHDX5lo4DqIUUVbBdwQNNvxHw=
@@ -1019,8 +1019,8 @@ github.com/hashicorp/vault-plugin-database-snowflake v0.6.1/go.mod h1:QJ8IL/Qlu4
 github.com/hashicorp/vault-plugin-mock v0.16.1/go.mod h1:83G4JKlOwUtxVourn5euQfze3ZWyXcUiLj2wqrKSDIM=
 github.com/hashicorp/vault-plugin-secrets-ad v0.14.0/go.mod h1:5XIn6cw1+gG+WWxK0SdEAKCDOXTp+MX90PzZ7f3Eks0=
 github.com/hashicorp/vault-plugin-secrets-alicloud v0.13.0/go.mod h1:F4KWrlCQZbhP2dFXCkRvbHX2J6CTydlaY0cH+OrLHCE=
-github.com/hashicorp/vault-plugin-secrets-azure v0.14.0/go.mod h1:Xw8CQPkyZSJRK9BXKBruf6kOO8rLyXEf40o19ClK9kY=
-github.com/hashicorp/vault-plugin-secrets-gcp v0.14.0/go.mod h1:kRgZfXRD9qUHoGclaR09tKXXwkwNrkY+D76ahetsaB8=
+github.com/hashicorp/vault-plugin-secrets-azure v0.14.1/go.mod h1:Xw8CQPkyZSJRK9BXKBruf6kOO8rLyXEf40o19ClK9kY=
+github.com/hashicorp/vault-plugin-secrets-gcp v0.14.1/go.mod h1:kRgZfXRD9qUHoGclaR09tKXXwkwNrkY+D76ahetsaB8=
 github.com/hashicorp/vault-plugin-secrets-gcpkms v0.13.0/go.mod h1:n2VKlYDCuO8+OXN4S1Im8esIL53/ENRFa4gXrvhCVIM=
 github.com/hashicorp/vault-plugin-secrets-kubernetes v0.2.0/go.mod h1:WO0wUxGh1PxhwdBHD7mXU5XQTqLwMZiJrUwVuzx3tIg=
 github.com/hashicorp/vault-plugin-secrets-kv v0.13.0/go.mod h1:9V2Ecim3m/qw+YAQelUeFADqZ1GVo8xwoLqfKsqh9pI=
@@ -1054,8 +1054,8 @@ github.com/hashicorp/vault/sdk v0.4.1/go.mod h1:aZ3fNuL5VNydQk8GcLJ2TV8YCRVvyaak
 github.com/hashicorp/vault/sdk v0.5.1/go.mod h1:DoGraE9kKGNcVgPmTuX357Fm6WAx1Okvde8Vp3dPDoU=
 github.com/hashicorp/vault/sdk v0.5.3/go.mod h1:DoGraE9kKGNcVgPmTuX357Fm6WAx1Okvde8Vp3dPDoU=
 github.com/hashicorp/vault/sdk v0.6.0/go.mod h1:+DRpzoXIdMvKc88R4qxr+edwy/RvH5QK8itmxLiDHLc=
-github.com/hashicorp/vault/sdk v0.6.1-0.20221012172514-e12bdc5ce648 h1:5A5oRgiYh4+9gheLmKyaUyn7FU4amYL17F+xNbZEceI=
-github.com/hashicorp/vault/sdk v0.6.1-0.20221012172514-e12bdc5ce648/go.mod h1:h25xhm657j/WX0QYIK43fGeEzaQ4zG/A55vRe+09Q2U=
+github.com/hashicorp/vault/sdk v0.6.1-0.20221102145943-1e9b0a1225c3 h1:Wf6EUjtmzkNcbK2fKPJYyX5146C75EzmfMFXgtFilQ8=
+github.com/hashicorp/vault/sdk v0.6.1-0.20221102145943-1e9b0a1225c3/go.mod h1:h25xhm657j/WX0QYIK43fGeEzaQ4zG/A55vRe+09Q2U=
 github.com/hashicorp/vic v1.5.1-0.20190403131502-bbfe86ec9443/go.mod h1:bEpDU35nTu0ey1EXjwNwPjI9xErAsoOCmcMb9GKvyxo=
 github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
 github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
