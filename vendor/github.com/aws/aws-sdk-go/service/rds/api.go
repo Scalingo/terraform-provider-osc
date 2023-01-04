@@ -359,6 +359,9 @@ func (c *RDS) AddTagsToResourceRequest(input *AddTagsToResourceInput) (req *requ
 //     The specified target group isn't available for a proxy owned by your Amazon
 //     Web Services account in the specified Amazon Web Services Region.
 //
+//   - ErrCodeBlueGreenDeploymentNotFoundFault "BlueGreenDeploymentNotFoundFault"
+//     BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/AddTagsToResource
 func (c *RDS) AddTagsToResource(input *AddTagsToResourceInput) (*AddTagsToResourceOutput, error) {
 	req, out := c.AddTagsToResourceRequest(input)
@@ -1417,45 +1420,7 @@ func (c *RDS) CreateCustomDBEngineVersionRequest(input *CreateCustomDBEngineVers
 
 // CreateCustomDBEngineVersion API operation for Amazon Relational Database Service.
 //
-// Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot
-// of a database engine and specific AMI. The supported engines are the following:
-//
-//   - Oracle Database 12.1 Enterprise Edition with the January 2021 or later
-//     RU/RUR
-//
-//   - Oracle Database 19c Enterprise Edition with the January 2021 or later
-//     RU/RUR
-//
-// Amazon RDS, which is a fully managed service, supplies the Amazon Machine
-// Image (AMI) and database software. The Amazon RDS database software is preinstalled,
-// so you need only select a DB engine and version, and create your database.
-// With Amazon RDS Custom for Oracle, you upload your database installation
-// files in Amazon S3.
-//
-// When you create a custom engine version, you specify the files in a JSON
-// document called a CEV manifest. This document describes installation .zip
-// files stored in Amazon S3. RDS Custom creates your CEV from the installation
-// files that you provided. This service model is called Bring Your Own Media
-// (BYOM).
-//
-// Creation takes approximately two hours. If creation fails, RDS Custom issues
-// RDS-EVENT-0196 with the message Creation failed for custom engine version,
-// and includes details about the failure. For example, the event prints missing
-// files.
-//
-// After you create the CEV, it is available for use. You can create multiple
-// CEVs, and create multiple RDS Custom instances from any CEV. You can also
-// change the status of a CEV to make it available or inactive.
-//
-// The MediaImport service that imports files from Amazon S3 to create CEVs
-// isn't integrated with Amazon Web Services CloudTrail. If you turn on data
-// logging for Amazon RDS in CloudTrail, calls to the CreateCustomDbEngineVersion
-// event aren't logged. However, you might see calls from the API gateway that
-// accesses your Amazon S3 bucket. These calls originate from the MediaImport
-// service for the CreateCustomDbEngineVersion event.
-//
-// For more information, see Creating a CEV (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.create)
-// in the Amazon RDS User Guide.
+// Creates a custom DB engine version (CEV).
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -1471,6 +1436,9 @@ func (c *RDS) CreateCustomDBEngineVersionRequest(input *CreateCustomDBEngineVers
 //
 //   - ErrCodeCustomDBEngineVersionQuotaExceededFault "CustomDBEngineVersionQuotaExceededFault"
 //     You have exceeded your CEV quota.
+//
+//   - ErrCodeEc2ImagePropertiesNotSupportedFault "Ec2ImagePropertiesNotSupportedFault"
+//     The AMI configuration prerequisite has not been met.
 //
 //   - ErrCodeKMSKeyNotAccessibleFault "KMSKeyNotAccessibleFault"
 //     An error occurred accessing an Amazon Web Services KMS key.
@@ -10301,6 +10269,9 @@ func (c *RDS) ListTagsForResourceRequest(input *ListTagsForResourceInput) (req *
 //     The specified target group isn't available for a proxy owned by your Amazon
 //     Web Services account in the specified Amazon Web Services Region.
 //
+//   - ErrCodeBlueGreenDeploymentNotFoundFault "BlueGreenDeploymentNotFoundFault"
+//     BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ListTagsForResource
 func (c *RDS) ListTagsForResource(input *ListTagsForResourceInput) (*ListTagsForResourceOutput, error) {
 	req, out := c.ListTagsForResourceRequest(input)
@@ -13227,6 +13198,9 @@ func (c *RDS) RemoveTagsFromResourceRequest(input *RemoveTagsFromResourceInput) 
 //     The specified target group isn't available for a proxy owned by your Amazon
 //     Web Services account in the specified Amazon Web Services Region.
 //
+//   - ErrCodeBlueGreenDeploymentNotFoundFault "BlueGreenDeploymentNotFoundFault"
+//     BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RemoveTagsFromResource
 func (c *RDS) RemoveTagsFromResource(input *RemoveTagsFromResourceInput) (*RemoveTagsFromResourceOutput, error) {
 	req, out := c.RemoveTagsFromResourceRequest(input)
@@ -13719,6 +13693,9 @@ func (c *RDS) RestoreDBClusterFromSnapshotRequest(input *RestoreDBClusterFromSna
 //   - ErrCodeDBClusterParameterGroupNotFoundFault "DBClusterParameterGroupNotFound"
 //     DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter
 //     group.
+//
+//   - ErrCodeInvalidDBInstanceStateFault "InvalidDBInstanceState"
+//     The DB instance isn't in a valid state.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RestoreDBClusterFromSnapshot
 func (c *RDS) RestoreDBClusterFromSnapshot(input *RestoreDBClusterFromSnapshotInput) (*RestoreDBClusterFromSnapshotOutput, error) {
@@ -18076,8 +18053,14 @@ func (s *CopyDBParameterGroupOutput) SetDBParameterGroup(v *DBParameterGroup) *C
 type CopyDBSnapshotInput struct {
 	_ struct{} `type:"structure"`
 
+	// A value that indicates whether to copy the DB option group associated with
+	// the source DB snapshot to the target Amazon Web Services account and associate
+	// with the target DB snapshot. The associated option group can be copied only
+	// with cross-account snapshot copy calls.
+	CopyOptionGroup *bool `type:"boolean"`
+
 	// A value that indicates whether to copy all tags from the source DB snapshot
-	// to the target DB snapshot. By default, tags are not copied.
+	// to the target DB snapshot. By default, tags aren't copied.
 	CopyTags *bool `type:"boolean"`
 
 	// DestinationRegion is used for presigning the request to a given region.
@@ -18260,6 +18243,12 @@ func (s *CopyDBSnapshotInput) Validate() error {
 		return invalidParams
 	}
 	return nil
+}
+
+// SetCopyOptionGroup sets the CopyOptionGroup field's value.
+func (s *CopyDBSnapshotInput) SetCopyOptionGroup(v bool) *CopyDBSnapshotInput {
+	s.CopyOptionGroup = &v
+	return s
 }
 
 // SetCopyTags sets the CopyTags field's value.
@@ -18658,9 +18647,7 @@ type CreateCustomDBEngineVersionInput struct {
 
 	// The name of an Amazon S3 bucket that contains database installation files
 	// for your CEV. For example, a valid bucket name is my-custom-installation-files.
-	//
-	// DatabaseInstallationFilesS3BucketName is a required field
-	DatabaseInstallationFilesS3BucketName *string `min:"3" type:"string" required:"true"`
+	DatabaseInstallationFilesS3BucketName *string `min:"3" type:"string"`
 
 	// The Amazon S3 directory that contains the database installation files for
 	// your CEV. For example, a valid bucket name is 123456789012/cev1. If this
@@ -18684,6 +18671,10 @@ type CreateCustomDBEngineVersionInput struct {
 	// EngineVersion is a required field
 	EngineVersion *string `min:"1" type:"string" required:"true"`
 
+	// The ID of the AMI. An AMI ID is required to create a CEV for RDS Custom for
+	// SQL Server.
+	ImageId *string `min:"1" type:"string"`
+
 	// The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric
 	// encryption KMS key is required for RDS Custom, but optional for Amazon RDS.
 	//
@@ -18695,9 +18686,7 @@ type CreateCustomDBEngineVersionInput struct {
 	//
 	// You can choose the same symmetric encryption key when you create a CEV and
 	// a DB instance, or choose different keys.
-	//
-	// KMSKeyId is a required field
-	KMSKeyId *string `min:"1" type:"string" required:"true"`
+	KMSKeyId *string `min:"1" type:"string"`
 
 	// The CEV manifest, which is a JSON document that describes the installation
 	// .zip files stored in Amazon S3. Specify the name/value pairs in a file or
@@ -18729,9 +18718,7 @@ type CreateCustomDBEngineVersionInput struct {
 	//
 	// For more information, see Creating the CEV manifest (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest)
 	// in the Amazon RDS User Guide.
-	//
-	// Manifest is a required field
-	Manifest *string `min:"1" type:"string" required:"true"`
+	Manifest *string `min:"1" type:"string"`
 
 	// A list of tags. For more information, see Tagging Amazon RDS Resources (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html)
 	// in the Amazon RDS User Guide.
@@ -18759,9 +18746,6 @@ func (s CreateCustomDBEngineVersionInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *CreateCustomDBEngineVersionInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "CreateCustomDBEngineVersionInput"}
-	if s.DatabaseInstallationFilesS3BucketName == nil {
-		invalidParams.Add(request.NewErrParamRequired("DatabaseInstallationFilesS3BucketName"))
-	}
 	if s.DatabaseInstallationFilesS3BucketName != nil && len(*s.DatabaseInstallationFilesS3BucketName) < 3 {
 		invalidParams.Add(request.NewErrParamMinLen("DatabaseInstallationFilesS3BucketName", 3))
 	}
@@ -18783,14 +18767,11 @@ func (s *CreateCustomDBEngineVersionInput) Validate() error {
 	if s.EngineVersion != nil && len(*s.EngineVersion) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("EngineVersion", 1))
 	}
-	if s.KMSKeyId == nil {
-		invalidParams.Add(request.NewErrParamRequired("KMSKeyId"))
+	if s.ImageId != nil && len(*s.ImageId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ImageId", 1))
 	}
 	if s.KMSKeyId != nil && len(*s.KMSKeyId) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("KMSKeyId", 1))
-	}
-	if s.Manifest == nil {
-		invalidParams.Add(request.NewErrParamRequired("Manifest"))
 	}
 	if s.Manifest != nil && len(*s.Manifest) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("Manifest", 1))
@@ -18832,6 +18813,12 @@ func (s *CreateCustomDBEngineVersionInput) SetEngineVersion(v string) *CreateCus
 	return s
 }
 
+// SetImageId sets the ImageId field's value.
+func (s *CreateCustomDBEngineVersionInput) SetImageId(v string) *CreateCustomDBEngineVersionInput {
+	s.ImageId = &v
+	return s
+}
+
 // SetKMSKeyId sets the KMSKeyId field's value.
 func (s *CreateCustomDBEngineVersionInput) SetKMSKeyId(v string) *CreateCustomDBEngineVersionInput {
 	s.KMSKeyId = &v
@@ -18868,6 +18855,10 @@ type CreateCustomDBEngineVersionOutput struct {
 	// The description of the database engine.
 	DBEngineDescription *string `type:"string"`
 
+	// A value that indicates the source media provider of the AMI based on the
+	// usage operation. Applicable for RDS Custom for SQL Server.
+	DBEngineMediaType *string `type:"string"`
+
 	// The ARN of the custom engine version.
 	DBEngineVersionArn *string `type:"string"`
 
@@ -18898,6 +18889,9 @@ type CreateCustomDBEngineVersionOutput struct {
 	// The types of logs that the database engine has available for export to CloudWatch
 	// Logs.
 	ExportableLogTypes []*string `type:"list"`
+
+	// The EC2 image
+	Image *CustomDBEngineVersionAMI `type:"structure"`
 
 	// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter
 	// is required for RDS Custom, but optional for Amazon RDS.
@@ -19006,6 +19000,12 @@ func (s *CreateCustomDBEngineVersionOutput) SetDBEngineDescription(v string) *Cr
 	return s
 }
 
+// SetDBEngineMediaType sets the DBEngineMediaType field's value.
+func (s *CreateCustomDBEngineVersionOutput) SetDBEngineMediaType(v string) *CreateCustomDBEngineVersionOutput {
+	s.DBEngineMediaType = &v
+	return s
+}
+
 // SetDBEngineVersionArn sets the DBEngineVersionArn field's value.
 func (s *CreateCustomDBEngineVersionOutput) SetDBEngineVersionArn(v string) *CreateCustomDBEngineVersionOutput {
 	s.DBEngineVersionArn = &v
@@ -19057,6 +19057,12 @@ func (s *CreateCustomDBEngineVersionOutput) SetEngineVersion(v string) *CreateCu
 // SetExportableLogTypes sets the ExportableLogTypes field's value.
 func (s *CreateCustomDBEngineVersionOutput) SetExportableLogTypes(v []*string) *CreateCustomDBEngineVersionOutput {
 	s.ExportableLogTypes = v
+	return s
+}
+
+// SetImage sets the Image field's value.
+func (s *CreateCustomDBEngineVersionOutput) SetImage(v *CustomDBEngineVersionAMI) *CreateCustomDBEngineVersionOutput {
+	s.Image = v
 	return s
 }
 
@@ -19772,13 +19778,56 @@ type CreateDBClusterInput struct {
 	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
 	KmsKeyId *string `type:"string"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide and Password management with Amazon Web Services
+	// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+	// in the Amazon Aurora User Guide.
+	//
+	// Constraints:
+	//
+	//    * Can't manage the master user password with Amazon Web Services Secrets
+	//    Manager if MasterUserPassword is specified.
+	//
+	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The password for the master database user. This password can contain any
 	// printable ASCII character except "/", """, or "@".
 	//
-	// Constraints: Must contain from 8 to 41 characters.
+	// Constraints:
+	//
+	//    * Must contain from 8 to 41 characters.
+	//
+	//    * Can't be specified if ManageMasterUserPassword is turned on.
 	//
 	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
 	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB cluster.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager
+	// KMS key is used to encrypt the secret. If the secret is in a different Amazon
+	// Web Services account, then you can't use the aws/secretsmanager KMS key to
+	// encrypt the secret, and you must use a customer managed KMS key.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	//
+	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The name of the master user for the DB cluster.
 	//
@@ -20269,9 +20318,21 @@ func (s *CreateDBClusterInput) SetKmsKeyId(v string) *CreateDBClusterInput {
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *CreateDBClusterInput) SetManageMasterUserPassword(v bool) *CreateDBClusterInput {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *CreateDBClusterInput) SetMasterUserPassword(v string) *CreateDBClusterInput {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *CreateDBClusterInput) SetMasterUserSecretKmsKeyId(v string) *CreateDBClusterInput {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -21165,7 +21226,7 @@ type CreateDBInstanceInput struct {
 	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
 	// in the Amazon RDS User Guide.
 	//
-	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 	// in the Amazon Web Services Outposts User Guide.
 	EnableCustomerOwnedIp *bool `type:"boolean"`
 
@@ -21339,12 +21400,27 @@ type CreateDBInstanceInput struct {
 	// Not applicable.
 	LicenseModel *string `type:"string"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Constraints:
+	//
+	//    * Can't manage the master user password with Amazon Web Services Secrets
+	//    Manager if MasterUserPassword is specified.
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The password for the master user. The password can include any printable
 	// ASCII character except "/", """, or "@".
 	//
 	// Amazon Aurora
 	//
 	// Not applicable. The password for the master user is managed by the DB cluster.
+	//
+	// Constraints: Can't be specified if ManageMasterUserPassword is turned on.
 	//
 	// MariaDB
 	//
@@ -21366,6 +21442,26 @@ type CreateDBInstanceInput struct {
 	//
 	// Constraints: Must contain from 8 to 128 characters.
 	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB instance.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager
+	// KMS key is used to encrypt the secret. If the secret is in a different Amazon
+	// Web Services account, then you can't use the aws/secretsmanager KMS key to
+	// encrypt the secret, and you must use a customer managed KMS key.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The name for the master user.
 	//
@@ -21916,9 +22012,21 @@ func (s *CreateDBInstanceInput) SetLicenseModel(v string) *CreateDBInstanceInput
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *CreateDBInstanceInput) SetManageMasterUserPassword(v bool) *CreateDBInstanceInput {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *CreateDBInstanceInput) SetMasterUserPassword(v string) *CreateDBInstanceInput {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *CreateDBInstanceInput) SetMasterUserSecretKmsKeyId(v string) *CreateDBInstanceInput {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -22233,6 +22341,22 @@ type CreateDBInstanceReadReplicaInput struct {
 	//
 	// This setting doesn't apply to RDS Custom.
 	EnableCloudwatchLogsExports []*string `type:"list"`
+
+	// A value that indicates whether to enable a customer-owned IP address (CoIP)
+	// for an RDS on Outposts read replica.
+	//
+	// A CoIP provides local or external connectivity to resources in your Outpost
+	// subnets through your on-premises network. For some use cases, a CoIP can
+	// provide lower latency for connections to the read replica from outside of
+	// its virtual private cloud (VPC) on your local network.
+	//
+	// For more information about RDS on Outposts, see Working with Amazon RDS on
+	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
+	// in the Amazon RDS User Guide.
+	//
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
+	// in the Amazon Web Services Outposts User Guide.
+	EnableCustomerOwnedIp *bool `type:"boolean"`
 
 	// A value that indicates whether to enable mapping of Amazon Web Services Identity
 	// and Access Management (IAM) accounts to database accounts. By default, mapping
@@ -22680,6 +22804,12 @@ func (s *CreateDBInstanceReadReplicaInput) SetDomainIAMRoleName(v string) *Creat
 // SetEnableCloudwatchLogsExports sets the EnableCloudwatchLogsExports field's value.
 func (s *CreateDBInstanceReadReplicaInput) SetEnableCloudwatchLogsExports(v []*string) *CreateDBInstanceReadReplicaInput {
 	s.EnableCloudwatchLogsExports = v
+	return s
+}
+
+// SetEnableCustomerOwnedIp sets the EnableCustomerOwnedIp field's value.
+func (s *CreateDBInstanceReadReplicaInput) SetEnableCustomerOwnedIp(v bool) *CreateDBInstanceReadReplicaInput {
+	s.EnableCustomerOwnedIp = &v
 	return s
 }
 
@@ -24209,6 +24339,47 @@ func (s *CreateOptionGroupOutput) SetOptionGroup(v *OptionGroup) *CreateOptionGr
 	return s
 }
 
+// A value that indicates the AMI information.
+type CustomDBEngineVersionAMI struct {
+	_ struct{} `type:"structure"`
+
+	// A value that indicates the ID of the AMI.
+	ImageId *string `type:"string"`
+
+	// A value that indicates the status of a custom engine version (CEV).
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CustomDBEngineVersionAMI) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CustomDBEngineVersionAMI) GoString() string {
+	return s.String()
+}
+
+// SetImageId sets the ImageId field's value.
+func (s *CustomDBEngineVersionAMI) SetImageId(v string) *CustomDBEngineVersionAMI {
+	s.ImageId = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *CustomDBEngineVersionAMI) SetStatus(v string) *CustomDBEngineVersionAMI {
+	s.Status = &v
+	return s
+}
+
 // Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster.
 //
 // For an Amazon Aurora DB cluster, this data type is used as a response element
@@ -24432,6 +24603,16 @@ type DBCluster struct {
 	// Specifies the latest time to which a database can be restored with point-in-time
 	// restore.
 	LatestRestorableTime *time.Time `type:"timestamp"`
+
+	// Contains the secret managed by RDS in Amazon Web Services Secrets Manager
+	// for the master user password.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide and Password management with Amazon Web Services
+	// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+	// in the Amazon Aurora User Guide.
+	MasterUserSecret *MasterUserSecret `type:"structure"`
 
 	// Contains the master username for the DB cluster.
 	MasterUsername *string `type:"string"`
@@ -24886,6 +25067,12 @@ func (s *DBCluster) SetKmsKeyId(v string) *DBCluster {
 // SetLatestRestorableTime sets the LatestRestorableTime field's value.
 func (s *DBCluster) SetLatestRestorableTime(v time.Time) *DBCluster {
 	s.LatestRestorableTime = &v
+	return s
+}
+
+// SetMasterUserSecret sets the MasterUserSecret field's value.
+func (s *DBCluster) SetMasterUserSecret(v *MasterUserSecret) *DBCluster {
+	s.MasterUserSecret = v
 	return s
 }
 
@@ -25814,6 +26001,10 @@ type DBEngineVersion struct {
 	// The description of the database engine.
 	DBEngineDescription *string `type:"string"`
 
+	// A value that indicates the source media provider of the AMI based on the
+	// usage operation. Applicable for RDS Custom for SQL Server.
+	DBEngineMediaType *string `type:"string"`
+
 	// The ARN of the custom engine version.
 	DBEngineVersionArn *string `type:"string"`
 
@@ -25844,6 +26035,9 @@ type DBEngineVersion struct {
 	// The types of logs that the database engine has available for export to CloudWatch
 	// Logs.
 	ExportableLogTypes []*string `type:"list"`
+
+	// The EC2 image
+	Image *CustomDBEngineVersionAMI `type:"structure"`
 
 	// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter
 	// is required for RDS Custom, but optional for Amazon RDS.
@@ -25952,6 +26146,12 @@ func (s *DBEngineVersion) SetDBEngineDescription(v string) *DBEngineVersion {
 	return s
 }
 
+// SetDBEngineMediaType sets the DBEngineMediaType field's value.
+func (s *DBEngineVersion) SetDBEngineMediaType(v string) *DBEngineVersion {
+	s.DBEngineMediaType = &v
+	return s
+}
+
 // SetDBEngineVersionArn sets the DBEngineVersionArn field's value.
 func (s *DBEngineVersion) SetDBEngineVersionArn(v string) *DBEngineVersion {
 	s.DBEngineVersionArn = &v
@@ -26003,6 +26203,12 @@ func (s *DBEngineVersion) SetEngineVersion(v string) *DBEngineVersion {
 // SetExportableLogTypes sets the ExportableLogTypes field's value.
 func (s *DBEngineVersion) SetExportableLogTypes(v []*string) *DBEngineVersion {
 	s.ExportableLogTypes = v
+	return s
+}
+
+// SetImage sets the Image field's value.
+func (s *DBEngineVersion) SetImage(v *CustomDBEngineVersionAMI) *DBEngineVersion {
+	s.Image = v
 	return s
 }
 
@@ -26206,7 +26412,7 @@ type DBInstance struct {
 	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
 	// in the Amazon RDS User Guide.
 	//
-	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 	// in the Amazon Web Services Outposts User Guide.
 	CustomerOwnedIpEnabled *bool `type:"boolean"`
 
@@ -26342,6 +26548,14 @@ type DBInstance struct {
 
 	// Specifies the listener connection endpoint for SQL Server Always On.
 	ListenerEndpoint *Endpoint `type:"structure"`
+
+	// Contains the secret managed by RDS in Amazon Web Services Secrets Manager
+	// for the master user password.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide.
+	MasterUserSecret *MasterUserSecret `type:"structure"`
 
 	// Contains the master username for the DB instance.
 	MasterUsername *string `type:"string"`
@@ -26819,6 +27033,12 @@ func (s *DBInstance) SetLicenseModel(v string) *DBInstance {
 // SetListenerEndpoint sets the ListenerEndpoint field's value.
 func (s *DBInstance) SetListenerEndpoint(v *Endpoint) *DBInstance {
 	s.ListenerEndpoint = v
+	return s
+}
+
+// SetMasterUserSecret sets the MasterUserSecret field's value.
+func (s *DBInstance) SetMasterUserSecret(v *MasterUserSecret) *DBInstance {
+	s.MasterUserSecret = v
 	return s
 }
 
@@ -29039,6 +29259,10 @@ type DeleteCustomDBEngineVersionOutput struct {
 	// The description of the database engine.
 	DBEngineDescription *string `type:"string"`
 
+	// A value that indicates the source media provider of the AMI based on the
+	// usage operation. Applicable for RDS Custom for SQL Server.
+	DBEngineMediaType *string `type:"string"`
+
 	// The ARN of the custom engine version.
 	DBEngineVersionArn *string `type:"string"`
 
@@ -29069,6 +29293,9 @@ type DeleteCustomDBEngineVersionOutput struct {
 	// The types of logs that the database engine has available for export to CloudWatch
 	// Logs.
 	ExportableLogTypes []*string `type:"list"`
+
+	// The EC2 image
+	Image *CustomDBEngineVersionAMI `type:"structure"`
 
 	// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter
 	// is required for RDS Custom, but optional for Amazon RDS.
@@ -29177,6 +29404,12 @@ func (s *DeleteCustomDBEngineVersionOutput) SetDBEngineDescription(v string) *De
 	return s
 }
 
+// SetDBEngineMediaType sets the DBEngineMediaType field's value.
+func (s *DeleteCustomDBEngineVersionOutput) SetDBEngineMediaType(v string) *DeleteCustomDBEngineVersionOutput {
+	s.DBEngineMediaType = &v
+	return s
+}
+
 // SetDBEngineVersionArn sets the DBEngineVersionArn field's value.
 func (s *DeleteCustomDBEngineVersionOutput) SetDBEngineVersionArn(v string) *DeleteCustomDBEngineVersionOutput {
 	s.DBEngineVersionArn = &v
@@ -29228,6 +29461,12 @@ func (s *DeleteCustomDBEngineVersionOutput) SetEngineVersion(v string) *DeleteCu
 // SetExportableLogTypes sets the ExportableLogTypes field's value.
 func (s *DeleteCustomDBEngineVersionOutput) SetExportableLogTypes(v []*string) *DeleteCustomDBEngineVersionOutput {
 	s.ExportableLogTypes = v
+	return s
+}
+
+// SetImage sets the Image field's value.
+func (s *DeleteCustomDBEngineVersionOutput) SetImage(v *CustomDBEngineVersionAMI) *DeleteCustomDBEngineVersionOutput {
+	s.Image = v
 	return s
 }
 
@@ -38448,6 +38687,80 @@ func (s *ListTagsForResourceOutput) SetTagList(v []*Tag) *ListTagsForResourceOut
 	return s
 }
 
+// Contains the secret managed by RDS in Amazon Web Services Secrets Manager
+// for the master user password.
+//
+// For more information, see Password management with Amazon Web Services Secrets
+// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+// in the Amazon RDS User Guide and Password management with Amazon Web Services
+// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+// in the Amazon Aurora User Guide.
+type MasterUserSecret struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Web Services KMS key identifier that is used to encrypt the secret.
+	KmsKeyId *string `type:"string"`
+
+	// The Amazon Resource Name (ARN) of the secret.
+	SecretArn *string `type:"string"`
+
+	// The status of the secret.
+	//
+	// The possible status values include the following:
+	//
+	//    * creating - The secret is being created.
+	//
+	//    * active - The secret is available for normal use and rotation.
+	//
+	//    * rotating - The secret is being rotated.
+	//
+	//    * impaired - The secret can be used to access database credentials, but
+	//    it can't be rotated. A secret might have this status if, for example,
+	//    permissions are changed so that RDS can no longer access either the secret
+	//    or the KMS key for the secret. When a secret has this status, you can
+	//    correct the condition that caused the status. Alternatively, modify the
+	//    DB instance to turn off automatic management of database credentials,
+	//    and then modify the DB instance again to turn on automatic management
+	//    of database credentials.
+	SecretStatus *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s MasterUserSecret) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s MasterUserSecret) GoString() string {
+	return s.String()
+}
+
+// SetKmsKeyId sets the KmsKeyId field's value.
+func (s *MasterUserSecret) SetKmsKeyId(v string) *MasterUserSecret {
+	s.KmsKeyId = &v
+	return s
+}
+
+// SetSecretArn sets the SecretArn field's value.
+func (s *MasterUserSecret) SetSecretArn(v string) *MasterUserSecret {
+	s.SecretArn = &v
+	return s
+}
+
+// SetSecretStatus sets the SecretStatus field's value.
+func (s *MasterUserSecret) SetSecretStatus(v string) *MasterUserSecret {
+	s.SecretStatus = &v
+	return s
+}
+
 // The minimum DB engine version required for each corresponding allowed value
 // for an option setting.
 type MinimumEngineVersionPerAllowedValue struct {
@@ -38981,6 +39294,10 @@ type ModifyCustomDBEngineVersionOutput struct {
 	// The description of the database engine.
 	DBEngineDescription *string `type:"string"`
 
+	// A value that indicates the source media provider of the AMI based on the
+	// usage operation. Applicable for RDS Custom for SQL Server.
+	DBEngineMediaType *string `type:"string"`
+
 	// The ARN of the custom engine version.
 	DBEngineVersionArn *string `type:"string"`
 
@@ -39011,6 +39328,9 @@ type ModifyCustomDBEngineVersionOutput struct {
 	// The types of logs that the database engine has available for export to CloudWatch
 	// Logs.
 	ExportableLogTypes []*string `type:"list"`
+
+	// The EC2 image
+	Image *CustomDBEngineVersionAMI `type:"structure"`
 
 	// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter
 	// is required for RDS Custom, but optional for Amazon RDS.
@@ -39119,6 +39439,12 @@ func (s *ModifyCustomDBEngineVersionOutput) SetDBEngineDescription(v string) *Mo
 	return s
 }
 
+// SetDBEngineMediaType sets the DBEngineMediaType field's value.
+func (s *ModifyCustomDBEngineVersionOutput) SetDBEngineMediaType(v string) *ModifyCustomDBEngineVersionOutput {
+	s.DBEngineMediaType = &v
+	return s
+}
+
 // SetDBEngineVersionArn sets the DBEngineVersionArn field's value.
 func (s *ModifyCustomDBEngineVersionOutput) SetDBEngineVersionArn(v string) *ModifyCustomDBEngineVersionOutput {
 	s.DBEngineVersionArn = &v
@@ -39170,6 +39496,12 @@ func (s *ModifyCustomDBEngineVersionOutput) SetEngineVersion(v string) *ModifyCu
 // SetExportableLogTypes sets the ExportableLogTypes field's value.
 func (s *ModifyCustomDBEngineVersionOutput) SetExportableLogTypes(v []*string) *ModifyCustomDBEngineVersionOutput {
 	s.ExportableLogTypes = v
+	return s
+}
+
+// SetImage sets the Image field's value.
+func (s *ModifyCustomDBEngineVersionOutput) SetImage(v *CustomDBEngineVersionAMI) *ModifyCustomDBEngineVersionOutput {
+	s.Image = v
 	return s
 }
 
@@ -39741,13 +40073,68 @@ type ModifyDBClusterInput struct {
 	// Valid for: Multi-AZ DB clusters only
 	Iops *int64 `type:"integer"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// If the DB cluster doesn't manage the master user password with Amazon Web
+	// Services Secrets Manager, you can turn on this management. In this case,
+	// you can't specify MasterUserPassword.
+	//
+	// If the DB cluster already manages the master user password with Amazon Web
+	// Services Secrets Manager, and you specify that the master user password is
+	// not managed with Amazon Web Services Secrets Manager, then you must specify
+	// MasterUserPassword. In this case, RDS deletes the secret and uses the new
+	// password for the master user specified by MasterUserPassword.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide and Password management with Amazon Web Services
+	// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+	// in the Amazon Aurora User Guide.
+	//
+	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The new password for the master database user. This password can contain
 	// any printable ASCII character except "/", """, or "@".
 	//
-	// Constraints: Must contain from 8 to 41 characters.
+	// Constraints:
+	//
+	//    * Must contain from 8 to 41 characters.
+	//
+	//    * Can't be specified if ManageMasterUserPassword is turned on.
 	//
 	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
 	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if both of the following conditions are met:
+	//
+	//    * The DB cluster doesn't manage the master user password in Amazon Web
+	//    Services Secrets Manager. If the DB cluster already manages the master
+	//    user password in Amazon Web Services Secrets Manager, you can't change
+	//    the KMS key that is used to encrypt the secret.
+	//
+	//    * You are turning on ManageMasterUserPassword to manage the master user
+	//    password in Amazon Web Services Secrets Manager. If you are turning on
+	//    ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then
+	//    the aws/secretsmanager KMS key is used to encrypt the secret. If the secret
+	//    is in a different Amazon Web Services account, then you can't use the
+	//    aws/secretsmanager KMS key to encrypt the secret, and you must use a customer
+	//    managed KMS key.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	//
+	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The interval, in seconds, between points when Enhanced Monitoring metrics
 	// are collected for the DB cluster. To turn off collecting Enhanced Monitoring
@@ -39899,6 +40286,27 @@ type ModifyDBClusterInput struct {
 	//
 	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
 	PreferredMaintenanceWindow *string `type:"string"`
+
+	// A value that indicates whether to rotate the secret managed by Amazon Web
+	// Services Secrets Manager for the master user password.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB cluster. The secret value
+	// contains the updated password.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide and Password management with Amazon Web Services
+	// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+	// in the Amazon Aurora User Guide.
+	//
+	// Constraints:
+	//
+	//    * You must apply the change immediately when rotating the master user
+	//    password.
+	//
+	// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+	RotateMasterUserPassword *bool `type:"boolean"`
 
 	// The scaling properties of the DB cluster. You can only modify scaling properties
 	// for DB clusters in serverless DB engine mode.
@@ -40086,9 +40494,21 @@ func (s *ModifyDBClusterInput) SetIops(v int64) *ModifyDBClusterInput {
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *ModifyDBClusterInput) SetManageMasterUserPassword(v bool) *ModifyDBClusterInput {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *ModifyDBClusterInput) SetMasterUserPassword(v string) *ModifyDBClusterInput {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *ModifyDBClusterInput) SetMasterUserSecretKmsKeyId(v string) *ModifyDBClusterInput {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -40149,6 +40569,12 @@ func (s *ModifyDBClusterInput) SetPreferredBackupWindow(v string) *ModifyDBClust
 // SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
 func (s *ModifyDBClusterInput) SetPreferredMaintenanceWindow(v string) *ModifyDBClusterInput {
 	s.PreferredMaintenanceWindow = &v
+	return s
+}
+
+// SetRotateMasterUserPassword sets the RotateMasterUserPassword field's value.
+func (s *ModifyDBClusterInput) SetRotateMasterUserPassword(v bool) *ModifyDBClusterInput {
+	s.RotateMasterUserPassword = &v
 	return s
 }
 
@@ -40581,15 +41007,15 @@ type ModifyDBInstanceInput struct {
 	// The new compute and memory capacity of the DB instance, for example db.m4.large.
 	// Not all DB instance classes are available in all Amazon Web Services Regions,
 	// or for all database engines. For the full list of DB instance classes, and
-	// availability for your engine, see DB instance classes (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html)
+	// availability for your engine, see DB Instance Class (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html)
 	// in the Amazon RDS User Guide or Aurora DB instance classes (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html)
-	// in the Amazon Aurora User Guide.
+	// in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support
+	// for RDS Custom for Oracle (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances)
+	// and DB instance class support for RDS Custom for SQL Server (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS).
 	//
 	// If you modify the DB instance class, an outage occurs during the change.
-	// The change is applied during the next maintenance window, unless ApplyImmediately
-	// is enabled for this request.
-	//
-	// This setting doesn't apply to RDS Custom for Oracle.
+	// The change is applied during the next maintenance window, unless you specify
+	// ApplyImmediately in your request.
 	//
 	// Default: Uses existing setting
 	DBInstanceClass *string `type:"string"`
@@ -40732,7 +41158,7 @@ type ModifyDBInstanceInput struct {
 	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
 	// in the Amazon RDS User Guide.
 	//
-	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 	// in the Amazon Web Services Outposts User Guide.
 	EnableCustomerOwnedIp *bool `type:"boolean"`
 
@@ -40812,6 +41238,29 @@ type ModifyDBInstanceInput struct {
 	// Valid values: license-included | bring-your-own-license | general-public-license
 	LicenseModel *string `type:"string"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// If the DB cluster doesn't manage the master user password with Amazon Web
+	// Services Secrets Manager, you can turn on this management. In this case,
+	// you can't specify MasterUserPassword.
+	//
+	// If the DB cluster already manages the master user password with Amazon Web
+	// Services Secrets Manager, and you specify that the master user password is
+	// not managed with Amazon Web Services Secrets Manager, then you must specify
+	// MasterUserPassword. In this case, RDS deletes the secret and uses the new
+	// password for the master user specified by MasterUserPassword.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Constraints:
+	//
+	//    * Can't manage the master user password with Amazon Web Services Secrets
+	//    Manager if MasterUserPassword is specified.
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The new password for the master user. The password can include any printable
 	// ASCII character except "/", """, or "@".
 	//
@@ -40828,6 +41277,8 @@ type ModifyDBInstanceInput struct {
 	// For more information, see ModifyDBCluster.
 	//
 	// Default: Uses existing setting
+	//
+	// Constraints: Can't be specified if ManageMasterUserPassword is turned on.
 	//
 	// MariaDB
 	//
@@ -40853,6 +41304,33 @@ type ModifyDBInstanceInput struct {
 	// a way to regain access to a primary instance user if the password is lost.
 	// This includes restoring privileges that might have been accidentally revoked.
 	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if both of the following conditions are met:
+	//
+	//    * The DB instance doesn't manage the master user password in Amazon Web
+	//    Services Secrets Manager. If the DB instance already manages the master
+	//    user password in Amazon Web Services Secrets Manager, you can't change
+	//    the KMS key used to encrypt the secret.
+	//
+	//    * You are turning on ManageMasterUserPassword to manage the master user
+	//    password in Amazon Web Services Secrets Manager. If you are turning on
+	//    ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then
+	//    the aws/secretsmanager KMS key is used to encrypt the secret. If the secret
+	//    is in a different Amazon Web Services account, then you can't use the
+	//    aws/secretsmanager KMS key to encrypt the secret, and you must use a customer
+	//    managed KMS key.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically
 	// scale the storage of the DB instance.
@@ -41092,6 +41570,23 @@ type ModifyDBInstanceInput struct {
 	// RDS Custom resumes full automation. The minimum value is 60 (default). The
 	// maximum value is 1,440.
 	ResumeFullAutomationModeMinutes *int64 `type:"integer"`
+
+	// A value that indicates whether to rotate the secret managed by Amazon Web
+	// Services Secrets Manager for the master user password.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB cluster. The secret value
+	// contains the updated password.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Constraints:
+	//
+	//    * You must apply the change immediately when rotating the master user
+	//    password.
+	RotateMasterUserPassword *bool `type:"boolean"`
 
 	// Specifies the storage throughput value for the DB instance.
 	//
@@ -41346,9 +41841,21 @@ func (s *ModifyDBInstanceInput) SetLicenseModel(v string) *ModifyDBInstanceInput
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *ModifyDBInstanceInput) SetManageMasterUserPassword(v bool) *ModifyDBInstanceInput {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *ModifyDBInstanceInput) SetMasterUserPassword(v string) *ModifyDBInstanceInput {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *ModifyDBInstanceInput) SetMasterUserSecretKmsKeyId(v string) *ModifyDBInstanceInput {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -41445,6 +41952,12 @@ func (s *ModifyDBInstanceInput) SetReplicaMode(v string) *ModifyDBInstanceInput 
 // SetResumeFullAutomationModeMinutes sets the ResumeFullAutomationModeMinutes field's value.
 func (s *ModifyDBInstanceInput) SetResumeFullAutomationModeMinutes(v int64) *ModifyDBInstanceInput {
 	s.ResumeFullAutomationModeMinutes = &v
+	return s
+}
+
+// SetRotateMasterUserPassword sets the RotateMasterUserPassword field's value.
+func (s *ModifyDBInstanceInput) SetRotateMasterUserPassword(v bool) *ModifyDBInstanceInput {
+	s.RotateMasterUserPassword = &v
 	return s
 }
 
@@ -42940,13 +43453,16 @@ type OptionGroup struct {
 	// VPC and non-VPC instances.
 	AllowsVpcAndNonVpcInstanceMemberships *bool `type:"boolean"`
 
+	// Indicates when the option group was copied.
+	CopyTimestamp *time.Time `type:"timestamp"`
+
 	// Indicates the name of the engine that this option group can be applied to.
 	EngineName *string `type:"string"`
 
 	// Indicates the major engine version associated with this option group.
 	MajorEngineVersion *string `type:"string"`
 
-	// The Amazon Resource Name (ARN) for the option group.
+	// Specifies the Amazon Resource Name (ARN) for the option group.
 	OptionGroupArn *string `type:"string"`
 
 	// Provides a description of the option group.
@@ -42957,6 +43473,13 @@ type OptionGroup struct {
 
 	// Indicates what options are available in the option group.
 	Options []*Option `locationNameList:"Option" type:"list"`
+
+	// Specifies the Amazon Web Services account ID for the option group from which
+	// this option group is copied.
+	SourceAccountId *string `type:"string"`
+
+	// Specifies the name of the option group from which this option group is copied.
+	SourceOptionGroup *string `type:"string"`
 
 	// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If
 	// AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then
@@ -42987,6 +43510,12 @@ func (s OptionGroup) GoString() string {
 // SetAllowsVpcAndNonVpcInstanceMemberships sets the AllowsVpcAndNonVpcInstanceMemberships field's value.
 func (s *OptionGroup) SetAllowsVpcAndNonVpcInstanceMemberships(v bool) *OptionGroup {
 	s.AllowsVpcAndNonVpcInstanceMemberships = &v
+	return s
+}
+
+// SetCopyTimestamp sets the CopyTimestamp field's value.
+func (s *OptionGroup) SetCopyTimestamp(v time.Time) *OptionGroup {
+	s.CopyTimestamp = &v
 	return s
 }
 
@@ -43023,6 +43552,18 @@ func (s *OptionGroup) SetOptionGroupName(v string) *OptionGroup {
 // SetOptions sets the Options field's value.
 func (s *OptionGroup) SetOptions(v []*Option) *OptionGroup {
 	s.Options = v
+	return s
+}
+
+// SetSourceAccountId sets the SourceAccountId field's value.
+func (s *OptionGroup) SetSourceAccountId(v string) *OptionGroup {
+	s.SourceAccountId = &v
+	return s
+}
+
+// SetSourceOptionGroup sets the SourceOptionGroup field's value.
+func (s *OptionGroup) SetSourceOptionGroup(v string) *OptionGroup {
+	s.SourceOptionGroup = &v
 	return s
 }
 
@@ -43078,6 +43619,9 @@ func (s *OptionGroupMembership) SetStatus(v string) *OptionGroupMembership {
 // Available option.
 type OptionGroupOption struct {
 	_ struct{} `type:"structure"`
+
+	// Specifies whether the option can be copied across Amazon Web Services accounts.
+	CopyableCrossAccount *bool `type:"boolean"`
 
 	// If the option requires a port, specifies the default port for the option.
 	DefaultPort *int64 `type:"integer"`
@@ -43153,6 +43697,12 @@ func (s OptionGroupOption) String() string {
 // value will be replaced with "sensitive".
 func (s OptionGroupOption) GoString() string {
 	return s.String()
+}
+
+// SetCopyableCrossAccount sets the CopyableCrossAccount field's value.
+func (s *OptionGroupOption) SetCopyableCrossAccount(v bool) *OptionGroupOption {
+	s.CopyableCrossAccount = &v
+	return s
 }
 
 // SetDefaultPort sets the DefaultPort field's value.
@@ -46274,13 +46824,50 @@ type RestoreDBClusterFromS3Input struct {
 	// Services Region.
 	KmsKeyId *string `type:"string"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide and Password management with Amazon Web Services
+	// Secrets Manager (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+	// in the Amazon Aurora User Guide.
+	//
+	// Constraints:
+	//
+	//    * Can't manage the master user password with Amazon Web Services Secrets
+	//    Manager if MasterUserPassword is specified.
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The password for the master database user. This password can contain any
 	// printable ASCII character except "/", """, or "@".
 	//
-	// Constraints: Must contain from 8 to 41 characters.
+	// Constraints:
 	//
-	// MasterUserPassword is a required field
-	MasterUserPassword *string `type:"string" required:"true"`
+	//    * Must contain from 8 to 41 characters.
+	//
+	//    * Can't be specified if ManageMasterUserPassword is turned on.
+	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB cluster.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager
+	// KMS key is used to encrypt the secret. If the secret is in a different Amazon
+	// Web Services account, then you can't use the aws/secretsmanager KMS key to
+	// encrypt the secret, and you must use a customer managed KMS key.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The name of the master user for the restored DB cluster.
 	//
@@ -46439,9 +47026,6 @@ func (s *RestoreDBClusterFromS3Input) Validate() error {
 	if s.Engine == nil {
 		invalidParams.Add(request.NewErrParamRequired("Engine"))
 	}
-	if s.MasterUserPassword == nil {
-		invalidParams.Add(request.NewErrParamRequired("MasterUserPassword"))
-	}
 	if s.MasterUsername == nil {
 		invalidParams.Add(request.NewErrParamRequired("MasterUsername"))
 	}
@@ -46566,9 +47150,21 @@ func (s *RestoreDBClusterFromS3Input) SetKmsKeyId(v string) *RestoreDBClusterFro
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *RestoreDBClusterFromS3Input) SetManageMasterUserPassword(v bool) *RestoreDBClusterFromS3Input {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *RestoreDBClusterFromS3Input) SetMasterUserPassword(v string) *RestoreDBClusterFromS3Input {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *RestoreDBClusterFromS3Input) SetMasterUserSecretKmsKeyId(v string) *RestoreDBClusterFromS3Input {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -48130,7 +48726,7 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
 	// in the Amazon RDS User Guide.
 	//
-	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 	// in the Amazon Web Services Outposts User Guide.
 	EnableCustomerOwnedIp *bool `type:"boolean"`
 
@@ -48725,11 +49321,64 @@ type RestoreDBInstanceFromS3Input struct {
 	// The license model for this DB instance. Use general-public-license.
 	LicenseModel *string `type:"string"`
 
+	// A value that indicates whether to manage the master user password with Amazon
+	// Web Services Secrets Manager.
+	//
+	// For more information, see Password management with Amazon Web Services Secrets
+	// Manager (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Constraints:
+	//
+	//    * Can't manage the master user password with Amazon Web Services Secrets
+	//    Manager if MasterUserPassword is specified.
+	ManageMasterUserPassword *bool `type:"boolean"`
+
 	// The password for the master user. The password can include any printable
 	// ASCII character except "/", """, or "@".
 	//
+	// Constraints: Can't be specified if ManageMasterUserPassword is turned on.
+	//
+	// MariaDB
+	//
 	// Constraints: Must contain from 8 to 41 characters.
+	//
+	// Microsoft SQL Server
+	//
+	// Constraints: Must contain from 8 to 128 characters.
+	//
+	// MySQL
+	//
+	// Constraints: Must contain from 8 to 41 characters.
+	//
+	// Oracle
+	//
+	// Constraints: Must contain from 8 to 30 characters.
+	//
+	// PostgreSQL
+	//
+	// Constraints: Must contain from 8 to 128 characters.
 	MasterUserPassword *string `type:"string"`
+
+	// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically
+	// generated and managed in Amazon Web Services Secrets Manager.
+	//
+	// This setting is valid only if the master user password is managed by RDS
+	// in Amazon Web Services Secrets Manager for the DB instance.
+	//
+	// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+	// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+	// Web Services account, specify the key ARN or alias ARN.
+	//
+	// If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager
+	// KMS key is used to encrypt the secret. If the secret is in a different Amazon
+	// Web Services account, then you can't use the aws/secretsmanager KMS key to
+	// encrypt the secret, and you must use a customer managed KMS key.
+	//
+	// There is a default KMS key for your Amazon Web Services account. Your Amazon
+	// Web Services account has a different default KMS key for each Amazon Web
+	// Services Region.
+	MasterUserSecretKmsKeyId *string `type:"string"`
 
 	// The name for the master user.
 	//
@@ -49124,9 +49773,21 @@ func (s *RestoreDBInstanceFromS3Input) SetLicenseModel(v string) *RestoreDBInsta
 	return s
 }
 
+// SetManageMasterUserPassword sets the ManageMasterUserPassword field's value.
+func (s *RestoreDBInstanceFromS3Input) SetManageMasterUserPassword(v bool) *RestoreDBInstanceFromS3Input {
+	s.ManageMasterUserPassword = &v
+	return s
+}
+
 // SetMasterUserPassword sets the MasterUserPassword field's value.
 func (s *RestoreDBInstanceFromS3Input) SetMasterUserPassword(v string) *RestoreDBInstanceFromS3Input {
 	s.MasterUserPassword = &v
+	return s
+}
+
+// SetMasterUserSecretKmsKeyId sets the MasterUserSecretKmsKeyId field's value.
+func (s *RestoreDBInstanceFromS3Input) SetMasterUserSecretKmsKeyId(v string) *RestoreDBInstanceFromS3Input {
+	s.MasterUserSecretKmsKeyId = &v
 	return s
 }
 
@@ -49453,7 +50114,7 @@ type RestoreDBInstanceToPointInTimeInput struct {
 	// Amazon Web Services Outposts (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html)
 	// in the Amazon RDS User Guide.
 	//
-	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+	// For more information about CoIPs, see Customer-owned IP addresses (https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 	// in the Amazon Web Services Outposts User Guide.
 	EnableCustomerOwnedIp *bool `type:"boolean"`
 
@@ -52330,6 +52991,9 @@ type UserAuthConfig struct {
 	// to the underlying database.
 	AuthScheme *string `type:"string" enum:"AuthScheme"`
 
+	// The type of authentication the proxy uses for connections from clients.
+	ClientPasswordAuthType *string `type:"string" enum:"ClientPasswordAuthType"`
+
 	// A user-specified description about the authentication used by a proxy to
 	// log in as a specific database user.
 	Description *string `type:"string"`
@@ -52372,6 +53036,12 @@ func (s *UserAuthConfig) SetAuthScheme(v string) *UserAuthConfig {
 	return s
 }
 
+// SetClientPasswordAuthType sets the ClientPasswordAuthType field's value.
+func (s *UserAuthConfig) SetClientPasswordAuthType(v string) *UserAuthConfig {
+	s.ClientPasswordAuthType = &v
+	return s
+}
+
 // SetDescription sets the Description field's value.
 func (s *UserAuthConfig) SetDescription(v string) *UserAuthConfig {
 	s.Description = &v
@@ -52404,6 +53074,9 @@ type UserAuthConfigInfo struct {
 	// The type of authentication that the proxy uses for connections from the proxy
 	// to the underlying database.
 	AuthScheme *string `type:"string" enum:"AuthScheme"`
+
+	// The type of authentication the proxy uses for connections from clients.
+	ClientPasswordAuthType *string `type:"string" enum:"ClientPasswordAuthType"`
 
 	// A user-specified description about the authentication used by a proxy to
 	// log in as a specific database user.
@@ -52444,6 +53117,12 @@ func (s UserAuthConfigInfo) GoString() string {
 // SetAuthScheme sets the AuthScheme field's value.
 func (s *UserAuthConfigInfo) SetAuthScheme(v string) *UserAuthConfigInfo {
 	s.AuthScheme = &v
+	return s
+}
+
+// SetClientPasswordAuthType sets the ClientPasswordAuthType field's value.
+func (s *UserAuthConfigInfo) SetClientPasswordAuthType(v string) *UserAuthConfigInfo {
+	s.ClientPasswordAuthType = &v
 	return s
 }
 
@@ -52776,6 +53455,30 @@ func AutomationMode_Values() []string {
 }
 
 const (
+	// ClientPasswordAuthTypeMysqlNativePassword is a ClientPasswordAuthType enum value
+	ClientPasswordAuthTypeMysqlNativePassword = "MYSQL_NATIVE_PASSWORD"
+
+	// ClientPasswordAuthTypePostgresScramSha256 is a ClientPasswordAuthType enum value
+	ClientPasswordAuthTypePostgresScramSha256 = "POSTGRES_SCRAM_SHA_256"
+
+	// ClientPasswordAuthTypePostgresMd5 is a ClientPasswordAuthType enum value
+	ClientPasswordAuthTypePostgresMd5 = "POSTGRES_MD5"
+
+	// ClientPasswordAuthTypeSqlServerAuthentication is a ClientPasswordAuthType enum value
+	ClientPasswordAuthTypeSqlServerAuthentication = "SQL_SERVER_AUTHENTICATION"
+)
+
+// ClientPasswordAuthType_Values returns all elements of the ClientPasswordAuthType enum
+func ClientPasswordAuthType_Values() []string {
+	return []string{
+		ClientPasswordAuthTypeMysqlNativePassword,
+		ClientPasswordAuthTypePostgresScramSha256,
+		ClientPasswordAuthTypePostgresMd5,
+		ClientPasswordAuthTypeSqlServerAuthentication,
+	}
+}
+
+const (
 	// CustomEngineVersionStatusAvailable is a CustomEngineVersionStatus enum value
 	CustomEngineVersionStatusAvailable = "available"
 
@@ -53003,6 +53706,9 @@ const (
 
 	// SourceTypeDbProxy is a SourceType enum value
 	SourceTypeDbProxy = "db-proxy"
+
+	// SourceTypeBlueGreenDeployment is a SourceType enum value
+	SourceTypeBlueGreenDeployment = "blue-green-deployment"
 )
 
 // SourceType_Values returns all elements of the SourceType enum
@@ -53016,6 +53722,7 @@ func SourceType_Values() []string {
 		SourceTypeDbClusterSnapshot,
 		SourceTypeCustomEngineVersion,
 		SourceTypeDbProxy,
+		SourceTypeBlueGreenDeployment,
 	}
 }
 
