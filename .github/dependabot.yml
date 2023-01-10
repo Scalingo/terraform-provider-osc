@@ -8,3 +8,9 @@ updates:
       interval: "monthly"
     reviewers:
       - "brandon-welsch"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "brandon-welsch"
