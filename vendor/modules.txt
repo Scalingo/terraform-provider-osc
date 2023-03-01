@@ -300,7 +300,7 @@ github.com/hashicorp/vault/helper/pgpkeys
 ## explicit; go 1.19
 github.com/hashicorp/vault/sdk/helper/compressutil
 github.com/hashicorp/vault/sdk/helper/jsonutil
-# github.com/hashicorp/yamux v0.0.0-20211028200310-0bc27b27de87
+# github.com/hashicorp/yamux v0.1.1
 ## explicit; go 1.15
 github.com/hashicorp/yamux
 # github.com/huandu/xstrings v1.4.0
