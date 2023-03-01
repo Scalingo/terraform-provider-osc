@@ -296,7 +296,7 @@ github.com/hashicorp/terraform-svchost/disco
 # github.com/hashicorp/vault v1.12.3
 ## explicit; go 1.19
 github.com/hashicorp/vault/helper/pgpkeys
-# github.com/hashicorp/vault/sdk v0.6.1-0.20221130221033-2b200844a606
+# github.com/hashicorp/vault/sdk v0.8.1
 ## explicit; go 1.19
 github.com/hashicorp/vault/sdk/helper/compressutil
 github.com/hashicorp/vault/sdk/helper/jsonutil
