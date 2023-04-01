@@ -288,8 +288,8 @@ github.com/hashicorp/terraform-plugin-sdk/terraform
 # github.com/hashicorp/terraform-plugin-test/v2 v2.2.1
 ## explicit; go 1.12
 github.com/hashicorp/terraform-plugin-test/v2
-# github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734
-## explicit; go 1.12
+# github.com/hashicorp/terraform-svchost v0.1.0
+## explicit; go 1.19
 github.com/hashicorp/terraform-svchost
 github.com/hashicorp/terraform-svchost/auth
 github.com/hashicorp/terraform-svchost/disco
