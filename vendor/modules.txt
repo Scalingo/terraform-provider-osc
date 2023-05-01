@@ -140,8 +140,8 @@ github.com/bgentry/go-netrc/netrc
 # github.com/bgentry/speakeasy v0.1.0
 ## explicit
 github.com/bgentry/speakeasy
-# github.com/cloudflare/circl v1.1.0
-## explicit; go 1.15
+# github.com/cloudflare/circl v1.3.2
+## explicit; go 1.17
 github.com/cloudflare/circl/dh/x25519
 github.com/cloudflare/circl/dh/x448
 github.com/cloudflare/circl/ecc/goldilocks
