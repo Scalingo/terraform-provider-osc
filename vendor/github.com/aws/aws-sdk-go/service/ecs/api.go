@@ -196,6 +196,9 @@ func (c *ECS) CreateClusterRequest(input *CreateClusterInput) (req *request.Requ
 //     The specified parameter isn't valid. Review the available parameters for
 //     the API request.
 //
+//   - NamespaceNotFoundException
+//     The specified namespace wasn't found.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/CreateCluster
 func (c *ECS) CreateCluster(input *CreateClusterInput) (*CreateClusterOutput, error) {
 	req, out := c.CreateClusterRequest(input)
@@ -5555,6 +5558,9 @@ func (c *ECS) UpdateClusterRequest(input *UpdateClusterInput) (req *request.Requ
 //     The specified parameter isn't valid. Review the available parameters for
 //     the API request.
 //
+//   - NamespaceNotFoundException
+//     The specified namespace wasn't found.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/UpdateCluster
 func (c *ECS) UpdateCluster(input *UpdateClusterInput) (*UpdateClusterOutput, error) {
 	req, out := c.UpdateClusterRequest(input)
@@ -8217,9 +8223,6 @@ type Container struct {
 	Image *string `locationName:"image" type:"string"`
 
 	// The container image manifest digest.
-	//
-	// The imageDigest is only returned if the container is using an image hosted
-	// in Amazon ECR, otherwise it is omitted.
 	ImageDigest *string `locationName:"imageDigest" type:"string"`
 
 	// The last known status of the container.
@@ -10348,7 +10351,7 @@ type CreateServiceInput struct {
 	DeploymentController *DeploymentController `locationName:"deploymentController" type:"structure"`
 
 	// The number of instantiations of the specified task definition to place and
-	// keep running on your cluster.
+	// keep running in your service.
 	//
 	// This is required if schedulingStrategy is REPLICA or isn't specified. If
 	// schedulingStrategy is DAEMON then this isn't required.
@@ -18427,7 +18430,7 @@ type PutAccountSettingDefaultInput struct {
 	Name *string `locationName:"name" type:"string" required:"true" enum:"SettingName"`
 
 	// The account setting value for the specified principal ARN. Accepted values
-	// are enabled and disabled.
+	// are enabled, disabled, on, and off.
 	//
 	// Value is a required field
 	Value *string `locationName:"value" type:"string" required:"true"`
@@ -18541,7 +18544,7 @@ type PutAccountSettingInput struct {
 	PrincipalArn *string `locationName:"principalArn" type:"string"`
 
 	// The account setting value for the specified principal ARN. Accepted values
-	// are enabled and disabled.
+	// are enabled, disabled, on, and off.
 	//
 	// Value is a required field
 	Value *string `locationName:"value" type:"string" required:"true"`
