@@ -57,7 +57,7 @@ require (
 	github.com/hashicorp/terraform-json v0.16.0 // indirect
 	github.com/hashicorp/terraform-plugin-test/v2 v2.2.1 // indirect
 	github.com/hashicorp/terraform-svchost v0.1.0 // indirect
-	github.com/hashicorp/vault/sdk v0.8.1 // indirect
+	github.com/hashicorp/vault/sdk v0.9.1 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
 	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
