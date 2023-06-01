@@ -348,7 +348,7 @@ github.com/hashicorp/terraform-plugin-test/v2
 github.com/hashicorp/terraform-svchost
 github.com/hashicorp/terraform-svchost/auth
 github.com/hashicorp/terraform-svchost/disco
-# github.com/hashicorp/vault v1.13.1
+# github.com/hashicorp/vault v1.13.2
 ## explicit; go 1.19
 github.com/hashicorp/vault/helper/pgpkeys
 # github.com/hashicorp/vault/sdk v0.8.1
