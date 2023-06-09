@@ -349,7 +349,7 @@ github.com/hashicorp/terraform-plugin-test/v2
 github.com/hashicorp/terraform-svchost
 github.com/hashicorp/terraform-svchost/auth
 github.com/hashicorp/terraform-svchost/disco
-# github.com/hashicorp/vault v1.13.2
+# github.com/hashicorp/vault v1.13.3
 ## explicit; go 1.19
 github.com/hashicorp/vault/helper/pgpkeys
 # github.com/hashicorp/vault/sdk v0.9.1
@@ -554,6 +554,8 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
+# golang.org/x/tools v0.7.0
+## explicit; go 1.18
 # golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
 ## explicit; go 1.17
 golang.org/x/xerrors
