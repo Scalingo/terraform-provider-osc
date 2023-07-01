@@ -386,7 +386,7 @@ github.com/keybase/go-crypto/openpgp/errors
 github.com/keybase/go-crypto/openpgp/packet
 github.com/keybase/go-crypto/openpgp/s2k
 github.com/keybase/go-crypto/rsa
-# github.com/klauspost/compress v1.16.5
+# github.com/klauspost/compress v1.16.6
 ## explicit; go 1.18
 github.com/klauspost/compress
 github.com/klauspost/compress/fse
