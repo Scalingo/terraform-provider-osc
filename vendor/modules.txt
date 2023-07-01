@@ -160,7 +160,7 @@ github.com/davecgh/go-spew/spew
 # github.com/fatih/color v1.15.0
 ## explicit; go 1.17
 github.com/fatih/color
-# github.com/frankban/quicktest v1.14.4
+# github.com/frankban/quicktest v1.14.5
 ## explicit; go 1.13
 # github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 ## explicit
