@@ -27,6 +27,7 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-cidr v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
+	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
@@ -82,7 +83,7 @@ require (
 	github.com/ulikunitz/xz v0.5.11 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	github.com/zclconf/go-cty v1.13.2 // indirect
+	github.com/zclconf/go-cty v1.14.0 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.3 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
