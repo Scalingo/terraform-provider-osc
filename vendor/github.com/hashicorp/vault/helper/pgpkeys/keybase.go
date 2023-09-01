@@ -1,6 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-// SPDX-License-Identifier: MPL-2.0
-
 package pgpkeys
 
 import (
@@ -9,9 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ProtonMail/go-crypto/openpgp"
+	"github.com/hashicorp/errwrap"
 	cleanhttp "github.com/hashicorp/go-cleanhttp"
 	"github.com/hashicorp/vault/sdk/helper/jsonutil"
+	"github.com/keybase/go-crypto/openpgp"
 )
 
 const (
@@ -104,7 +102,7 @@ func FetchKeybasePubkeys(input []string) (map[string]string, error) {
 		serializedEntity.Reset()
 		err = entityList[0].Serialize(serializedEntity)
 		if err != nil {
-			return nil, fmt.Errorf("error serializing entity for user %q: %w", usernames[i], err)
+			return nil, errwrap.Wrapf(fmt.Sprintf("error serializing entity for user %q: {{err}}", usernames[i]), err)
 		}
 
 		// The API returns values in the same ordering requested, so this should properly match
