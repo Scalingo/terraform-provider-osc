@@ -198,6 +198,12 @@ const (
 	// in the Amazon Redshift Cluster Management Guide.
 	ErrCodeClusterSubnetQuotaExceededFault = "ClusterSubnetQuotaExceededFault"
 
+	// ErrCodeConflictPolicyUpdateFault for service response error code
+	// "ConflictPolicyUpdateFault".
+	//
+	// There is a conflict while updating the resource policy.
+	ErrCodeConflictPolicyUpdateFault = "ConflictPolicyUpdateFault"
+
 	// ErrCodeCopyToRegionDisabledFault for service response error code
 	// "CopyToRegionDisabledFault".
 	//
@@ -351,6 +357,12 @@ const (
 	// bucket specified when enabling logging.
 	ErrCodeInsufficientS3BucketPolicyFault = "InsufficientS3BucketPolicyFault"
 
+	// ErrCodeIntegrationNotFoundFault for service response error code
+	// "IntegrationNotFoundFault".
+	//
+	// The integration can't be found.
+	ErrCodeIntegrationNotFoundFault = "IntegrationNotFoundFault"
+
 	// ErrCodeInvalidAuthenticationProfileRequestFault for service response error code
 	// "InvalidAuthenticationProfileRequestFault".
 	//
@@ -455,6 +467,12 @@ const (
 	// valid namespace.
 	ErrCodeInvalidNamespaceFault = "InvalidNamespaceFault"
 
+	// ErrCodeInvalidPolicyFault for service response error code
+	// "InvalidPolicyFault".
+	//
+	// The resource policy isn't valid.
+	ErrCodeInvalidPolicyFault = "InvalidPolicyFault"
+
 	// ErrCodeInvalidReservedNodeStateFault for service response error code
 	// "InvalidReservedNodeState".
 	//
@@ -547,6 +565,13 @@ const (
 	//
 	// The cluster subnet group does not cover all Availability Zones.
 	ErrCodeInvalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
+
+	// ErrCodeIpv6CidrBlockNotFoundFault for service response error code
+	// "Ipv6CidrBlockNotFoundFault".
+	//
+	// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use
+	// dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
+	ErrCodeIpv6CidrBlockNotFoundFault = "Ipv6CidrBlockNotFoundFault"
 
 	// ErrCodeLimitExceededFault for service response error code
 	// "LimitExceededFault".
