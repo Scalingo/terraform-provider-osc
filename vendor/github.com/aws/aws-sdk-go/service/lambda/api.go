@@ -3254,8 +3254,10 @@ func (c *Lambda) InvokeRequest(input *InvokeInput) (req *request.Request, output
 // Invoke API operation for AWS Lambda.
 //
 // Invokes a Lambda function. You can invoke a function synchronously (and wait
-// for the response), or asynchronously. To invoke a function asynchronously,
-// set InvocationType to Event.
+// for the response), or asynchronously. By default, Lambda invokes your function
+// synchronously (i.e. theInvocationType is RequestResponse). To invoke a function
+// asynchronously, set InvocationType to Event. Lambda passes the ClientContext
+// object to your function for synchronous invocations only.
 //
 // For synchronous invocation (https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html),
 // details about the function response, including errors, are included in the
@@ -3485,6 +3487,10 @@ func (c *Lambda) InvokeAsyncRequest(input *InvokeAsyncInput) (req *request.Reque
 // For asynchronous function invocation, use Invoke.
 //
 // Invokes a function asynchronously.
+//
+// If you do use the InvokeAsync action, note that it doesn't support the use
+// of X-Ray active tracing. Trace ID is not propagated to the function, even
+// if X-Ray active tracing is turned on.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -8848,8 +8854,9 @@ type CreateEventSourceMappingInput struct {
 	// the batch in two and retry.
 	BisectBatchOnFunctionError *bool `type:"boolean"`
 
-	// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard
-	// Amazon SNS topic destination for discarded records.
+	// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration
+	// object that specifies the destination of an event after Lambda processes
+	// it.
 	DestinationConfig *DestinationConfig `type:"structure"`
 
 	// Specific configuration settings for a DocumentDB event source.
@@ -8869,7 +8876,9 @@ type CreateEventSourceMappingInput struct {
 	//
 	//    * Amazon Simple Queue Service – The ARN of the queue.
 	//
-	//    * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
+	//    * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster
+	//    or the ARN of the VPC connection (for cross-account event source mappings
+	//    (https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
 	//
 	//    * Amazon MQ – The ARN of the broker.
 	//
@@ -9225,7 +9234,8 @@ type CreateFunctionInput struct {
 	Environment *Environment `type:"structure"`
 
 	// The size of the function's /tmp directory in MB. The default value is 512,
-	// but can be any whole number between 512 and 10,240 MB.
+	// but can be any whole number between 512 and 10,240 MB. For more information,
+	// see Configuring ephemeral storage (console) (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 	EphemeralStorage *EphemeralStorage `type:"structure"`
 
 	// Connection settings for an Amazon EFS file system.
@@ -9273,6 +9283,9 @@ type CreateFunctionInput struct {
 	// to add to the function's execution environment. Specify each layer by its
 	// ARN, including the version.
 	Layers []*string `type:"list"`
+
+	// The function's Amazon CloudWatch Logs configuration settings.
+	LoggingConfig *LoggingConfig `type:"structure"`
 
 	// The amount of memory available to the function (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-memory-console)
 	// at runtime. Increasing the function memory also increases its CPU allocation.
@@ -9385,6 +9398,11 @@ func (s *CreateFunctionInput) Validate() error {
 			}
 		}
 	}
+	if s.LoggingConfig != nil {
+		if err := s.LoggingConfig.Validate(); err != nil {
+			invalidParams.AddNested("LoggingConfig", err.(request.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -9467,6 +9485,12 @@ func (s *CreateFunctionInput) SetKMSKeyArn(v string) *CreateFunctionInput {
 // SetLayers sets the Layers field's value.
 func (s *CreateFunctionInput) SetLayers(v []*string) *CreateFunctionInput {
 	s.Layers = v
+	return s
+}
+
+// SetLoggingConfig sets the LoggingConfig field's value.
+func (s *CreateFunctionInput) SetLoggingConfig(v *LoggingConfig) *CreateFunctionInput {
+	s.LoggingConfig = v
 	return s
 }
 
@@ -11411,7 +11435,8 @@ func (s *EnvironmentResponse) SetVariables(v map[string]*string) *EnvironmentRes
 }
 
 // The size of the function's /tmp directory in MB. The default value is 512,
-// but it can be any whole number between 512 and 10,240 MB.
+// but can be any whole number between 512 and 10,240 MB. For more information,
+// see Configuring ephemeral storage (console) (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 type EphemeralStorage struct {
 	_ struct{} `type:"structure"`
 
@@ -11486,8 +11511,9 @@ type EventSourceMappingConfiguration struct {
 	// the batch in two and retry. The default value is false.
 	BisectBatchOnFunctionError *bool `type:"boolean"`
 
-	// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic
-	// destination for discarded records.
+	// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event
+	// sources only) A configuration object that specifies the destination of an
+	// event after Lambda processes it.
 	DestinationConfig *DestinationConfig `type:"structure"`
 
 	// Specific configuration settings for a DocumentDB event source.
@@ -12090,8 +12116,9 @@ type FunctionConfiguration struct {
 	// Omitted from CloudTrail logs.
 	Environment *EnvironmentResponse `type:"structure"`
 
-	// The size of the function’s /tmp directory in MB. The default value is 512,
-	// but it can be any whole number between 512 and 10,240 MB.
+	// The size of the function's /tmp directory in MB. The default value is 512,
+	// but can be any whole number between 512 and 10,240 MB. For more information,
+	// see Configuring ephemeral storage (console) (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 	EphemeralStorage *EphemeralStorage `type:"structure"`
 
 	// Connection settings for an Amazon EFS file system (https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
@@ -12131,6 +12158,9 @@ type FunctionConfiguration struct {
 
 	// The function's layers (https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
 	Layers []*Layer `type:"list"`
+
+	// The function's Amazon CloudWatch Logs configuration settings.
+	LoggingConfig *LoggingConfig `type:"structure"`
 
 	// For Lambda@Edge functions, the ARN of the main function.
 	MasterArn *string `type:"string"`
@@ -12317,6 +12347,12 @@ func (s *FunctionConfiguration) SetLastUpdateStatusReasonCode(v string) *Functio
 // SetLayers sets the Layers field's value.
 func (s *FunctionConfiguration) SetLayers(v []*Layer) *FunctionConfiguration {
 	s.Layers = v
+	return s
+}
+
+// SetLoggingConfig sets the LoggingConfig field's value.
+func (s *FunctionConfiguration) SetLoggingConfig(v *LoggingConfig) *FunctionConfiguration {
+	s.LoggingConfig = v
 	return s
 }
 
@@ -15168,7 +15204,8 @@ type InvokeInput struct {
 	_ struct{} `type:"structure" payload:"Payload"`
 
 	// Up to 3,583 bytes of base64-encoded data about the invoking client to pass
-	// to the function in the context object.
+	// to the function in the context object. Lambda passes the ClientContext object
+	// to your function for synchronous invocations only.
 	ClientContext *string `location:"header" locationName:"X-Amz-Client-Context" type:"string"`
 
 	// The name of the Lambda function, version, or alias.
@@ -16709,7 +16746,9 @@ type ListEventSourceMappingsInput struct {
 	//
 	//    * Amazon Simple Queue Service – The ARN of the queue.
 	//
-	//    * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
+	//    * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster
+	//    or the ARN of the VPC connection (for cross-account event source mappings
+	//    (https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
 	//
 	//    * Amazon MQ – The ARN of the broker.
 	//
@@ -17323,7 +17362,7 @@ type ListLayerVersionsInput struct {
 	// The compatible instruction set architecture (https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 	CompatibleArchitecture *string `location:"querystring" locationName:"CompatibleArchitecture" type:"string" enum:"Architecture"`
 
-	// A runtime identifier. For example, go1.x.
+	// A runtime identifier. For example, java21.
 	//
 	// The following list includes deprecated runtimes. For more information, see
 	// Runtime deprecation policy (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -17454,7 +17493,7 @@ type ListLayersInput struct {
 	// The compatible instruction set architecture (https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 	CompatibleArchitecture *string `location:"querystring" locationName:"CompatibleArchitecture" type:"string" enum:"Architecture"`
 
-	// A runtime identifier. For example, go1.x.
+	// A runtime identifier. For example, java21.
 	//
 	// The following list includes deprecated runtimes. For more information, see
 	// Runtime deprecation policy (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -17889,11 +17928,104 @@ func (s *ListVersionsByFunctionOutput) SetVersions(v []*FunctionConfiguration) *
 	return s
 }
 
+// The function's Amazon CloudWatch Logs configuration settings.
+type LoggingConfig struct {
+	_ struct{} `type:"structure"`
+
+	// Set this property to filter the application logs for your function that Lambda
+	// sends to CloudWatch. Lambda only sends application logs at the selected level
+	// of detail and lower, where TRACE is the highest level and FATAL is the lowest.
+	ApplicationLogLevel *string `type:"string" enum:"ApplicationLogLevel"`
+
+	// The format in which Lambda sends your function's application and system logs
+	// to CloudWatch. Select between plain text and structured JSON.
+	LogFormat *string `type:"string" enum:"LogFormat"`
+
+	// The name of the Amazon CloudWatch log group the function sends logs to. By
+	// default, Lambda functions send logs to a default log group named /aws/lambda/<function
+	// name>. To use a different log group, enter an existing log group or enter
+	// a new log group name.
+	LogGroup *string `min:"1" type:"string"`
+
+	// Set this property to filter the system logs for your function that Lambda
+	// sends to CloudWatch. Lambda only sends system logs at the selected level
+	// of detail and lower, where DEBUG is the highest level and WARN is the lowest.
+	SystemLogLevel *string `type:"string" enum:"SystemLogLevel"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s LoggingConfig) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s LoggingConfig) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *LoggingConfig) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "LoggingConfig"}
+	if s.LogGroup != nil && len(*s.LogGroup) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("LogGroup", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetApplicationLogLevel sets the ApplicationLogLevel field's value.
+func (s *LoggingConfig) SetApplicationLogLevel(v string) *LoggingConfig {
+	s.ApplicationLogLevel = &v
+	return s
+}
+
+// SetLogFormat sets the LogFormat field's value.
+func (s *LoggingConfig) SetLogFormat(v string) *LoggingConfig {
+	s.LogFormat = &v
+	return s
+}
+
+// SetLogGroup sets the LogGroup field's value.
+func (s *LoggingConfig) SetLogGroup(v string) *LoggingConfig {
+	s.LogGroup = &v
+	return s
+}
+
+// SetSystemLogLevel sets the SystemLogLevel field's value.
+func (s *LoggingConfig) SetSystemLogLevel(v string) *LoggingConfig {
+	s.SystemLogLevel = &v
+	return s
+}
+
 // A destination for events that failed processing.
 type OnFailure struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) of the destination resource.
+	//
+	// To retain records of asynchronous invocations (https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations),
+	// you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function,
+	// or Amazon EventBridge event bus as the destination.
+	//
+	// To retain records of failed invocations from Kinesis and DynamoDB event sources
+	// (https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#event-source-mapping-destinations),
+	// you can configure an Amazon SNS topic or Amazon SQS queue as the destination.
+	//
+	// To retain records of failed invocations from self-managed Kafka (https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination)
+	// or Amazon MSK (https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination),
+	// you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket
+	// as the destination.
 	Destination *string `type:"string"`
 }
 
@@ -21349,8 +21481,9 @@ type UpdateEventSourceMappingInput struct {
 	// the batch in two and retry.
 	BisectBatchOnFunctionError *bool `type:"boolean"`
 
-	// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard
-	// Amazon SNS topic destination for discarded records.
+	// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration
+	// object that specifies the destination of an event after Lambda processes
+	// it.
 	DestinationConfig *DestinationConfig `type:"structure"`
 
 	// Specific configuration settings for a DocumentDB event source.
@@ -21788,7 +21921,8 @@ type UpdateFunctionConfigurationInput struct {
 	Environment *Environment `type:"structure"`
 
 	// The size of the function's /tmp directory in MB. The default value is 512,
-	// but can be any whole number between 512 and 10,240 MB.
+	// but can be any whole number between 512 and 10,240 MB. For more information,
+	// see Configuring ephemeral storage (console) (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 	EphemeralStorage *EphemeralStorage `type:"structure"`
 
 	// Connection settings for an Amazon EFS file system.
@@ -21836,6 +21970,9 @@ type UpdateFunctionConfigurationInput struct {
 	// to add to the function's execution environment. Specify each layer by its
 	// ARN, including the version.
 	Layers []*string `type:"list"`
+
+	// The function's Amazon CloudWatch Logs configuration settings.
+	LoggingConfig *LoggingConfig `type:"structure"`
 
 	// The amount of memory available to the function (https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-memory-console)
 	// at runtime. Increasing the function memory also increases its CPU allocation.
@@ -21926,6 +22063,11 @@ func (s *UpdateFunctionConfigurationInput) Validate() error {
 			}
 		}
 	}
+	if s.LoggingConfig != nil {
+		if err := s.LoggingConfig.Validate(); err != nil {
+			invalidParams.AddNested("LoggingConfig", err.(request.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -21990,6 +22132,12 @@ func (s *UpdateFunctionConfigurationInput) SetKMSKeyArn(v string) *UpdateFunctio
 // SetLayers sets the Layers field's value.
 func (s *UpdateFunctionConfigurationInput) SetLayers(v []*string) *UpdateFunctionConfigurationInput {
 	s.Layers = v
+	return s
+}
+
+// SetLoggingConfig sets the LoggingConfig field's value.
+func (s *UpdateFunctionConfigurationInput) SetLoggingConfig(v *LoggingConfig) *UpdateFunctionConfigurationInput {
+	s.LoggingConfig = v
 	return s
 }
 
@@ -22567,6 +22715,38 @@ func (s *VpcConfigResponse) SetVpcId(v string) *VpcConfigResponse {
 }
 
 const (
+	// ApplicationLogLevelTrace is a ApplicationLogLevel enum value
+	ApplicationLogLevelTrace = "TRACE"
+
+	// ApplicationLogLevelDebug is a ApplicationLogLevel enum value
+	ApplicationLogLevelDebug = "DEBUG"
+
+	// ApplicationLogLevelInfo is a ApplicationLogLevel enum value
+	ApplicationLogLevelInfo = "INFO"
+
+	// ApplicationLogLevelWarn is a ApplicationLogLevel enum value
+	ApplicationLogLevelWarn = "WARN"
+
+	// ApplicationLogLevelError is a ApplicationLogLevel enum value
+	ApplicationLogLevelError = "ERROR"
+
+	// ApplicationLogLevelFatal is a ApplicationLogLevel enum value
+	ApplicationLogLevelFatal = "FATAL"
+)
+
+// ApplicationLogLevel_Values returns all elements of the ApplicationLogLevel enum
+func ApplicationLogLevel_Values() []string {
+	return []string{
+		ApplicationLogLevelTrace,
+		ApplicationLogLevelDebug,
+		ApplicationLogLevelInfo,
+		ApplicationLogLevelWarn,
+		ApplicationLogLevelError,
+		ApplicationLogLevelFatal,
+	}
+}
+
+const (
 	// ArchitectureX8664 is a Architecture enum value
 	ArchitectureX8664 = "x86_64"
 
@@ -22835,6 +23015,22 @@ func LastUpdateStatusReasonCode_Values() []string {
 }
 
 const (
+	// LogFormatJson is a LogFormat enum value
+	LogFormatJson = "JSON"
+
+	// LogFormatText is a LogFormat enum value
+	LogFormatText = "Text"
+)
+
+// LogFormat_Values returns all elements of the LogFormat enum
+func LogFormat_Values() []string {
+	return []string{
+		LogFormatJson,
+		LogFormatText,
+	}
+}
+
+const (
 	// LogTypeNone is a LogType enum value
 	LogTypeNone = "None"
 
@@ -22966,6 +23162,9 @@ const (
 	// RuntimeDotnet6 is a Runtime enum value
 	RuntimeDotnet6 = "dotnet6"
 
+	// RuntimeDotnet8 is a Runtime enum value
+	RuntimeDotnet8 = "dotnet8"
+
 	// RuntimeNodejs43Edge is a Runtime enum value
 	RuntimeNodejs43Edge = "nodejs4.3-edge"
 
@@ -22998,6 +23197,18 @@ const (
 
 	// RuntimePython311 is a Runtime enum value
 	RuntimePython311 = "python3.11"
+
+	// RuntimeNodejs20X is a Runtime enum value
+	RuntimeNodejs20X = "nodejs20.x"
+
+	// RuntimeProvidedAl2023 is a Runtime enum value
+	RuntimeProvidedAl2023 = "provided.al2023"
+
+	// RuntimePython312 is a Runtime enum value
+	RuntimePython312 = "python3.12"
+
+	// RuntimeJava21 is a Runtime enum value
+	RuntimeJava21 = "java21"
 )
 
 // Runtime_Values returns all elements of the Runtime enum
@@ -23024,6 +23235,7 @@ func Runtime_Values() []string {
 		RuntimeDotnetcore21,
 		RuntimeDotnetcore31,
 		RuntimeDotnet6,
+		RuntimeDotnet8,
 		RuntimeNodejs43Edge,
 		RuntimeGo1X,
 		RuntimeRuby25,
@@ -23035,6 +23247,10 @@ func Runtime_Values() []string {
 		RuntimeJava17,
 		RuntimeRuby32,
 		RuntimePython311,
+		RuntimeNodejs20X,
+		RuntimeProvidedAl2023,
+		RuntimePython312,
+		RuntimeJava21,
 	}
 }
 
@@ -23235,6 +23451,26 @@ func StateReasonCode_Values() []string {
 		StateReasonCodeInvalidRuntime,
 		StateReasonCodeInvalidZipFileException,
 		StateReasonCodeFunctionError,
+	}
+}
+
+const (
+	// SystemLogLevelDebug is a SystemLogLevel enum value
+	SystemLogLevelDebug = "DEBUG"
+
+	// SystemLogLevelInfo is a SystemLogLevel enum value
+	SystemLogLevelInfo = "INFO"
+
+	// SystemLogLevelWarn is a SystemLogLevel enum value
+	SystemLogLevelWarn = "WARN"
+)
+
+// SystemLogLevel_Values returns all elements of the SystemLogLevel enum
+func SystemLogLevel_Values() []string {
+	return []string{
+		SystemLogLevelDebug,
+		SystemLogLevelInfo,
+		SystemLogLevelWarn,
 	}
 }
 
