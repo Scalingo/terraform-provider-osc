@@ -480,7 +480,9 @@ func (c *ECS) CreateTaskSetRequest(input *CreateTaskSetInput) (req *request.Requ
 // see Amazon ECS deployment types (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html)
 // in the Amazon Elastic Container Service Developer Guide.
 //
-// You can create a maximum of 5 tasks sets for a deployment.
+// For information about the maximum number of task sets and otther quotas,
+// see Amazon ECS service quotas (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html)
+// in the Amazon Elastic Container Service Developer Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -3993,52 +3995,6 @@ func (c *ECS) PutAccountSettingRequest(input *PutAccountSettingInput) (req *requ
 // For more information, see Account Settings (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html)
 // in the Amazon Elastic Container Service Developer Guide.
 //
-// When you specify serviceLongArnFormat, taskLongArnFormat, or containerInstanceLongArnFormat,
-// the Amazon Resource Name (ARN) and resource ID format of the resource type
-// for a specified user, role, or the root user for an account is affected.
-// The opt-in and opt-out account setting must be set for each Amazon ECS resource
-// separately. The ARN and resource ID format of a resource is defined by the
-// opt-in status of the user or role that created the resource. You must turn
-// on this setting to use Amazon ECS features such as resource tagging.
-//
-// When you specify awsvpcTrunking, the elastic network interface (ENI) limit
-// for any new container instances that support the feature is changed. If awsvpcTrunking
-// is turned on, any new container instances that support the feature are launched
-// have the increased ENI limits available to them. For more information, see
-// Elastic Network Interface Trunking (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html)
-// in the Amazon Elastic Container Service Developer Guide.
-//
-// When you specify containerInsights, the default setting indicating whether
-// Amazon Web Services CloudWatch Container Insights is turned on for your clusters
-// is changed. If containerInsights is turned on, any new clusters that are
-// created will have Container Insights turned on unless you disable it during
-// cluster creation. For more information, see CloudWatch Container Insights
-// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html)
-// in the Amazon Elastic Container Service Developer Guide.
-//
-// Amazon ECS is introducing tagging authorization for resource creation. Users
-// must have permissions for actions that create the resource, such as ecsCreateCluster.
-// If tags are specified when you create a resource, Amazon Web Services performs
-// additional authorization to verify if users or roles have permissions to
-// create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource
-// action. For more information, see Grant permission to tag resources on creation
-// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html)
-// in the Amazon ECS Developer Guide.
-//
-// When Amazon Web Services determines that a security or infrastructure update
-// is needed for an Amazon ECS task hosted on Fargate, the tasks need to be
-// stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod
-// to configure the wait time to retire a Fargate task. For information about
-// the Fargate tasks maintenance, see Amazon Web Services Fargate task maintenance
-// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html)
-// in the Amazon ECS Developer Guide.
-//
-// The guardDutyActivate parameter is read-only in Amazon ECS and indicates
-// whether Amazon ECS Runtime Monitoring is enabled or disabled by your security
-// administrator in your Amazon ECS account. Amazon GuardDuty controls this
-// account setting on your behalf. For more information, see Protecting Amazon
-// ECS workloads with Amazon ECS Runtime Monitoring (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
-//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -7118,7 +7074,8 @@ func (s *AutoScalingGroupProviderUpdate) SetManagedTerminationProtection(v strin
 	return s
 }
 
-// An object representing the networking details for a task or service.
+// An object representing the networking details for a task or service. For
+// example awsvpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}
 type AwsVpcConfiguration struct {
 	_ struct{} `type:"structure"`
 
@@ -9133,19 +9090,6 @@ type ContainerDefinition struct {
 	// and the --sysctl option to docker run (https://docs.docker.com/engine/reference/run/#security-configuration).
 	// For example, you can configure net.ipv4.tcp_keepalive_time setting to maintain
 	// longer lived connections.
-	//
-	// We don't recommended that you specify network-related systemControls parameters
-	// for multiple containers in a single task that also uses either the awsvpc
-	// or host network modes. For tasks that use the awsvpc network mode, the container
-	// that's started last determines which systemControls parameters take effect.
-	// For tasks that use the host network mode, it changes the container instance's
-	// namespaced kernel parameters as well as the containers.
-	//
-	// This parameter is not supported for Windows containers.
-	//
-	// This parameter is only supported for tasks that are hosted on Fargate if
-	// the tasks are using platform version 1.4.0 or later (Linux). This isn't supported
-	// for Windows containers on Fargate.
 	SystemControls []*SystemControl `locationName:"systemControls" type:"list"`
 
 	// A list of ulimits to set in the container. If a ulimit value is specified
@@ -9159,7 +9103,7 @@ type ContainerDefinition struct {
 	// set by the operating system with the exception of the nofile resource limit
 	// parameter which Fargate overrides. The nofile resource limit sets a restriction
 	// on the number of open files that a container can use. The default nofile
-	// soft limit is 1024 and the default hard limit is 4096.
+	// soft limit is 1024 and the default hard limit is 65535.
 	//
 	// This parameter requires version 1.18 of the Docker Remote API or greater
 	// on your container instance. To check the Docker Remote API version on your
@@ -9584,6 +9528,10 @@ func (s *ContainerDefinition) SetWorkingDirectory(v string) *ContainerDefinition
 //   - Linux platform version 1.3.0 or later.
 //
 //   - Windows platform version 1.0.0 or later.
+//
+// For more information about how to create a container dependency, see Container
+// dependency (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency)
+// in the Amazon Elastic Container Service Developer Guide.
 type ContainerDependency struct {
 	_ struct{} `type:"structure"`
 
@@ -10638,7 +10586,7 @@ type CreateServiceInput struct {
 	//
 	// Fargate Spot infrastructure is available for use but a capacity provider
 	// strategy must be used. For more information, see Fargate capacity providers
-	// (https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html)
+	// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html)
 	// in the Amazon ECS User Guide for Fargate.
 	//
 	// The EC2 launch type runs your tasks on Amazon EC2 instances registered to
@@ -12546,7 +12494,7 @@ type DeploymentConfiguration struct {
 	//    passed their health checks. The amount of time the service scheduler can
 	//    wait for is determined by the container health check settings.
 	//
-	// For services are that do use a load balancer, the following should be noted:
+	// For services that do use a load balancer, the following should be noted:
 	//
 	//    * If a task has no essential containers with a health check defined, the
 	//    service scheduler will wait for the load balancer target group health
@@ -14261,8 +14209,8 @@ func (s *EnvironmentFile) SetValue(v string) *EnvironmentFile {
 // The amount of ephemeral storage to allocate for the task. This parameter
 // is used to expand the total amount of ephemeral storage available, beyond
 // the default amount, for tasks hosted on Fargate. For more information, see
-// Fargate task storage (https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html)
-// in the Amazon ECS User Guide for Fargate.
+// Using data volumes in tasks (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html)
+// in the Amazon ECS Developer Guide;.
 //
 // For tasks using the Fargate launch type, the task requires the following
 // platforms:
@@ -17203,6 +17151,9 @@ type LoadBalancer struct {
 
 	// The name of the container (as it appears in a container definition) to associate
 	// with the load balancer.
+	//
+	// You need to specify the container name when configuring the target group
+	// for an Amazon ECS load balancer.
 	ContainerName *string `locationName:"containerName" type:"string"`
 
 	// The port on the container to associate with the load balancer. This port
@@ -18826,40 +18777,83 @@ func (s *ProxyConfiguration) SetType(v string) *ProxyConfiguration {
 type PutAccountSettingDefaultInput struct {
 	_ struct{} `type:"structure"`
 
-	// The resource name for which to modify the account setting. If you specify
-	// serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If
-	// you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS
-	// tasks is affected. If you specify containerInstanceLongArnFormat, the ARN
-	// and resource ID for your Amazon ECS container instances is affected. If you
-	// specify awsvpcTrunking, the ENI limit for your Amazon ECS container instances
-	// is affected. If you specify containerInsights, the default setting for Amazon
-	// Web Services CloudWatch Container Insights for your clusters is affected.
-	// If you specify tagResourceAuthorization, the opt-in option for tagging resources
-	// on creation is affected. For information about the opt-in timeline, see Tagging
-	// authorization timeline (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources)
-	// in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod,
-	// the default wait time to retire a Fargate task due to required maintenance
-	// is affected.
+	// The resource name for which to modify the account setting.
 	//
-	// When you specify fargateFIPSMode for the name and enabled for the value,
-	// Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For
-	// more information about FIPS-140 compliance with Fargate, see Amazon Web Services
-	// Fargate Federal Information Processing Standard (FIPS) 140-2 compliance (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html)
-	// in the Amazon Elastic Container Service Developer Guide.
+	// The following are the valid values for the account setting name.
 	//
-	// When Amazon Web Services determines that a security or infrastructure update
-	// is needed for an Amazon ECS task hosted on Fargate, the tasks need to be
-	// stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod
-	// to set the wait time to retire a Fargate task to the default. For information
-	// about the Fargate tasks maintenance, see Amazon Web Services Fargate task
-	// maintenance (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html)
-	// in the Amazon ECS Developer Guide.
+	//    * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN)
+	//    and resource ID format of the resource type for a specified user, role,
+	//    or the root user for an account is affected. The opt-in and opt-out account
+	//    setting must be set for each Amazon ECS resource separately. The ARN and
+	//    resource ID format of a resource is defined by the opt-in status of the
+	//    user or role that created the resource. You must turn on this setting
+	//    to use Amazon ECS features such as resource tagging.
 	//
-	// The guardDutyActivate parameter is read-only in Amazon ECS and indicates
-	// whether Amazon ECS Runtime Monitoring is enabled or disabled by your security
-	// administrator in your Amazon ECS account. Amazon GuardDuty controls this
-	// account setting on your behalf. For more information, see Protecting Amazon
-	// ECS workloads with Amazon ECS Runtime Monitoring (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
+	//    * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and
+	//    resource ID format of the resource type for a specified user, role, or
+	//    the root user for an account is affected. The opt-in and opt-out account
+	//    setting must be set for each Amazon ECS resource separately. The ARN and
+	//    resource ID format of a resource is defined by the opt-in status of the
+	//    user or role that created the resource. You must turn on this setting
+	//    to use Amazon ECS features such as resource tagging.
+	//
+	//    * containerInstanceLongArnFormat - When modified, the Amazon Resource
+	//    Name (ARN) and resource ID format of the resource type for a specified
+	//    user, role, or the root user for an account is affected. The opt-in and
+	//    opt-out account setting must be set for each Amazon ECS resource separately.
+	//    The ARN and resource ID format of a resource is defined by the opt-in
+	//    status of the user or role that created the resource. You must turn on
+	//    this setting to use Amazon ECS features such as resource tagging.
+	//
+	//    * awsvpcTrunking - When modified, the elastic network interface (ENI)
+	//    limit for any new container instances that support the feature is changed.
+	//    If awsvpcTrunking is turned on, any new container instances that support
+	//    the feature are launched have the increased ENI limits available to them.
+	//    For more information, see Elastic Network Interface Trunking (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html)
+	//    in the Amazon Elastic Container Service Developer Guide.
+	//
+	//    * containerInsights - When modified, the default setting indicating whether
+	//    Amazon Web Services CloudWatch Container Insights is turned on for your
+	//    clusters is changed. If containerInsights is turned on, any new clusters
+	//    that are created will have Container Insights turned on unless you disable
+	//    it during cluster creation. For more information, see CloudWatch Container
+	//    Insights (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html)
+	//    in the Amazon Elastic Container Service Developer Guide.
+	//
+	//    * dualStackIPv6 - When turned on, when using a VPC in dual stack mode,
+	//    your tasks using the awsvpc network mode can have an IPv6 address assigned.
+	//    For more information on using IPv6 with tasks launched on Amazon EC2 instances,
+	//    see Using a VPC in dual-stack mode (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack).
+	//    For more information on using IPv6 with tasks launched on Fargate, see
+	//    Using a VPC in dual-stack mode (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+	//
+	//    * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance
+	//    is affected.
+	//
+	//    * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines
+	//    that a security or infrastructure update is needed for an Amazon ECS task
+	//    hosted on Fargate, the tasks need to be stopped and new tasks launched
+	//    to replace them. Use fargateTaskRetirementWaitPeriod to configure the
+	//    wait time to retire a Fargate task. For information about the Fargate
+	//    tasks maintenance, see Amazon Web Services Fargate task maintenance (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html)
+	//    in the Amazon ECS Developer Guide.
+	//
+	//    * tagResourceAuthorization - Amazon ECS is introducing tagging authorization
+	//    for resource creation. Users must have permissions for actions that create
+	//    the resource, such as ecsCreateCluster. If tags are specified when you
+	//    create a resource, Amazon Web Services performs additional authorization
+	//    to verify if users or roles have permissions to create tags. Therefore,
+	//    you must grant explicit permissions to use the ecs:TagResource action.
+	//    For more information, see Grant permission to tag resources on creation
+	//    (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html)
+	//    in the Amazon ECS Developer Guide.
+	//
+	//    * guardDutyActivate - The guardDutyActivate parameter is read-only in
+	//    Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled
+	//    or disabled by your security administrator in your Amazon ECS account.
+	//    Amazon GuardDuty controls this account setting on your behalf. For more
+	//    information, see Protecting Amazon ECS workloads with Amazon ECS Runtime
+	//    Monitoring (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
 	//
 	// Name is a required field
 	Name *string `locationName:"name" type:"string" required:"true" enum:"SettingName"`
@@ -18963,26 +18957,83 @@ func (s *PutAccountSettingDefaultOutput) SetSetting(v *Setting) *PutAccountSetti
 type PutAccountSettingInput struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon ECS resource name for which to modify the account setting. If
-	// you specify serviceLongArnFormat, the ARN for your Amazon ECS services is
-	// affected. If you specify taskLongArnFormat, the ARN and resource ID for your
-	// Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat,
-	// the ARN and resource ID for your Amazon ECS container instances is affected.
-	// If you specify awsvpcTrunking, the elastic network interface (ENI) limit
-	// for your Amazon ECS container instances is affected. If you specify containerInsights,
-	// the default setting for Amazon Web Services CloudWatch Container Insights
-	// for your clusters is affected. If you specify fargateFIPSMode, Fargate FIPS
-	// 140 compliance is affected. If you specify tagResourceAuthorization, the
-	// opt-in option for tagging resources on creation is affected. For information
-	// about the opt-in timeline, see Tagging authorization timeline (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources)
-	// in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod,
-	// the wait time to retire a Fargate task is affected.
+	// The Amazon ECS account setting name to modify.
 	//
-	// The guardDutyActivate parameter is read-only in Amazon ECS and indicates
-	// whether Amazon ECS Runtime Monitoring is enabled or disabled by your security
-	// administrator in your Amazon ECS account. Amazon GuardDuty controls this
-	// account setting on your behalf. For more information, see Protecting Amazon
-	// ECS workloads with Amazon ECS Runtime Monitoring (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
+	// The following are the valid values for the account setting name.
+	//
+	//    * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN)
+	//    and resource ID format of the resource type for a specified user, role,
+	//    or the root user for an account is affected. The opt-in and opt-out account
+	//    setting must be set for each Amazon ECS resource separately. The ARN and
+	//    resource ID format of a resource is defined by the opt-in status of the
+	//    user or role that created the resource. You must turn on this setting
+	//    to use Amazon ECS features such as resource tagging.
+	//
+	//    * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and
+	//    resource ID format of the resource type for a specified user, role, or
+	//    the root user for an account is affected. The opt-in and opt-out account
+	//    setting must be set for each Amazon ECS resource separately. The ARN and
+	//    resource ID format of a resource is defined by the opt-in status of the
+	//    user or role that created the resource. You must turn on this setting
+	//    to use Amazon ECS features such as resource tagging.
+	//
+	//    * containerInstanceLongArnFormat - When modified, the Amazon Resource
+	//    Name (ARN) and resource ID format of the resource type for a specified
+	//    user, role, or the root user for an account is affected. The opt-in and
+	//    opt-out account setting must be set for each Amazon ECS resource separately.
+	//    The ARN and resource ID format of a resource is defined by the opt-in
+	//    status of the user or role that created the resource. You must turn on
+	//    this setting to use Amazon ECS features such as resource tagging.
+	//
+	//    * awsvpcTrunking - When modified, the elastic network interface (ENI)
+	//    limit for any new container instances that support the feature is changed.
+	//    If awsvpcTrunking is turned on, any new container instances that support
+	//    the feature are launched have the increased ENI limits available to them.
+	//    For more information, see Elastic Network Interface Trunking (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html)
+	//    in the Amazon Elastic Container Service Developer Guide.
+	//
+	//    * containerInsights - When modified, the default setting indicating whether
+	//    Amazon Web Services CloudWatch Container Insights is turned on for your
+	//    clusters is changed. If containerInsights is turned on, any new clusters
+	//    that are created will have Container Insights turned on unless you disable
+	//    it during cluster creation. For more information, see CloudWatch Container
+	//    Insights (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html)
+	//    in the Amazon Elastic Container Service Developer Guide.
+	//
+	//    * dualStackIPv6 - When turned on, when using a VPC in dual stack mode,
+	//    your tasks using the awsvpc network mode can have an IPv6 address assigned.
+	//    For more information on using IPv6 with tasks launched on Amazon EC2 instances,
+	//    see Using a VPC in dual-stack mode (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack).
+	//    For more information on using IPv6 with tasks launched on Fargate, see
+	//    Using a VPC in dual-stack mode (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+	//
+	//    * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance
+	//    is affected.
+	//
+	//    * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines
+	//    that a security or infrastructure update is needed for an Amazon ECS task
+	//    hosted on Fargate, the tasks need to be stopped and new tasks launched
+	//    to replace them. Use fargateTaskRetirementWaitPeriod to configure the
+	//    wait time to retire a Fargate task. For information about the Fargate
+	//    tasks maintenance, see Amazon Web Services Fargate task maintenance (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html)
+	//    in the Amazon ECS Developer Guide.
+	//
+	//    * tagResourceAuthorization - Amazon ECS is introducing tagging authorization
+	//    for resource creation. Users must have permissions for actions that create
+	//    the resource, such as ecsCreateCluster. If tags are specified when you
+	//    create a resource, Amazon Web Services performs additional authorization
+	//    to verify if users or roles have permissions to create tags. Therefore,
+	//    you must grant explicit permissions to use the ecs:TagResource action.
+	//    For more information, see Grant permission to tag resources on creation
+	//    (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html)
+	//    in the Amazon ECS Developer Guide.
+	//
+	//    * guardDutyActivate - The guardDutyActivate parameter is read-only in
+	//    Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled
+	//    or disabled by your security administrator in your Amazon ECS account.
+	//    Amazon GuardDuty controls this account setting on your behalf. For more
+	//    information, see Protecting Amazon ECS workloads with Amazon ECS Runtime
+	//    Monitoring (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
 	//
 	// Name is a required field
 	Name *string `locationName:"name" type:"string" required:"true" enum:"SettingName"`
@@ -19603,8 +19654,8 @@ type RegisterTaskDefinitionInput struct {
 	// The amount of ephemeral storage to allocate for the task. This parameter
 	// is used to expand the total amount of ephemeral storage available, beyond
 	// the default amount, for tasks hosted on Fargate. For more information, see
-	// Fargate task storage (https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html)
-	// in the Amazon ECS User Guide for Fargate.
+	// Using data volumes in tasks (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html)
+	// in the Amazon ECS Developer Guide.
 	//
 	// For tasks using the Fargate launch type, the task requires the following
 	// platforms:
@@ -20448,8 +20499,8 @@ type RunTaskInput struct {
 	//
 	// Fargate Spot infrastructure is available for use but a capacity provider
 	// strategy must be used. For more information, see Fargate capacity providers
-	// (https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html)
-	// in the Amazon ECS User Guide for Fargate.
+	// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html)
+	// in the Amazon ECS Developer Guide.
 	//
 	// The EC2 launch type runs your tasks on Amazon EC2 instances registered to
 	// your cluster.
@@ -20770,6 +20821,11 @@ type RunTaskOutput struct {
 	_ struct{} `type:"structure"`
 
 	// Any failures associated with the call.
+	//
+	// For information about how to address failures, see Service event messages
+	// (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages.html#service-event-messages-list)
+	// and API failure reasons (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html)
+	// in the Amazon Elastic Container Service Developer Guide.
 	Failures []*Failure `locationName:"failures" type:"list"`
 
 	// A full description of the tasks that were run. The tasks that were successfully
@@ -21712,6 +21768,14 @@ type ServiceConnectService struct {
 	//
 	// PortName is a required field
 	PortName *string `locationName:"portName" type:"string" required:"true"`
+
+	// A reference to an object that represents the configured timeouts for Service
+	// Connect.
+	Timeout *TimeoutConfiguration `locationName:"timeout" type:"structure"`
+
+	// A reference to an object that represents a Transport Layer Security (TLS)
+	// configuration.
+	Tls *ServiceConnectTlsConfiguration `locationName:"tls" type:"structure"`
 }
 
 // String returns the string representation.
@@ -21748,6 +21812,11 @@ func (s *ServiceConnectService) Validate() error {
 			}
 		}
 	}
+	if s.Tls != nil {
+		if err := s.Tls.Validate(); err != nil {
+			invalidParams.AddNested("Tls", err.(request.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -21776,6 +21845,18 @@ func (s *ServiceConnectService) SetIngressPortOverride(v int64) *ServiceConnectS
 // SetPortName sets the PortName field's value.
 func (s *ServiceConnectService) SetPortName(v string) *ServiceConnectService {
 	s.PortName = &v
+	return s
+}
+
+// SetTimeout sets the Timeout field's value.
+func (s *ServiceConnectService) SetTimeout(v *TimeoutConfiguration) *ServiceConnectService {
+	s.Timeout = v
+	return s
+}
+
+// SetTls sets the Tls field's value.
+func (s *ServiceConnectService) SetTls(v *ServiceConnectTlsConfiguration) *ServiceConnectService {
+	s.Tls = v
 	return s
 }
 
@@ -21837,6 +21918,105 @@ func (s *ServiceConnectServiceResource) SetDiscoveryArn(v string) *ServiceConnec
 // SetDiscoveryName sets the DiscoveryName field's value.
 func (s *ServiceConnectServiceResource) SetDiscoveryName(v string) *ServiceConnectServiceResource {
 	s.DiscoveryName = &v
+	return s
+}
+
+// An object that represents the Amazon Web Services Private Certificate Authority
+// certificate.
+type ServiceConnectTlsCertificateAuthority struct {
+	_ struct{} `type:"structure"`
+
+	// The ARN of the Amazon Web Services Private Certificate Authority certificate.
+	AwsPcaAuthorityArn *string `locationName:"awsPcaAuthorityArn" type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ServiceConnectTlsCertificateAuthority) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ServiceConnectTlsCertificateAuthority) GoString() string {
+	return s.String()
+}
+
+// SetAwsPcaAuthorityArn sets the AwsPcaAuthorityArn field's value.
+func (s *ServiceConnectTlsCertificateAuthority) SetAwsPcaAuthorityArn(v string) *ServiceConnectTlsCertificateAuthority {
+	s.AwsPcaAuthorityArn = &v
+	return s
+}
+
+// An object that represents the configuration for Service Connect TLS.
+type ServiceConnectTlsConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// The signer certificate authority.
+	//
+	// IssuerCertificateAuthority is a required field
+	IssuerCertificateAuthority *ServiceConnectTlsCertificateAuthority `locationName:"issuerCertificateAuthority" type:"structure" required:"true"`
+
+	// The Amazon Web Services Key Management Service key.
+	KmsKey *string `locationName:"kmsKey" type:"string"`
+
+	// The Amazon Resource Name (ARN) of the IAM role that's associated with the
+	// Service Connect TLS.
+	RoleArn *string `locationName:"roleArn" type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ServiceConnectTlsConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ServiceConnectTlsConfiguration) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ServiceConnectTlsConfiguration) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ServiceConnectTlsConfiguration"}
+	if s.IssuerCertificateAuthority == nil {
+		invalidParams.Add(request.NewErrParamRequired("IssuerCertificateAuthority"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetIssuerCertificateAuthority sets the IssuerCertificateAuthority field's value.
+func (s *ServiceConnectTlsConfiguration) SetIssuerCertificateAuthority(v *ServiceConnectTlsCertificateAuthority) *ServiceConnectTlsConfiguration {
+	s.IssuerCertificateAuthority = v
+	return s
+}
+
+// SetKmsKey sets the KmsKey field's value.
+func (s *ServiceConnectTlsConfiguration) SetKmsKey(v string) *ServiceConnectTlsConfiguration {
+	s.KmsKey = &v
+	return s
+}
+
+// SetRoleArn sets the RoleArn field's value.
+func (s *ServiceConnectTlsConfiguration) SetRoleArn(v string) *ServiceConnectTlsConfiguration {
+	s.RoleArn = &v
 	return s
 }
 
@@ -22815,7 +22995,7 @@ type StopTaskInput struct {
 	// An optional message specified when a task is stopped. For example, if you're
 	// using a custom scheduler, you can use this parameter to specify the reason
 	// for stopping the task here, and the message appears in subsequent DescribeTasks
-	// API operations on this task. Up to 255 characters are allowed in this message.
+	// API operations on this task.
 	Reason *string `locationName:"reason" type:"string"`
 
 	// The task ID of the task to stop.
@@ -23305,19 +23485,37 @@ func (s *SubmitTaskStateChangeOutput) SetAcknowledgment(v string) *SubmitTaskSta
 // maps to Sysctls in the Create a container (https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
 // section of the Docker Remote API (https://docs.docker.com/engine/api/v1.35/)
 // and the --sysctl option to docker run (https://docs.docker.com/engine/reference/run/#security-configuration).
+// For example, you can configure net.ipv4.tcp_keepalive_time setting to maintain
+// longer lived connections.
 //
 // We don't recommend that you specify network-related systemControls parameters
-// for multiple containers in a single task. This task also uses either the
-// awsvpc or host network mode. It does it for the following reasons.
+// for multiple containers in a single task that also uses either the awsvpc
+// or host network mode. Doing this has the following disadvantages:
 //
-//   - For tasks that use the awsvpc network mode, if you set systemControls
-//     for any container, it applies to all containers in the task. If you set
-//     different systemControls for multiple containers in a single task, the
-//     container that's started last determines which systemControls take effect.
+//   - For tasks that use the awsvpc network mode including Fargate, if you
+//     set systemControls for any container, it applies to all containers in
+//     the task. If you set different systemControls for multiple containers
+//     in a single task, the container that's started last determines which systemControls
+//     take effect.
 //
-//   - For tasks that use the host network mode, the systemControls parameter
-//     applies to the container instance's kernel parameter and that of all containers
-//     of any tasks running on that container instance.
+//   - For tasks that use the host network mode, the network namespace systemControls
+//     aren't supported.
+//
+// If you're setting an IPC resource namespace to use for the containers in
+// the task, the following conditions apply to your system controls. For more
+// information, see IPC mode (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_definition_ipcmode).
+//
+//   - For tasks that use the host IPC mode, IPC namespace systemControls aren't
+//     supported.
+//
+//   - For tasks that use the task IPC mode, IPC namespace systemControls values
+//     apply to all containers within a task.
+//
+// This parameter is not supported for Windows containers.
+//
+// This parameter is only supported for tasks that are hosted on Fargate if
+// the tasks are using platform version 1.4.0 or later (Linux). This isn't supported
+// for Windows containers on Fargate.
 type SystemControl struct {
 	_ struct{} `type:"structure"`
 
@@ -23891,22 +24089,8 @@ type Task struct {
 	// The stop code indicating why a task was stopped. The stoppedReason might
 	// contain additional details.
 	//
-	// For more information about stop code, see Stopped tasks error codes (https://docs.aws.amazon.com/AmazonECS/latest/userguide/stopped-task-error-codes.html)
-	// in the Amazon ECS User Guide.
-	//
-	// The following are valid values:
-	//
-	//    * TaskFailedToStart
-	//
-	//    * EssentialContainerExited
-	//
-	//    * UserInitiated
-	//
-	//    * TerminationNotice
-	//
-	//    * ServiceSchedulerInitiated
-	//
-	//    * SpotInterruption
+	// For more information about stop code, see Stopped tasks error codes (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stopped-task-error-codes.html)
+	// in the Amazon ECS Developer Guide.
 	StopCode *string `locationName:"stopCode" type:"string" enum:"TaskStopCode"`
 
 	// The Unix timestamp for the time when the task was stopped. More specifically,
@@ -25557,6 +25741,58 @@ func (s *TaskVolumeConfiguration) SetName(v string) *TaskVolumeConfiguration {
 	return s
 }
 
+// An object that represents the timeout configurations for Service Connect.
+//
+// If idleTimeout is set to a time that is less than perRequestTimeout, the
+// connection will close when the idleTimeout is reached and not the perRequestTimeout.
+type TimeoutConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// The amount of time in seconds a connection will stay active while idle. A
+	// value of 0 can be set to disable idleTimeout.
+	//
+	// The idleTimeout default for HTTP/HTTP2/GRPC is 5 minutes.
+	//
+	// The idleTimeout default for TCP is 1 hour.
+	IdleTimeoutSeconds *int64 `locationName:"idleTimeoutSeconds" type:"integer"`
+
+	// The amount of time waiting for the upstream to respond with a complete response
+	// per request. A value of 0 can be set to disable perRequestTimeout. perRequestTimeout
+	// can only be set if Service Connect appProtocol isn't TCP. Only idleTimeout
+	// is allowed for TCP appProtocol.
+	PerRequestTimeoutSeconds *int64 `locationName:"perRequestTimeoutSeconds" type:"integer"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s TimeoutConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s TimeoutConfiguration) GoString() string {
+	return s.String()
+}
+
+// SetIdleTimeoutSeconds sets the IdleTimeoutSeconds field's value.
+func (s *TimeoutConfiguration) SetIdleTimeoutSeconds(v int64) *TimeoutConfiguration {
+	s.IdleTimeoutSeconds = &v
+	return s
+}
+
+// SetPerRequestTimeoutSeconds sets the PerRequestTimeoutSeconds field's value.
+func (s *TimeoutConfiguration) SetPerRequestTimeoutSeconds(v int64) *TimeoutConfiguration {
+	s.PerRequestTimeoutSeconds = &v
+	return s
+}
+
 // The container path, mount options, and size of the tmpfs mount.
 type Tmpfs struct {
 	_ struct{} `type:"structure"`
@@ -25640,7 +25876,7 @@ func (s *Tmpfs) SetSize(v int64) *Tmpfs {
 // set by the operating system with the exception of the nofile resource limit
 // parameter which Fargate overrides. The nofile resource limit sets a restriction
 // on the number of open files that a container can use. The default nofile
-// soft limit is 1024 and the default hard limit is 4096.
+// soft limit is 1024 and the default hard limit is 65535.
 //
 // You can specify the ulimit settings for a container in a task definition.
 type Ulimit struct {
