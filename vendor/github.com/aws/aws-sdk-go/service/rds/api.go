@@ -1561,6 +1561,10 @@ func (c *RDS) CreateDBClusterRequest(input *CreateDBClusterInput) (req *request.
 //   - ErrCodeDBClusterAlreadyExistsFault "DBClusterAlreadyExistsFault"
 //     The user already has a DB cluster with the given identifier.
 //
+//   - ErrCodeInsufficientDBInstanceCapacityFault "InsufficientDBInstanceCapacity"
+//     The specified DB instance class isn't available in the specified Availability
+//     Zone.
+//
 //   - ErrCodeInsufficientStorageClusterCapacityFault "InsufficientStorageClusterCapacity"
 //     There is insufficient storage available for the current action. You might
 //     be able to resolve this error by updating your subnet group to use different
@@ -2684,6 +2688,110 @@ func (c *RDS) CreateDBSecurityGroup(input *CreateDBSecurityGroupInput) (*CreateD
 // for more information on using Contexts.
 func (c *RDS) CreateDBSecurityGroupWithContext(ctx aws.Context, input *CreateDBSecurityGroupInput, opts ...request.Option) (*CreateDBSecurityGroupOutput, error) {
 	req, out := c.CreateDBSecurityGroupRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateDBShardGroup = "CreateDBShardGroup"
+
+// CreateDBShardGroupRequest generates a "aws/request.Request" representing the
+// client's request for the CreateDBShardGroup operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateDBShardGroup for more information on using the CreateDBShardGroup
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the CreateDBShardGroupRequest method.
+//	req, resp := client.CreateDBShardGroupRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/CreateDBShardGroup
+func (c *RDS) CreateDBShardGroupRequest(input *CreateDBShardGroupInput) (req *request.Request, output *CreateDBShardGroupOutput) {
+	op := &request.Operation{
+		Name:       opCreateDBShardGroup,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateDBShardGroupInput{}
+	}
+
+	output = &CreateDBShardGroupOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateDBShardGroup API operation for Amazon Relational Database Service.
+//
+// Creates a new DB shard group for Aurora Limitless Database. You must enable
+// Aurora Limitless Database to create a DB shard group.
+//
+// Valid for: Aurora DB clusters only
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation CreateDBShardGroup for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeDBShardGroupAlreadyExistsFault "DBShardGroupAlreadyExists"
+//     The specified DB shard group name must be unique in your Amazon Web Services
+//     account in the specified Amazon Web Services Region.
+//
+//   - ErrCodeDBClusterNotFoundFault "DBClusterNotFoundFault"
+//     DBClusterIdentifier doesn't refer to an existing DB cluster.
+//
+//   - ErrCodeMaxDBShardGroupLimitReached "MaxDBShardGroupLimitReached"
+//     The maximum number of DB shard groups for your Amazon Web Services account
+//     in the specified Amazon Web Services Region has been reached.
+//
+//   - ErrCodeInvalidDBClusterStateFault "InvalidDBClusterStateFault"
+//     The requested operation can't be performed while the cluster is in this state.
+//
+//   - ErrCodeInvalidMaxAcuFault "InvalidMaxAcu"
+//     The maximum capacity of the DB shard group must be 48-7168 Aurora capacity
+//     units (ACUs).
+//
+//   - ErrCodeUnsupportedDBEngineVersionFault "UnsupportedDBEngineVersion"
+//     The specified DB engine version isn't supported for Aurora Limitless Database.
+//
+//   - ErrCodeInvalidVPCNetworkStateFault "InvalidVPCNetworkStateFault"
+//     The DB subnet group doesn't cover all Availability Zones after it's created
+//     because of users' change.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/CreateDBShardGroup
+func (c *RDS) CreateDBShardGroup(input *CreateDBShardGroupInput) (*CreateDBShardGroupOutput, error) {
+	req, out := c.CreateDBShardGroupRequest(input)
+	return out, req.Send()
+}
+
+// CreateDBShardGroupWithContext is the same as CreateDBShardGroup with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateDBShardGroup for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) CreateDBShardGroupWithContext(ctx aws.Context, input *CreateDBShardGroupInput, opts ...request.Option) (*CreateDBShardGroupOutput, error) {
+	req, out := c.CreateDBShardGroupRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -4579,6 +4687,91 @@ func (c *RDS) DeleteDBSecurityGroup(input *DeleteDBSecurityGroupInput) (*DeleteD
 // for more information on using Contexts.
 func (c *RDS) DeleteDBSecurityGroupWithContext(ctx aws.Context, input *DeleteDBSecurityGroupInput, opts ...request.Option) (*DeleteDBSecurityGroupOutput, error) {
 	req, out := c.DeleteDBSecurityGroupRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opDeleteDBShardGroup = "DeleteDBShardGroup"
+
+// DeleteDBShardGroupRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteDBShardGroup operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteDBShardGroup for more information on using the DeleteDBShardGroup
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the DeleteDBShardGroupRequest method.
+//	req, resp := client.DeleteDBShardGroupRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DeleteDBShardGroup
+func (c *RDS) DeleteDBShardGroupRequest(input *DeleteDBShardGroupInput) (req *request.Request, output *DeleteDBShardGroupOutput) {
+	op := &request.Operation{
+		Name:       opDeleteDBShardGroup,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteDBShardGroupInput{}
+	}
+
+	output = &DeleteDBShardGroupOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DeleteDBShardGroup API operation for Amazon Relational Database Service.
+//
+// Deletes an Aurora Limitless Database DB shard group.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation DeleteDBShardGroup for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeDBShardGroupNotFoundFault "DBShardGroupNotFound"
+//     The specified DB shard group name wasn't found.
+//
+//   - ErrCodeInvalidDBShardGroupStateFault "InvalidDBShardGroupState"
+//     The DB shard group must be in the available state.
+//
+//   - ErrCodeInvalidDBClusterStateFault "InvalidDBClusterStateFault"
+//     The requested operation can't be performed while the cluster is in this state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DeleteDBShardGroup
+func (c *RDS) DeleteDBShardGroup(input *DeleteDBShardGroupInput) (*DeleteDBShardGroupOutput, error) {
+	req, out := c.DeleteDBShardGroupRequest(input)
+	return out, req.Send()
+}
+
+// DeleteDBShardGroupWithContext is the same as DeleteDBShardGroup with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteDBShardGroup for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) DeleteDBShardGroupWithContext(ctx aws.Context, input *DeleteDBShardGroupInput, opts ...request.Option) (*DeleteDBShardGroupOutput, error) {
+	req, out := c.DeleteDBShardGroupRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -8394,6 +8587,88 @@ func (c *RDS) DescribeDBSecurityGroupsPagesWithContext(ctx aws.Context, input *D
 	return p.Err()
 }
 
+const opDescribeDBShardGroups = "DescribeDBShardGroups"
+
+// DescribeDBShardGroupsRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeDBShardGroups operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeDBShardGroups for more information on using the DescribeDBShardGroups
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the DescribeDBShardGroupsRequest method.
+//	req, resp := client.DescribeDBShardGroupsRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DescribeDBShardGroups
+func (c *RDS) DescribeDBShardGroupsRequest(input *DescribeDBShardGroupsInput) (req *request.Request, output *DescribeDBShardGroupsOutput) {
+	op := &request.Operation{
+		Name:       opDescribeDBShardGroups,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeDBShardGroupsInput{}
+	}
+
+	output = &DescribeDBShardGroupsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeDBShardGroups API operation for Amazon Relational Database Service.
+//
+// Describes existing Aurora Limitless Database DB shard groups.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation DescribeDBShardGroups for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeDBShardGroupNotFoundFault "DBShardGroupNotFound"
+//     The specified DB shard group name wasn't found.
+//
+//   - ErrCodeDBClusterNotFoundFault "DBClusterNotFoundFault"
+//     DBClusterIdentifier doesn't refer to an existing DB cluster.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DescribeDBShardGroups
+func (c *RDS) DescribeDBShardGroups(input *DescribeDBShardGroupsInput) (*DescribeDBShardGroupsOutput, error) {
+	req, out := c.DescribeDBShardGroupsRequest(input)
+	return out, req.Send()
+}
+
+// DescribeDBShardGroupsWithContext is the same as DescribeDBShardGroups with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeDBShardGroups for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) DescribeDBShardGroupsWithContext(ctx aws.Context, input *DescribeDBShardGroupsInput, opts ...request.Option) (*DescribeDBShardGroupsOutput, error) {
+	req, out := c.DescribeDBShardGroupsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDescribeDBSnapshotAttributes = "DescribeDBSnapshotAttributes"
 
 // DescribeDBSnapshotAttributesRequest generates a "aws/request.Request" representing the
@@ -11414,9 +11689,11 @@ func (c *RDS) FailoverDBClusterRequest(input *FailoverDBClusterInput) (req *requ
 // Replicas (read-only instances) in the DB cluster to be the primary DB instance
 // (the cluster writer).
 //
-// For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the
-// readable standby DB instances (read-only instances) in the DB cluster to
-// be the primary DB instance (the cluster writer).
+// For a Multi-AZ DB cluster, after RDS terminates the primary DB instance,
+// the internal monitoring system detects that the primary DB instance is unhealthy
+// and promotes a readable standby (read-only instances) in the DB cluster to
+// be the primary DB instance (the cluster writer). Failover times are typically
+// less than 35 seconds.
 //
 // An Amazon Aurora DB cluster automatically fails over to an Aurora Replica,
 // if one exists, when the primary DB instance fails. A Multi-AZ DB cluster
@@ -13147,6 +13424,98 @@ func (c *RDS) ModifyDBRecommendationWithContext(ctx aws.Context, input *ModifyDB
 	return out, req.Send()
 }
 
+const opModifyDBShardGroup = "ModifyDBShardGroup"
+
+// ModifyDBShardGroupRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyDBShardGroup operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyDBShardGroup for more information on using the ModifyDBShardGroup
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the ModifyDBShardGroupRequest method.
+//	req, resp := client.ModifyDBShardGroupRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ModifyDBShardGroup
+func (c *RDS) ModifyDBShardGroupRequest(input *ModifyDBShardGroupInput) (req *request.Request, output *ModifyDBShardGroupOutput) {
+	op := &request.Operation{
+		Name:       opModifyDBShardGroup,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyDBShardGroupInput{}
+	}
+
+	output = &ModifyDBShardGroupOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyDBShardGroup API operation for Amazon Relational Database Service.
+//
+// Modifies the settings of an Aurora Limitless Database DB shard group. You
+// can change one or more settings by specifying these parameters and the new
+// values in the request.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation ModifyDBShardGroup for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeInvalidDBClusterStateFault "InvalidDBClusterStateFault"
+//     The requested operation can't be performed while the cluster is in this state.
+//
+//   - ErrCodeDBShardGroupAlreadyExistsFault "DBShardGroupAlreadyExists"
+//     The specified DB shard group name must be unique in your Amazon Web Services
+//     account in the specified Amazon Web Services Region.
+//
+//   - ErrCodeDBShardGroupNotFoundFault "DBShardGroupNotFound"
+//     The specified DB shard group name wasn't found.
+//
+//   - ErrCodeInvalidMaxAcuFault "InvalidMaxAcu"
+//     The maximum capacity of the DB shard group must be 48-7168 Aurora capacity
+//     units (ACUs).
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ModifyDBShardGroup
+func (c *RDS) ModifyDBShardGroup(input *ModifyDBShardGroupInput) (*ModifyDBShardGroupOutput, error) {
+	req, out := c.ModifyDBShardGroupRequest(input)
+	return out, req.Send()
+}
+
+// ModifyDBShardGroupWithContext is the same as ModifyDBShardGroup with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyDBShardGroup for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) ModifyDBShardGroupWithContext(ctx aws.Context, input *ModifyDBShardGroupInput, opts ...request.Option) (*ModifyDBShardGroupOutput, error) {
+	req, out := c.ModifyDBShardGroupRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opModifyDBSnapshot = "ModifyDBSnapshot"
 
 // ModifyDBSnapshotRequest generates a "aws/request.Request" representing the
@@ -13622,6 +13991,98 @@ func (c *RDS) ModifyGlobalCluster(input *ModifyGlobalClusterInput) (*ModifyGloba
 // for more information on using Contexts.
 func (c *RDS) ModifyGlobalClusterWithContext(ctx aws.Context, input *ModifyGlobalClusterInput, opts ...request.Option) (*ModifyGlobalClusterOutput, error) {
 	req, out := c.ModifyGlobalClusterRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opModifyIntegration = "ModifyIntegration"
+
+// ModifyIntegrationRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyIntegration operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyIntegration for more information on using the ModifyIntegration
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the ModifyIntegrationRequest method.
+//	req, resp := client.ModifyIntegrationRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ModifyIntegration
+func (c *RDS) ModifyIntegrationRequest(input *ModifyIntegrationInput) (req *request.Request, output *ModifyIntegrationOutput) {
+	op := &request.Operation{
+		Name:       opModifyIntegration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyIntegrationInput{}
+	}
+
+	output = &ModifyIntegrationOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyIntegration API operation for Amazon Relational Database Service.
+//
+// Modifies a zero-ETL integration with Amazon Redshift.
+//
+// Currently, you can only modify integrations that have Aurora MySQL source
+// DB clusters. Integrations with Aurora PostgreSQL and RDS sources currently
+// don't support modifying the integration.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation ModifyIntegration for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeIntegrationNotFoundFault "IntegrationNotFoundFault"
+//     The specified integration could not be found.
+//
+//   - ErrCodeInvalidIntegrationStateFault "InvalidIntegrationStateFault"
+//     The integration is in an invalid state and can't perform the requested operation.
+//
+//   - ErrCodeIntegrationConflictOperationFault "IntegrationConflictOperationFault"
+//     A conflicting conditional operation is currently in progress against this
+//     resource. Typically occurs when there are multiple requests being made to
+//     the same resource at the same time, and these requests conflict with each
+//     other.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ModifyIntegration
+func (c *RDS) ModifyIntegration(input *ModifyIntegrationInput) (*ModifyIntegrationOutput, error) {
+	req, out := c.ModifyIntegrationRequest(input)
+	return out, req.Send()
+}
+
+// ModifyIntegrationWithContext is the same as ModifyIntegration with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyIntegration for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) ModifyIntegrationWithContext(ctx aws.Context, input *ModifyIntegrationInput, opts ...request.Option) (*ModifyIntegrationOutput, error) {
+	req, out := c.ModifyIntegrationRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -14251,6 +14712,92 @@ func (c *RDS) RebootDBInstance(input *RebootDBInstanceInput) (*RebootDBInstanceO
 // for more information on using Contexts.
 func (c *RDS) RebootDBInstanceWithContext(ctx aws.Context, input *RebootDBInstanceInput, opts ...request.Option) (*RebootDBInstanceOutput, error) {
 	req, out := c.RebootDBInstanceRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opRebootDBShardGroup = "RebootDBShardGroup"
+
+// RebootDBShardGroupRequest generates a "aws/request.Request" representing the
+// client's request for the RebootDBShardGroup operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See RebootDBShardGroup for more information on using the RebootDBShardGroup
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//	// Example sending a request using the RebootDBShardGroupRequest method.
+//	req, resp := client.RebootDBShardGroupRequest(params)
+//
+//	err := req.Send()
+//	if err == nil { // resp is now filled
+//	    fmt.Println(resp)
+//	}
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RebootDBShardGroup
+func (c *RDS) RebootDBShardGroupRequest(input *RebootDBShardGroupInput) (req *request.Request, output *RebootDBShardGroupOutput) {
+	op := &request.Operation{
+		Name:       opRebootDBShardGroup,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &RebootDBShardGroupInput{}
+	}
+
+	output = &RebootDBShardGroupOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// RebootDBShardGroup API operation for Amazon Relational Database Service.
+//
+// You might need to reboot your DB shard group, usually for maintenance reasons.
+// For example, if you make certain modifications, reboot the DB shard group
+// for the changes to take effect.
+//
+// This operation applies only to Aurora Limitless Database DBb shard groups.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Relational Database Service's
+// API operation RebootDBShardGroup for usage and error information.
+//
+// Returned Error Codes:
+//
+//   - ErrCodeDBShardGroupNotFoundFault "DBShardGroupNotFound"
+//     The specified DB shard group name wasn't found.
+//
+//   - ErrCodeInvalidDBShardGroupStateFault "InvalidDBShardGroupState"
+//     The DB shard group must be in the available state.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RebootDBShardGroup
+func (c *RDS) RebootDBShardGroup(input *RebootDBShardGroupInput) (*RebootDBShardGroupOutput, error) {
+	req, out := c.RebootDBShardGroupRequest(input)
+	return out, req.Send()
+}
+
+// RebootDBShardGroupWithContext is the same as RebootDBShardGroup with the addition of
+// the ability to pass a context and additional request options.
+//
+// See RebootDBShardGroup for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *RDS) RebootDBShardGroupWithContext(ctx aws.Context, input *RebootDBShardGroupInput, opts ...request.Option) (*RebootDBShardGroupOutput, error) {
+	req, out := c.RebootDBShardGroupRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -15314,6 +15861,10 @@ func (c *RDS) RestoreDBClusterFromSnapshotRequest(input *RestoreDBClusterFromSna
 //   - ErrCodeInvalidDBInstanceStateFault "InvalidDBInstanceState"
 //     The DB instance isn't in a valid state.
 //
+//   - ErrCodeInsufficientDBInstanceCapacityFault "InsufficientDBInstanceCapacity"
+//     The specified DB instance class isn't available in the specified Availability
+//     Zone.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RestoreDBClusterFromSnapshot
 func (c *RDS) RestoreDBClusterFromSnapshot(input *RestoreDBClusterFromSnapshotInput) (*RestoreDBClusterFromSnapshotOutput, error) {
 	req, out := c.RestoreDBClusterFromSnapshotRequest(input)
@@ -15472,6 +16023,10 @@ func (c *RDS) RestoreDBClusterToPointInTimeRequest(input *RestoreDBClusterToPoin
 //
 //   - ErrCodeDBClusterAutomatedBackupNotFoundFault "DBClusterAutomatedBackupNotFoundFault"
 //     No automated backup for this DB cluster was found.
+//
+//   - ErrCodeInsufficientDBInstanceCapacityFault "InsufficientDBInstanceCapacity"
+//     The specified DB instance class isn't available in the specified Availability
+//     Zone.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RestoreDBClusterToPointInTime
 func (c *RDS) RestoreDBClusterToPointInTime(input *RestoreDBClusterToPointInTimeInput) (*RestoreDBClusterToPointInTimeOutput, error) {
@@ -19071,6 +19626,15 @@ type ClusterPendingModifiedValues struct {
 	// The number of days for which automatic DB snapshots are retained.
 	BackupRetentionPeriod *int64 `type:"integer"`
 
+	// Returns the details of the DB instance’s server certificate.
+	//
+	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon RDS User Guide and Using SSL/TLS to encrypt a connection to
+	// a DB cluster (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon Aurora User Guide.
+	CertificateDetails *CertificateDetails `type:"structure"`
+
 	// The DBClusterIdentifier value for the DB cluster.
 	DBClusterIdentifier *string `type:"string"`
 
@@ -19126,6 +19690,12 @@ func (s *ClusterPendingModifiedValues) SetAllocatedStorage(v int64) *ClusterPend
 // SetBackupRetentionPeriod sets the BackupRetentionPeriod field's value.
 func (s *ClusterPendingModifiedValues) SetBackupRetentionPeriod(v int64) *ClusterPendingModifiedValues {
 	s.BackupRetentionPeriod = &v
+	return s
+}
+
+// SetCertificateDetails sets the CertificateDetails field's value.
+func (s *ClusterPendingModifiedValues) SetCertificateDetails(v *CertificateDetails) *ClusterPendingModifiedValues {
+	s.CertificateDetails = v
 	return s
 }
 
@@ -20397,6 +20967,12 @@ type CreateBlueGreenDeploymentInput struct {
 	TargetDBClusterParameterGroupName *string `min:"1" type:"string"`
 
 	// Specify the DB instance class for the databases in the green environment.
+	//
+	// This parameter only applies to RDS DB instances, because DB instances within
+	// an Aurora DB cluster can have multiple different instance classes. If you're
+	// creating a blue/green deployment from an Aurora DB cluster, don't specify
+	// this parameter. After the green environment is created, you can individually
+	// modify the instance classes of the DB instances within the green DB cluster.
 	TargetDBInstanceClass *string `min:"5" type:"string"`
 
 	// The DB parameter group associated with the DB instance in the green environment.
@@ -21435,6 +22011,15 @@ type CreateDBClusterInput struct {
 	//    * Must be a value from 1 to 35.
 	BackupRetentionPeriod *int64 `type:"integer"`
 
+	// The CA certificate identifier to use for the DB cluster's server certificate.
+	//
+	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Valid for Cluster Type: Multi-AZ DB clusters
+	CACertificateIdentifier *string `type:"string"`
+
 	// The name of the character set (CharacterSet) to associate the DB cluster
 	// with.
 	//
@@ -21454,7 +22039,8 @@ type CreateDBClusterInput struct {
 	//
 	// Constraints:
 	//
-	//    * Must contain from 1 to 63 letters, numbers, or hyphens.
+	//    * Must contain from 1 to 63 (for Aurora DB clusters) or 1 to 52 (for Multi-AZ
+	//    DB clusters) letters, numbers, or hyphens.
 	//
 	//    * First character must be a letter.
 	//
@@ -21608,6 +22194,12 @@ type CreateDBClusterInput struct {
 	//
 	// Valid for Cluster Type: Aurora DB clusters only
 	EnableIAMDatabaseAuthentication *bool `type:"boolean"`
+
+	// Specifies whether to enable Aurora Limitless Database. You must enable Aurora
+	// Limitless Database to create a DB shard group.
+	//
+	// Valid for: Aurora DB clusters only
+	EnableLimitlessDatabase *bool `type:"boolean"`
 
 	// Specifies whether read replicas can forward write operations to the writer
 	// DB instance in the DB cluster. By default, write operations aren't allowed
@@ -22065,7 +22657,7 @@ type CreateDBClusterInput struct {
 	//
 	//    * Aurora DB clusters - aurora | aurora-iopt1
 	//
-	//    * Multi-AZ DB clusters - io1
+	//    * Multi-AZ DB clusters - io1 | io2 | gp3
 	//
 	// Default:
 	//
@@ -22150,6 +22742,12 @@ func (s *CreateDBClusterInput) SetBacktrackWindow(v int64) *CreateDBClusterInput
 // SetBackupRetentionPeriod sets the BackupRetentionPeriod field's value.
 func (s *CreateDBClusterInput) SetBackupRetentionPeriod(v int64) *CreateDBClusterInput {
 	s.BackupRetentionPeriod = &v
+	return s
+}
+
+// SetCACertificateIdentifier sets the CACertificateIdentifier field's value.
+func (s *CreateDBClusterInput) SetCACertificateIdentifier(v string) *CreateDBClusterInput {
+	s.CACertificateIdentifier = &v
 	return s
 }
 
@@ -22246,6 +22844,12 @@ func (s *CreateDBClusterInput) SetEnableHttpEndpoint(v bool) *CreateDBClusterInp
 // SetEnableIAMDatabaseAuthentication sets the EnableIAMDatabaseAuthentication field's value.
 func (s *CreateDBClusterInput) SetEnableIAMDatabaseAuthentication(v bool) *CreateDBClusterInput {
 	s.EnableIAMDatabaseAuthentication = &v
+	return s
+}
+
+// SetEnableLimitlessDatabase sets the EnableLimitlessDatabase field's value.
+func (s *CreateDBClusterInput) SetEnableLimitlessDatabase(v bool) *CreateDBClusterInput {
+	s.EnableLimitlessDatabase = &v
 	return s
 }
 
@@ -22522,7 +23126,7 @@ type CreateDBClusterParameterGroupInput struct {
 	//
 	// RDS for PostgreSQL
 	//
-	// Example: postgres12
+	// Example: postgres13
 	//
 	// To list all of the available parameter group families for a DB engine, use
 	// the following command:
@@ -22793,16 +23397,17 @@ type CreateDBInstanceInput struct {
 	//    * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40
 	//    to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 40 to 65536
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536
 	//    for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
 	//
 	// RDS for Db2
 	//
 	// Constraints to the amount of storage for each storage type are the following:
 	//
-	//    * General Purpose (SSD) storage (gp3): Must be an integer from 20 to 64000.
+	//    * General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 100 to 64000.
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to
+	//    65536.
 	//
 	// RDS for MariaDB
 	//
@@ -22811,7 +23416,8 @@ type CreateDBInstanceInput struct {
 	//    * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20
 	//    to 65536.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to
+	//    65536.
 	//
 	//    * Magnetic storage (standard): Must be an integer from 5 to 3072.
 	//
@@ -22822,7 +23428,8 @@ type CreateDBInstanceInput struct {
 	//    * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20
 	//    to 65536.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to
+	//    65536.
 	//
 	//    * Magnetic storage (standard): Must be an integer from 5 to 3072.
 	//
@@ -22833,7 +23440,8 @@ type CreateDBInstanceInput struct {
 	//    * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20
 	//    to 65536.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to
+	//    65536.
 	//
 	//    * Magnetic storage (standard): Must be an integer from 10 to 3072.
 	//
@@ -22844,7 +23452,8 @@ type CreateDBInstanceInput struct {
 	//    * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20
 	//    to 65536.
 	//
-	//    * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+	//    * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to
+	//    65536.
 	//
 	//    * Magnetic storage (standard): Must be an integer from 5 to 3072.
 	//
@@ -22856,9 +23465,9 @@ type CreateDBInstanceInput struct {
 	//    Must be an integer from 20 to 16384. Web and Express editions: Must be
 	//    an integer from 20 to 16384.
 	//
-	//    * Provisioned IOPS storage (io1): Enterprise and Standard editions: Must
-	//    be an integer from 100 to 16384. Web and Express editions: Must be an
-	//    integer from 100 to 16384.
+	//    * Provisioned IOPS storage (io1, io2): Enterprise and Standard editions:
+	//    Must be an integer from 100 to 16384. Web and Express editions: Must be
+	//    an integer from 100 to 16384.
 	//
 	//    * Magnetic storage (standard): Enterprise and Standard editions: Must
 	//    be an integer from 20 to 1024. Web and Express editions: Must be an integer
@@ -23065,7 +23674,10 @@ type CreateDBInstanceInput struct {
 	// RDS for Db2
 	//
 	// The name of the database to create when the DB instance is created. If this
-	// parameter isn't specified, no database is created in the DB instance.
+	// parameter isn't specified, no database is created in the DB instance. In
+	// some cases, we recommend that you don't add a database name. For more information,
+	// see Additional considerations (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-db-instance-prereqs.html#db2-prereqs-additional-considerations)
+	// in the Amazon RDS User Guide.
 	//
 	// Constraints:
 	//
@@ -23817,12 +24429,13 @@ type CreateDBInstanceInput struct {
 
 	// The storage type to associate with the DB instance.
 	//
-	// If you specify io1 or gp3, you must also include a value for the Iops parameter.
+	// If you specify io1, io2, or gp3, you must also include a value for the Iops
+	// parameter.
 	//
 	// This setting doesn't apply to Amazon Aurora DB instances. Storage is managed
 	// by the DB cluster.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
 	// Default: io1, if the Iops parameter is specified. Otherwise, gp2.
 	StorageType *string `type:"string"`
@@ -24818,9 +25431,10 @@ type CreateDBInstanceReadReplicaInput struct {
 
 	// The storage type to associate with the read replica.
 	//
-	// If you specify io1 or gp3, you must also include a value for the Iops parameter.
+	// If you specify io1, io2, or gp3, you must also include a value for the Iops
+	// parameter.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
 	// Default: io1 if the Iops parameter is specified. Otherwise, gp2.
 	StorageType *string `type:"string"`
@@ -25825,6 +26439,258 @@ func (s *CreateDBSecurityGroupOutput) SetDBSecurityGroup(v *DBSecurityGroup) *Cr
 	return s
 }
 
+type CreateDBShardGroupInput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	//
+	// DBClusterIdentifier is a required field
+	DBClusterIdentifier *string `type:"string" required:"true"`
+
+	// The name of the DB shard group.
+	//
+	// DBShardGroupIdentifier is a required field
+	DBShardGroupIdentifier *string `type:"string" required:"true"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	//
+	// MaxACU is a required field
+	MaxACU *float64 `type:"double" required:"true"`
+
+	// Specifies whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access is not permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// Default: The default behavior varies depending on whether DBSubnetGroupName
+	// is specified.
+	//
+	// If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified,
+	// the following applies:
+	//
+	//    * If the default VPC in the target Region doesn’t have an internet gateway
+	//    attached to it, the DB shard group is private.
+	//
+	//    * If the default VPC in the target Region has an internet gateway attached
+	//    to it, the DB shard group is public.
+	//
+	// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified,
+	// the following applies:
+	//
+	//    * If the subnets are part of a VPC that doesn’t have an internet gateway
+	//    attached to it, the DB shard group is private.
+	//
+	//    * If the subnets are part of a VPC that has an internet gateway attached
+	//    to it, the DB shard group is public.
+	PubliclyAccessible *bool `type:"boolean"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CreateDBShardGroupInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CreateDBShardGroupInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateDBShardGroupInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateDBShardGroupInput"}
+	if s.DBClusterIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("DBClusterIdentifier"))
+	}
+	if s.DBShardGroupIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("DBShardGroupIdentifier"))
+	}
+	if s.MaxACU == nil {
+		invalidParams.Add(request.NewErrParamRequired("MaxACU"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *CreateDBShardGroupInput) SetComputeRedundancy(v int64) *CreateDBShardGroupInput {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *CreateDBShardGroupInput) SetDBClusterIdentifier(v string) *CreateDBShardGroupInput {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *CreateDBShardGroupInput) SetDBShardGroupIdentifier(v string) *CreateDBShardGroupInput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *CreateDBShardGroupInput) SetMaxACU(v float64) *CreateDBShardGroupInput {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *CreateDBShardGroupInput) SetPubliclyAccessible(v bool) *CreateDBShardGroupInput {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+type CreateDBShardGroupOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	DBClusterIdentifier *string `type:"string"`
+
+	// The name of the DB shard group.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Region-unique, immutable identifier for the DB shard
+	// group.
+	DBShardGroupResourceId *string `type:"string"`
+
+	// The connection endpoint for the DB shard group.
+	Endpoint *string `type:"string"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+
+	// Indicates whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access isn't permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// For more information, see CreateDBShardGroup.
+	//
+	// This setting is only for Aurora Limitless Database.
+	PubliclyAccessible *bool `type:"boolean"`
+
+	// The status of the DB shard group.
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CreateDBShardGroupOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s CreateDBShardGroupOutput) GoString() string {
+	return s.String()
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *CreateDBShardGroupOutput) SetComputeRedundancy(v int64) *CreateDBShardGroupOutput {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *CreateDBShardGroupOutput) SetDBClusterIdentifier(v string) *CreateDBShardGroupOutput {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *CreateDBShardGroupOutput) SetDBShardGroupIdentifier(v string) *CreateDBShardGroupOutput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupResourceId sets the DBShardGroupResourceId field's value.
+func (s *CreateDBShardGroupOutput) SetDBShardGroupResourceId(v string) *CreateDBShardGroupOutput {
+	s.DBShardGroupResourceId = &v
+	return s
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *CreateDBShardGroupOutput) SetEndpoint(v string) *CreateDBShardGroupOutput {
+	s.Endpoint = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *CreateDBShardGroupOutput) SetMaxACU(v float64) *CreateDBShardGroupOutput {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *CreateDBShardGroupOutput) SetPubliclyAccessible(v bool) *CreateDBShardGroupOutput {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *CreateDBShardGroupOutput) SetStatus(v string) *CreateDBShardGroupOutput {
+	s.Status = &v
+	return s
+}
+
 type CreateDBSnapshotInput struct {
 	_ struct{} `type:"structure"`
 
@@ -26088,8 +26954,12 @@ type CreateEventSubscriptionInput struct {
 	EventCategories []*string `locationNameList:"EventCategory" type:"list"`
 
 	// The Amazon Resource Name (ARN) of the SNS topic created for event notification.
-	// The ARN is created by Amazon SNS when you create a topic and subscribe to
+	// SNS automatically creates the ARN when you create a topic and subscribe to
 	// it.
+	//
+	// RDS doesn't support FIFO (first in, first out) topics. For more information,
+	// see Message ordering and deduplication (FIFO topics) (https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html)
+	// in the Amazon Simple Notification Service Developer Guide.
 	//
 	// SnsTopicArn is a required field
 	SnsTopicArn *string `type:"string" required:"true"`
@@ -26421,6 +27291,15 @@ type CreateIntegrationInput struct {
 	// You can only include this parameter if you specify the KMSKeyId parameter.
 	AdditionalEncryptionContext map[string]*string `type:"map"`
 
+	// Data filtering options for the integration. For more information, see Data
+	// filtering for Aurora zero-ETL integrations with Amazon Redshift (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html).
+	//
+	// Valid for: Integrations with Aurora MySQL source DB clusters only
+	DataFilter *string `min:"1" type:"string"`
+
+	// A description of the integration.
+	Description *string `type:"string"`
+
 	// The name of the integration.
 	//
 	// IntegrationName is a required field
@@ -26467,6 +27346,9 @@ func (s CreateIntegrationInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *CreateIntegrationInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "CreateIntegrationInput"}
+	if s.DataFilter != nil && len(*s.DataFilter) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DataFilter", 1))
+	}
 	if s.IntegrationName == nil {
 		invalidParams.Add(request.NewErrParamRequired("IntegrationName"))
 	}
@@ -26495,6 +27377,18 @@ func (s *CreateIntegrationInput) Validate() error {
 // SetAdditionalEncryptionContext sets the AdditionalEncryptionContext field's value.
 func (s *CreateIntegrationInput) SetAdditionalEncryptionContext(v map[string]*string) *CreateIntegrationInput {
 	s.AdditionalEncryptionContext = v
+	return s
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *CreateIntegrationInput) SetDataFilter(v string) *CreateIntegrationInput {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *CreateIntegrationInput) SetDescription(v string) *CreateIntegrationInput {
+	s.Description = &v
 	return s
 }
 
@@ -26540,6 +27434,13 @@ type CreateIntegrationOutput struct {
 	// The time when the integration was created, in Universal Coordinated Time
 	// (UTC).
 	CreateTime *time.Time `type:"timestamp"`
+
+	// Data filters for the integration. These filters determine which tables from
+	// the source database are sent to the target Amazon Redshift data warehouse.
+	DataFilter *string `min:"1" type:"string"`
+
+	// A description of the integration.
+	Description *string `type:"string"`
 
 	// Any errors associated with the integration.
 	Errors []*IntegrationError `locationNameList:"IntegrationError" type:"list"`
@@ -26595,6 +27496,18 @@ func (s *CreateIntegrationOutput) SetAdditionalEncryptionContext(v map[string]*s
 // SetCreateTime sets the CreateTime field's value.
 func (s *CreateIntegrationOutput) SetCreateTime(v time.Time) *CreateIntegrationOutput {
 	s.CreateTime = &v
+	return s
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *CreateIntegrationOutput) SetDataFilter(v string) *CreateIntegrationOutput {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *CreateIntegrationOutput) SetDescription(v string) *CreateIntegrationOutput {
+	s.Description = &v
 	return s
 }
 
@@ -27111,6 +28024,15 @@ type DBCluster struct {
 	// in the Amazon Aurora User Guide.
 	Capacity *int64 `type:"integer"`
 
+	// Returns the details of the DB instance’s server certificate.
+	//
+	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon RDS User Guide and Using SSL/TLS to encrypt a connection to
+	// a DB cluster (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon Aurora User Guide.
+	CertificateDetails *CertificateDetails `type:"structure"`
+
 	// If present, specifies the name of the character set that this cluster is
 	// associated with.
 	CharacterSetName *string `type:"string"`
@@ -27253,6 +28175,9 @@ type DBCluster struct {
 
 	// The latest time to which a database can be restored with point-in-time restore.
 	LatestRestorableTime *time.Time `type:"timestamp"`
+
+	// The details for Aurora Limitless Database.
+	LimitlessDatabase *LimitlessDatabase `type:"structure"`
 
 	// Indicates whether an Aurora DB cluster has in-cluster write forwarding enabled,
 	// not enabled, requested, or is in the process of enabling it.
@@ -27411,6 +28336,12 @@ type DBCluster struct {
 	// Indicates whether the DB cluster is encrypted.
 	StorageEncrypted *bool `type:"boolean"`
 
+	// The storage throughput for the DB cluster. The throughput is automatically
+	// set based on the IOPS that you provision, and is not configurable.
+	//
+	// This setting is only for non-Aurora Multi-AZ DB clusters.
+	StorageThroughput *int64 `type:"integer"`
+
 	// The storage type associated with the DB cluster.
 	StorageType *string `type:"string"`
 
@@ -27521,6 +28452,12 @@ func (s *DBCluster) SetBackupRetentionPeriod(v int64) *DBCluster {
 // SetCapacity sets the Capacity field's value.
 func (s *DBCluster) SetCapacity(v int64) *DBCluster {
 	s.Capacity = &v
+	return s
+}
+
+// SetCertificateDetails sets the CertificateDetails field's value.
+func (s *DBCluster) SetCertificateDetails(v *CertificateDetails) *DBCluster {
+	s.CertificateDetails = v
 	return s
 }
 
@@ -27728,6 +28665,12 @@ func (s *DBCluster) SetLatestRestorableTime(v time.Time) *DBCluster {
 	return s
 }
 
+// SetLimitlessDatabase sets the LimitlessDatabase field's value.
+func (s *DBCluster) SetLimitlessDatabase(v *LimitlessDatabase) *DBCluster {
+	s.LimitlessDatabase = v
+	return s
+}
+
 // SetLocalWriteForwardingStatus sets the LocalWriteForwardingStatus field's value.
 func (s *DBCluster) SetLocalWriteForwardingStatus(v string) *DBCluster {
 	s.LocalWriteForwardingStatus = &v
@@ -27878,6 +28821,12 @@ func (s *DBCluster) SetStorageEncrypted(v bool) *DBCluster {
 	return s
 }
 
+// SetStorageThroughput sets the StorageThroughput field's value.
+func (s *DBCluster) SetStorageThroughput(v int64) *DBCluster {
+	s.StorageThroughput = &v
+	return s
+}
+
 // SetStorageType sets the StorageType field's value.
 func (s *DBCluster) SetStorageType(v string) *DBCluster {
 	s.StorageType = &v
@@ -27987,6 +28936,12 @@ type DBClusterAutomatedBackup struct {
 
 	// Indicates whether the source DB cluster is encrypted.
 	StorageEncrypted *bool `type:"boolean"`
+
+	// The storage throughput for the automated backup. The throughput is automatically
+	// set based on the IOPS that you provision, and is not configurable.
+	//
+	// This setting is only for non-Aurora Multi-AZ DB clusters.
+	StorageThroughput *int64 `type:"integer"`
 
 	// The storage type associated with the DB cluster.
 	//
@@ -28144,6 +29099,12 @@ func (s *DBClusterAutomatedBackup) SetStatus(v string) *DBClusterAutomatedBackup
 // SetStorageEncrypted sets the StorageEncrypted field's value.
 func (s *DBClusterAutomatedBackup) SetStorageEncrypted(v bool) *DBClusterAutomatedBackup {
 	s.StorageEncrypted = &v
+	return s
+}
+
+// SetStorageThroughput sets the StorageThroughput field's value.
+func (s *DBClusterAutomatedBackup) SetStorageThroughput(v int64) *DBClusterAutomatedBackup {
+	s.StorageThroughput = &v
 	return s
 }
 
@@ -28656,6 +29617,12 @@ type DBClusterSnapshot struct {
 	// Indicates whether the DB cluster snapshot is encrypted.
 	StorageEncrypted *bool `type:"boolean"`
 
+	// The storage throughput for the DB cluster snapshot. The throughput is automatically
+	// set based on the IOPS that you provision, and is not configurable.
+	//
+	// This setting is only for non-Aurora Multi-AZ DB clusters.
+	StorageThroughput *int64 `type:"integer"`
+
 	// The storage type associated with the DB cluster snapshot.
 	//
 	// This setting is only for Aurora DB clusters.
@@ -28816,6 +29783,12 @@ func (s *DBClusterSnapshot) SetStatus(v string) *DBClusterSnapshot {
 // SetStorageEncrypted sets the StorageEncrypted field's value.
 func (s *DBClusterSnapshot) SetStorageEncrypted(v bool) *DBClusterSnapshot {
 	s.StorageEncrypted = &v
+	return s
+}
+
+// SetStorageThroughput sets the StorageThroughput field's value.
+func (s *DBClusterSnapshot) SetStorageThroughput(v int64) *DBClusterSnapshot {
+	s.StorageThroughput = &v
 	return s
 }
 
@@ -31893,6 +32866,125 @@ func (s *DBSecurityGroupMembership) SetStatus(v string) *DBSecurityGroupMembersh
 	return s
 }
 
+type DBShardGroup struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	DBClusterIdentifier *string `type:"string"`
+
+	// The name of the DB shard group.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Region-unique, immutable identifier for the DB shard
+	// group.
+	DBShardGroupResourceId *string `type:"string"`
+
+	// The connection endpoint for the DB shard group.
+	Endpoint *string `type:"string"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+
+	// Indicates whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access isn't permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// For more information, see CreateDBShardGroup.
+	//
+	// This setting is only for Aurora Limitless Database.
+	PubliclyAccessible *bool `type:"boolean"`
+
+	// The status of the DB shard group.
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DBShardGroup) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DBShardGroup) GoString() string {
+	return s.String()
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *DBShardGroup) SetComputeRedundancy(v int64) *DBShardGroup {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *DBShardGroup) SetDBClusterIdentifier(v string) *DBShardGroup {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *DBShardGroup) SetDBShardGroupIdentifier(v string) *DBShardGroup {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupResourceId sets the DBShardGroupResourceId field's value.
+func (s *DBShardGroup) SetDBShardGroupResourceId(v string) *DBShardGroup {
+	s.DBShardGroupResourceId = &v
+	return s
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *DBShardGroup) SetEndpoint(v string) *DBShardGroup {
+	s.Endpoint = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *DBShardGroup) SetMaxACU(v float64) *DBShardGroup {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *DBShardGroup) SetPubliclyAccessible(v bool) *DBShardGroup {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *DBShardGroup) SetStatus(v string) *DBShardGroup {
+	s.Status = &v
+	return s
+}
+
 // Contains the details of an Amazon RDS DB snapshot.
 //
 // This data type is used as a response element in the DescribeDBSnapshots action.
@@ -34263,6 +35355,174 @@ func (s DeleteDBSecurityGroupOutput) GoString() string {
 	return s.String()
 }
 
+type DeleteDBShardGroupInput struct {
+	_ struct{} `type:"structure"`
+
+	// Teh name of the DB shard group to delete.
+	//
+	// DBShardGroupIdentifier is a required field
+	DBShardGroupIdentifier *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DeleteDBShardGroupInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DeleteDBShardGroupInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteDBShardGroupInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteDBShardGroupInput"}
+	if s.DBShardGroupIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("DBShardGroupIdentifier"))
+	}
+	if s.DBShardGroupIdentifier != nil && len(*s.DBShardGroupIdentifier) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DBShardGroupIdentifier", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *DeleteDBShardGroupInput) SetDBShardGroupIdentifier(v string) *DeleteDBShardGroupInput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+type DeleteDBShardGroupOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	DBClusterIdentifier *string `type:"string"`
+
+	// The name of the DB shard group.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Region-unique, immutable identifier for the DB shard
+	// group.
+	DBShardGroupResourceId *string `type:"string"`
+
+	// The connection endpoint for the DB shard group.
+	Endpoint *string `type:"string"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+
+	// Indicates whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access isn't permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// For more information, see CreateDBShardGroup.
+	//
+	// This setting is only for Aurora Limitless Database.
+	PubliclyAccessible *bool `type:"boolean"`
+
+	// The status of the DB shard group.
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DeleteDBShardGroupOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DeleteDBShardGroupOutput) GoString() string {
+	return s.String()
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *DeleteDBShardGroupOutput) SetComputeRedundancy(v int64) *DeleteDBShardGroupOutput {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *DeleteDBShardGroupOutput) SetDBClusterIdentifier(v string) *DeleteDBShardGroupOutput {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *DeleteDBShardGroupOutput) SetDBShardGroupIdentifier(v string) *DeleteDBShardGroupOutput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupResourceId sets the DBShardGroupResourceId field's value.
+func (s *DeleteDBShardGroupOutput) SetDBShardGroupResourceId(v string) *DeleteDBShardGroupOutput {
+	s.DBShardGroupResourceId = &v
+	return s
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *DeleteDBShardGroupOutput) SetEndpoint(v string) *DeleteDBShardGroupOutput {
+	s.Endpoint = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *DeleteDBShardGroupOutput) SetMaxACU(v float64) *DeleteDBShardGroupOutput {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *DeleteDBShardGroupOutput) SetPubliclyAccessible(v bool) *DeleteDBShardGroupOutput {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *DeleteDBShardGroupOutput) SetStatus(v string) *DeleteDBShardGroupOutput {
+	s.Status = &v
+	return s
+}
+
 type DeleteDBSnapshotInput struct {
 	_ struct{} `type:"structure"`
 
@@ -34637,6 +35897,13 @@ type DeleteIntegrationOutput struct {
 	// (UTC).
 	CreateTime *time.Time `type:"timestamp"`
 
+	// Data filters for the integration. These filters determine which tables from
+	// the source database are sent to the target Amazon Redshift data warehouse.
+	DataFilter *string `min:"1" type:"string"`
+
+	// A description of the integration.
+	Description *string `type:"string"`
+
 	// Any errors associated with the integration.
 	Errors []*IntegrationError `locationNameList:"IntegrationError" type:"list"`
 
@@ -34691,6 +35958,18 @@ func (s *DeleteIntegrationOutput) SetAdditionalEncryptionContext(v map[string]*s
 // SetCreateTime sets the CreateTime field's value.
 func (s *DeleteIntegrationOutput) SetCreateTime(v time.Time) *DeleteIntegrationOutput {
 	s.CreateTime = &v
+	return s
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *DeleteIntegrationOutput) SetDataFilter(v string) *DeleteIntegrationOutput {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *DeleteIntegrationOutput) SetDescription(v string) *DeleteIntegrationOutput {
+	s.Description = &v
 	return s
 }
 
@@ -36520,7 +37799,7 @@ type DescribeDBClustersInput struct {
 	//
 	// Default: 100
 	//
-	// Constraints: Minimum 20, maximum 100.
+	// Constraints: Minimum 20, maximum 100
 	MaxRecords *int64 `type:"integer"`
 }
 
@@ -38631,6 +39910,144 @@ func (s *DescribeDBSecurityGroupsOutput) SetMarker(v string) *DescribeDBSecurity
 	return s
 }
 
+type DescribeDBShardGroupsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The user-supplied DB shard group identifier or the Amazon Resource Name (ARN)
+	// of the DB shard group. If this parameter is specified, information for only
+	// the specific DB shard group is returned. This parameter isn't case-sensitive.
+	//
+	// Constraints:
+	//
+	//    * If supplied, must match an existing DB shard group identifier.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// A filter that specifies one or more DB shard groups to describe.
+	Filters []*Filter `locationNameList:"Filter" type:"list"`
+
+	// An optional pagination token provided by a previous DescribeDBShardGroups
+	// request. If this parameter is specified, the response includes only records
+	// beyond the marker, up to the value specified by MaxRecords.
+	Marker *string `type:"string"`
+
+	// The maximum number of records to include in the response. If more records
+	// exist than the specified MaxRecords value, a pagination token called a marker
+	// is included in the response so you can retrieve the remaining results.
+	//
+	// Default: 100
+	//
+	// Constraints: Minimum 20, maximum 100
+	MaxRecords *int64 `min:"20" type:"integer"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DescribeDBShardGroupsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DescribeDBShardGroupsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeDBShardGroupsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeDBShardGroupsInput"}
+	if s.DBShardGroupIdentifier != nil && len(*s.DBShardGroupIdentifier) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DBShardGroupIdentifier", 1))
+	}
+	if s.MaxRecords != nil && *s.MaxRecords < 20 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxRecords", 20))
+	}
+	if s.Filters != nil {
+		for i, v := range s.Filters {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *DescribeDBShardGroupsInput) SetDBShardGroupIdentifier(v string) *DescribeDBShardGroupsInput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetFilters sets the Filters field's value.
+func (s *DescribeDBShardGroupsInput) SetFilters(v []*Filter) *DescribeDBShardGroupsInput {
+	s.Filters = v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeDBShardGroupsInput) SetMarker(v string) *DescribeDBShardGroupsInput {
+	s.Marker = &v
+	return s
+}
+
+// SetMaxRecords sets the MaxRecords field's value.
+func (s *DescribeDBShardGroupsInput) SetMaxRecords(v int64) *DescribeDBShardGroupsInput {
+	s.MaxRecords = &v
+	return s
+}
+
+type DescribeDBShardGroupsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Contains a list of DB shard groups for the user.
+	DBShardGroups []*DBShardGroup `locationNameList:"DBShardGroup" type:"list"`
+
+	// A pagination token that can be used in a later DescribeDBClusters request.
+	Marker *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DescribeDBShardGroupsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s DescribeDBShardGroupsOutput) GoString() string {
+	return s.String()
+}
+
+// SetDBShardGroups sets the DBShardGroups field's value.
+func (s *DescribeDBShardGroupsOutput) SetDBShardGroups(v []*DBShardGroup) *DescribeDBShardGroupsOutput {
+	s.DBShardGroups = v
+	return s
+}
+
+// SetMarker sets the Marker field's value.
+func (s *DescribeDBShardGroupsOutput) SetMarker(v string) *DescribeDBShardGroupsOutput {
+	s.Marker = &v
+	return s
+}
+
 type DescribeDBSnapshotAttributesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -40239,7 +41656,14 @@ func (s *DescribeExportTasksOutput) SetMarker(v string) *DescribeExportTasksOutp
 type DescribeGlobalClustersInput struct {
 	_ struct{} `type:"structure"`
 
-	// This parameter isn't currently supported.
+	// A filter that specifies one or more global database clusters to describe.
+	// This parameter is case-sensitive.
+	//
+	// Currently, the only supported filter is region.
+	//
+	// If used, the request returns information about any global cluster with at
+	// least one member (primary or secondary) in the specified Amazon Web Services
+	// Regions.
 	Filters []*Filter `locationNameList:"Filter" type:"list"`
 
 	// The user-supplied DB cluster identifier. If this parameter is specified,
@@ -43460,6 +44884,8 @@ func (s *FailoverState) SetToDbClusterArn(v string) *FailoverState {
 //
 //   - DescribeDBRecommendations
 //
+//   - DescribeDBShardGroups
+//
 //   - DescribePendingMaintenanceActions
 type Filter struct {
 	_ struct{} `type:"structure"`
@@ -43777,6 +45203,13 @@ type Integration struct {
 	// (UTC).
 	CreateTime *time.Time `type:"timestamp"`
 
+	// Data filters for the integration. These filters determine which tables from
+	// the source database are sent to the target Amazon Redshift data warehouse.
+	DataFilter *string `min:"1" type:"string"`
+
+	// A description of the integration.
+	Description *string `type:"string"`
+
 	// Any errors associated with the integration.
 	Errors []*IntegrationError `locationNameList:"IntegrationError" type:"list"`
 
@@ -43831,6 +45264,18 @@ func (s *Integration) SetAdditionalEncryptionContext(v map[string]*string) *Inte
 // SetCreateTime sets the CreateTime field's value.
 func (s *Integration) SetCreateTime(v time.Time) *Integration {
 	s.CreateTime = &v
+	return s
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *Integration) SetDataFilter(v string) *Integration {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *Integration) SetDescription(v string) *Integration {
+	s.Description = &v
 	return s
 }
 
@@ -43955,6 +45400,48 @@ func (s IssueDetails) GoString() string {
 // SetPerformanceIssueDetails sets the PerformanceIssueDetails field's value.
 func (s *IssueDetails) SetPerformanceIssueDetails(v *PerformanceIssueDetails) *IssueDetails {
 	s.PerformanceIssueDetails = v
+	return s
+}
+
+// Contains details for Aurora Limitless Database.
+type LimitlessDatabase struct {
+	_ struct{} `type:"structure"`
+
+	// The minimum required capacity for Aurora Limitless Database in Aurora capacity
+	// units (ACUs).
+	MinRequiredACU *float64 `type:"double"`
+
+	// The status of Aurora Limitless Database.
+	Status *string `type:"string" enum:"LimitlessDatabaseStatus"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s LimitlessDatabase) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s LimitlessDatabase) GoString() string {
+	return s.String()
+}
+
+// SetMinRequiredACU sets the MinRequiredACU field's value.
+func (s *LimitlessDatabase) SetMinRequiredACU(v float64) *LimitlessDatabase {
+	s.MinRequiredACU = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *LimitlessDatabase) SetStatus(v string) *LimitlessDatabase {
+	s.Status = &v
 	return s
 }
 
@@ -45444,6 +46931,15 @@ type ModifyDBClusterInput struct {
 	//    * Must be a value from 1 to 35.
 	BackupRetentionPeriod *int64 `type:"integer"`
 
+	// The CA certificate identifier to use for the DB cluster's server certificate.
+	//
+	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+	// in the Amazon RDS User Guide.
+	//
+	// Valid for Cluster Type: Multi-AZ DB clusters
+	CACertificateIdentifier *string `type:"string"`
+
 	// The configuration setting for the log types to be enabled for export to CloudWatch
 	// Logs for a specific DB cluster.
 	//
@@ -45585,6 +47081,12 @@ type ModifyDBClusterInput struct {
 	//
 	// Valid for Cluster Type: Aurora DB clusters only
 	EnableIAMDatabaseAuthentication *bool `type:"boolean"`
+
+	// Specifies whether to enable Aurora Limitless Database. You must enable Aurora
+	// Limitless Database to create a DB shard group.
+	//
+	// Valid for: Aurora DB clusters only
+	EnableLimitlessDatabase *bool `type:"boolean"`
 
 	// Specifies whether read replicas can forward write operations to the writer
 	// DB instance in the DB cluster. By default, write operations aren't allowed
@@ -45915,7 +47417,7 @@ type ModifyDBClusterInput struct {
 	//
 	//    * Aurora DB clusters - aurora | aurora-iopt1
 	//
-	//    * Multi-AZ DB clusters - io1
+	//    * Multi-AZ DB clusters - io1 | io2 | gp3
 	//
 	// Default:
 	//
@@ -46012,6 +47514,12 @@ func (s *ModifyDBClusterInput) SetBackupRetentionPeriod(v int64) *ModifyDBCluste
 	return s
 }
 
+// SetCACertificateIdentifier sets the CACertificateIdentifier field's value.
+func (s *ModifyDBClusterInput) SetCACertificateIdentifier(v string) *ModifyDBClusterInput {
+	s.CACertificateIdentifier = &v
+	return s
+}
+
 // SetCloudwatchLogsExportConfiguration sets the CloudwatchLogsExportConfiguration field's value.
 func (s *ModifyDBClusterInput) SetCloudwatchLogsExportConfiguration(v *CloudwatchLogsExportConfiguration) *ModifyDBClusterInput {
 	s.CloudwatchLogsExportConfiguration = v
@@ -46081,6 +47589,12 @@ func (s *ModifyDBClusterInput) SetEnableHttpEndpoint(v bool) *ModifyDBClusterInp
 // SetEnableIAMDatabaseAuthentication sets the EnableIAMDatabaseAuthentication field's value.
 func (s *ModifyDBClusterInput) SetEnableIAMDatabaseAuthentication(v bool) *ModifyDBClusterInput {
 	s.EnableIAMDatabaseAuthentication = &v
+	return s
+}
+
+// SetEnableLimitlessDatabase sets the EnableLimitlessDatabase field's value.
+func (s *ModifyDBClusterInput) SetEnableLimitlessDatabase(v bool) *ModifyDBClusterInput {
+	s.EnableLimitlessDatabase = &v
 	return s
 }
 
@@ -47327,8 +48841,8 @@ type ModifyDBInstanceInput struct {
 
 	// The storage type to associate with the DB instance.
 	//
-	// If you specify Provisioned IOPS (io1), you must also include a value for
-	// the Iops parameter.
+	// If you specify io1, io2, or gp3 you must also include a value for the Iops
+	// parameter.
 	//
 	// If you choose to migrate your DB instance from using standard storage to
 	// using Provisioned IOPS, or from using Provisioned IOPS to using standard
@@ -47343,7 +48857,7 @@ type ModifyDBInstanceInput struct {
 	// modifying the instance, rebooting the instance, deleting the instance, creating
 	// a read replica for the instance, and creating a DB snapshot of the instance.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
 	// Default: io1, if the Iops parameter is specified. Otherwise, gp2.
 	StorageType *string `type:"string"`
@@ -48390,6 +49904,183 @@ func (s *ModifyDBRecommendationOutput) SetDBRecommendation(v *DBRecommendation) 
 	return s
 }
 
+type ModifyDBShardGroupInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the DB shard group to modify.
+	//
+	// DBShardGroupIdentifier is a required field
+	DBShardGroupIdentifier *string `min:"1" type:"string" required:"true"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyDBShardGroupInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyDBShardGroupInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyDBShardGroupInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyDBShardGroupInput"}
+	if s.DBShardGroupIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("DBShardGroupIdentifier"))
+	}
+	if s.DBShardGroupIdentifier != nil && len(*s.DBShardGroupIdentifier) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DBShardGroupIdentifier", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *ModifyDBShardGroupInput) SetDBShardGroupIdentifier(v string) *ModifyDBShardGroupInput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *ModifyDBShardGroupInput) SetMaxACU(v float64) *ModifyDBShardGroupInput {
+	s.MaxACU = &v
+	return s
+}
+
+type ModifyDBShardGroupOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	DBClusterIdentifier *string `type:"string"`
+
+	// The name of the DB shard group.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Region-unique, immutable identifier for the DB shard
+	// group.
+	DBShardGroupResourceId *string `type:"string"`
+
+	// The connection endpoint for the DB shard group.
+	Endpoint *string `type:"string"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+
+	// Indicates whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access isn't permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// For more information, see CreateDBShardGroup.
+	//
+	// This setting is only for Aurora Limitless Database.
+	PubliclyAccessible *bool `type:"boolean"`
+
+	// The status of the DB shard group.
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyDBShardGroupOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyDBShardGroupOutput) GoString() string {
+	return s.String()
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *ModifyDBShardGroupOutput) SetComputeRedundancy(v int64) *ModifyDBShardGroupOutput {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *ModifyDBShardGroupOutput) SetDBClusterIdentifier(v string) *ModifyDBShardGroupOutput {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *ModifyDBShardGroupOutput) SetDBShardGroupIdentifier(v string) *ModifyDBShardGroupOutput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupResourceId sets the DBShardGroupResourceId field's value.
+func (s *ModifyDBShardGroupOutput) SetDBShardGroupResourceId(v string) *ModifyDBShardGroupOutput {
+	s.DBShardGroupResourceId = &v
+	return s
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *ModifyDBShardGroupOutput) SetEndpoint(v string) *ModifyDBShardGroupOutput {
+	s.Endpoint = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *ModifyDBShardGroupOutput) SetMaxACU(v float64) *ModifyDBShardGroupOutput {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *ModifyDBShardGroupOutput) SetPubliclyAccessible(v bool) *ModifyDBShardGroupOutput {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *ModifyDBShardGroupOutput) SetStatus(v string) *ModifyDBShardGroupOutput {
+	s.Status = &v
+	return s
+}
+
 type ModifyDBSnapshotAttributeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -49022,6 +50713,226 @@ func (s ModifyGlobalClusterOutput) GoString() string {
 // SetGlobalCluster sets the GlobalCluster field's value.
 func (s *ModifyGlobalClusterOutput) SetGlobalCluster(v *GlobalCluster) *ModifyGlobalClusterOutput {
 	s.GlobalCluster = v
+	return s
+}
+
+type ModifyIntegrationInput struct {
+	_ struct{} `type:"structure"`
+
+	// A new data filter for the integration. For more information, see Data filtering
+	// for Aurora zero-ETL integrations with Amazon Redshift (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html).
+	DataFilter *string `min:"1" type:"string"`
+
+	// A new description for the integration.
+	Description *string `type:"string"`
+
+	// The unique identifier of the integration to modify.
+	//
+	// IntegrationIdentifier is a required field
+	IntegrationIdentifier *string `min:"1" type:"string" required:"true"`
+
+	// A new name for the integration.
+	IntegrationName *string `min:"1" type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyIntegrationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyIntegrationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyIntegrationInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyIntegrationInput"}
+	if s.DataFilter != nil && len(*s.DataFilter) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DataFilter", 1))
+	}
+	if s.IntegrationIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("IntegrationIdentifier"))
+	}
+	if s.IntegrationIdentifier != nil && len(*s.IntegrationIdentifier) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("IntegrationIdentifier", 1))
+	}
+	if s.IntegrationName != nil && len(*s.IntegrationName) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("IntegrationName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *ModifyIntegrationInput) SetDataFilter(v string) *ModifyIntegrationInput {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *ModifyIntegrationInput) SetDescription(v string) *ModifyIntegrationInput {
+	s.Description = &v
+	return s
+}
+
+// SetIntegrationIdentifier sets the IntegrationIdentifier field's value.
+func (s *ModifyIntegrationInput) SetIntegrationIdentifier(v string) *ModifyIntegrationInput {
+	s.IntegrationIdentifier = &v
+	return s
+}
+
+// SetIntegrationName sets the IntegrationName field's value.
+func (s *ModifyIntegrationInput) SetIntegrationName(v string) *ModifyIntegrationInput {
+	s.IntegrationName = &v
+	return s
+}
+
+// A zero-ETL integration with Amazon Redshift.
+type ModifyIntegrationOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The encryption context for the integration. For more information, see Encryption
+	// context (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
+	// in the Amazon Web Services Key Management Service Developer Guide.
+	AdditionalEncryptionContext map[string]*string `type:"map"`
+
+	// The time when the integration was created, in Universal Coordinated Time
+	// (UTC).
+	CreateTime *time.Time `type:"timestamp"`
+
+	// Data filters for the integration. These filters determine which tables from
+	// the source database are sent to the target Amazon Redshift data warehouse.
+	DataFilter *string `min:"1" type:"string"`
+
+	// A description of the integration.
+	Description *string `type:"string"`
+
+	// Any errors associated with the integration.
+	Errors []*IntegrationError `locationNameList:"IntegrationError" type:"list"`
+
+	// The ARN of the integration.
+	IntegrationArn *string `min:"1" type:"string"`
+
+	// The name of the integration.
+	IntegrationName *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Key Management System (Amazon Web Services KMS) key
+	// identifier for the key used to to encrypt the integration.
+	KMSKeyId *string `type:"string"`
+
+	// The Amazon Resource Name (ARN) of the database used as the source for replication.
+	SourceArn *string `min:"1" type:"string"`
+
+	// The current status of the integration.
+	Status *string `type:"string" enum:"IntegrationStatus"`
+
+	// A list of tags. For more information, see Tagging Amazon RDS Resources (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html)
+	// in the Amazon RDS User Guide.
+	Tags []*Tag `locationNameList:"Tag" type:"list"`
+
+	// The ARN of the Redshift data warehouse used as the target for replication.
+	TargetArn *string `min:"20" type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyIntegrationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s ModifyIntegrationOutput) GoString() string {
+	return s.String()
+}
+
+// SetAdditionalEncryptionContext sets the AdditionalEncryptionContext field's value.
+func (s *ModifyIntegrationOutput) SetAdditionalEncryptionContext(v map[string]*string) *ModifyIntegrationOutput {
+	s.AdditionalEncryptionContext = v
+	return s
+}
+
+// SetCreateTime sets the CreateTime field's value.
+func (s *ModifyIntegrationOutput) SetCreateTime(v time.Time) *ModifyIntegrationOutput {
+	s.CreateTime = &v
+	return s
+}
+
+// SetDataFilter sets the DataFilter field's value.
+func (s *ModifyIntegrationOutput) SetDataFilter(v string) *ModifyIntegrationOutput {
+	s.DataFilter = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *ModifyIntegrationOutput) SetDescription(v string) *ModifyIntegrationOutput {
+	s.Description = &v
+	return s
+}
+
+// SetErrors sets the Errors field's value.
+func (s *ModifyIntegrationOutput) SetErrors(v []*IntegrationError) *ModifyIntegrationOutput {
+	s.Errors = v
+	return s
+}
+
+// SetIntegrationArn sets the IntegrationArn field's value.
+func (s *ModifyIntegrationOutput) SetIntegrationArn(v string) *ModifyIntegrationOutput {
+	s.IntegrationArn = &v
+	return s
+}
+
+// SetIntegrationName sets the IntegrationName field's value.
+func (s *ModifyIntegrationOutput) SetIntegrationName(v string) *ModifyIntegrationOutput {
+	s.IntegrationName = &v
+	return s
+}
+
+// SetKMSKeyId sets the KMSKeyId field's value.
+func (s *ModifyIntegrationOutput) SetKMSKeyId(v string) *ModifyIntegrationOutput {
+	s.KMSKeyId = &v
+	return s
+}
+
+// SetSourceArn sets the SourceArn field's value.
+func (s *ModifyIntegrationOutput) SetSourceArn(v string) *ModifyIntegrationOutput {
+	s.SourceArn = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *ModifyIntegrationOutput) SetStatus(v string) *ModifyIntegrationOutput {
+	s.Status = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *ModifyIntegrationOutput) SetTags(v []*Tag) *ModifyIntegrationOutput {
+	s.Tags = v
+	return s
+}
+
+// SetTargetArn sets the TargetArn field's value.
+func (s *ModifyIntegrationOutput) SetTargetArn(v string) *ModifyIntegrationOutput {
+	s.TargetArn = &v
 	return s
 }
 
@@ -51923,6 +53834,174 @@ func (s RebootDBInstanceOutput) GoString() string {
 // SetDBInstance sets the DBInstance field's value.
 func (s *RebootDBInstanceOutput) SetDBInstance(v *DBInstance) *RebootDBInstanceOutput {
 	s.DBInstance = v
+	return s
+}
+
+type RebootDBShardGroupInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the DB shard group to reboot.
+	//
+	// DBShardGroupIdentifier is a required field
+	DBShardGroupIdentifier *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s RebootDBShardGroupInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s RebootDBShardGroupInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RebootDBShardGroupInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "RebootDBShardGroupInput"}
+	if s.DBShardGroupIdentifier == nil {
+		invalidParams.Add(request.NewErrParamRequired("DBShardGroupIdentifier"))
+	}
+	if s.DBShardGroupIdentifier != nil && len(*s.DBShardGroupIdentifier) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("DBShardGroupIdentifier", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *RebootDBShardGroupInput) SetDBShardGroupIdentifier(v string) *RebootDBShardGroupInput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+type RebootDBShardGroupOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies whether to create standby instances for the DB shard group. Valid
+	// values are the following:
+	//
+	//    * 0 - Creates a single, primary DB instance for each physical shard. This
+	//    is the default value, and the only one supported for the preview.
+	//
+	//    * 1 - Creates a primary DB instance and a standby instance in a different
+	//    Availability Zone (AZ) for each physical shard.
+	//
+	//    * 2 - Creates a primary DB instance and two standby instances in different
+	//    AZs for each physical shard.
+	ComputeRedundancy *int64 `type:"integer"`
+
+	// The name of the primary DB cluster for the DB shard group.
+	DBClusterIdentifier *string `type:"string"`
+
+	// The name of the DB shard group.
+	DBShardGroupIdentifier *string `min:"1" type:"string"`
+
+	// The Amazon Web Services Region-unique, immutable identifier for the DB shard
+	// group.
+	DBShardGroupResourceId *string `type:"string"`
+
+	// The connection endpoint for the DB shard group.
+	Endpoint *string `type:"string"`
+
+	// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+	MaxACU *float64 `type:"double"`
+
+	// Indicates whether the DB shard group is publicly accessible.
+	//
+	// When the DB shard group is publicly accessible, its Domain Name System (DNS)
+	// endpoint resolves to the private IP address from within the DB shard group's
+	// virtual private cloud (VPC). It resolves to the public IP address from outside
+	// of the DB shard group's VPC. Access to the DB shard group is ultimately controlled
+	// by the security group it uses. That public access isn't permitted if the
+	// security group assigned to the DB shard group doesn't permit it.
+	//
+	// When the DB shard group isn't publicly accessible, it is an internal DB shard
+	// group with a DNS name that resolves to a private IP address.
+	//
+	// For more information, see CreateDBShardGroup.
+	//
+	// This setting is only for Aurora Limitless Database.
+	PubliclyAccessible *bool `type:"boolean"`
+
+	// The status of the DB shard group.
+	Status *string `type:"string"`
+}
+
+// String returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s RebootDBShardGroupOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation.
+//
+// API parameter values that are decorated as "sensitive" in the API will not
+// be included in the string output. The member name will be present, but the
+// value will be replaced with "sensitive".
+func (s RebootDBShardGroupOutput) GoString() string {
+	return s.String()
+}
+
+// SetComputeRedundancy sets the ComputeRedundancy field's value.
+func (s *RebootDBShardGroupOutput) SetComputeRedundancy(v int64) *RebootDBShardGroupOutput {
+	s.ComputeRedundancy = &v
+	return s
+}
+
+// SetDBClusterIdentifier sets the DBClusterIdentifier field's value.
+func (s *RebootDBShardGroupOutput) SetDBClusterIdentifier(v string) *RebootDBShardGroupOutput {
+	s.DBClusterIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupIdentifier sets the DBShardGroupIdentifier field's value.
+func (s *RebootDBShardGroupOutput) SetDBShardGroupIdentifier(v string) *RebootDBShardGroupOutput {
+	s.DBShardGroupIdentifier = &v
+	return s
+}
+
+// SetDBShardGroupResourceId sets the DBShardGroupResourceId field's value.
+func (s *RebootDBShardGroupOutput) SetDBShardGroupResourceId(v string) *RebootDBShardGroupOutput {
+	s.DBShardGroupResourceId = &v
+	return s
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *RebootDBShardGroupOutput) SetEndpoint(v string) *RebootDBShardGroupOutput {
+	s.Endpoint = &v
+	return s
+}
+
+// SetMaxACU sets the MaxACU field's value.
+func (s *RebootDBShardGroupOutput) SetMaxACU(v float64) *RebootDBShardGroupOutput {
+	s.MaxACU = &v
+	return s
+}
+
+// SetPubliclyAccessible sets the PubliclyAccessible field's value.
+func (s *RebootDBShardGroupOutput) SetPubliclyAccessible(v bool) *RebootDBShardGroupOutput {
+	s.PubliclyAccessible = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *RebootDBShardGroupOutput) SetStatus(v string) *RebootDBShardGroupOutput {
+	s.Status = &v
 	return s
 }
 
@@ -55214,8 +57293,7 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	// This setting is required for RDS Custom.
 	CustomIamInstanceProfile *string `type:"string"`
 
-	// The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore
-	// from.
+	// The identifier for the Multi-AZ DB cluster snapshot to restore from.
 	//
 	// For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
@@ -55233,9 +57311,6 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	//    the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.
 	//
 	//    * Can't be the identifier of an Aurora DB cluster snapshot.
-	//
-	//    * Can't be the identifier of an RDS for PostgreSQL Multi-AZ DB cluster
-	//    snapshot.
 	DBClusterSnapshotIdentifier *string `type:"string"`
 
 	// The compute and memory capacity of the Amazon RDS DB instance, for example
@@ -55542,9 +57617,10 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 
 	// Specifies the storage type to be associated with the DB instance.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
-	// If you specify io1 or gp3, you must also include a value for the Iops parameter.
+	// If you specify io1, io2, or gp3, you must also include a value for the Iops
+	// parameter.
 	//
 	// Default: io1 if the Iops parameter is specified, otherwise gp2
 	StorageType *string `type:"string"`
@@ -56296,9 +58372,10 @@ type RestoreDBInstanceFromS3Input struct {
 
 	// Specifies the storage type to be associated with the DB instance.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
-	// If you specify io1 or gp3, you must also include a value for the Iops parameter.
+	// If you specify io1, io2, or gp3, you must also include a value for the Iops
+	// parameter.
 	//
 	// Default: io1 if the Iops parameter is specified; otherwise gp2
 	StorageType *string `type:"string"`
@@ -57085,14 +59162,14 @@ type RestoreDBInstanceToPointInTimeInput struct {
 
 	// The storage type to associate with the DB instance.
 	//
-	// Valid Values: gp2 | gp3 | io1 | standard
+	// Valid Values: gp2 | gp3 | io1 | io2 | standard
 	//
 	// Default: io1, if the Iops parameter is specified. Otherwise, gp2.
 	//
 	// Constraints:
 	//
-	//    * If you specify io1 or gp3, you must also include a value for the Iops
-	//    parameter.
+	//    * If you specify io1, io2, or gp3, you must also include a value for the
+	//    Iops parameter.
 	StorageType *string `type:"string"`
 
 	// A list of tags. For more information, see Tagging Amazon RDS Resources (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html)
@@ -60462,7 +62539,8 @@ type ValidStorageOptions struct {
 	// 0-0.25.
 	StorageThroughputToIopsRatio []*DoubleRange `locationNameList:"DoubleRange" type:"list"`
 
-	// The valid storage types for your DB instance. For example: gp2, gp3, io1.
+	// The valid storage types for your DB instance. For example: gp2, gp3, io1,
+	// io2.
 	StorageType *string `type:"string"`
 
 	// Indicates whether or not Amazon RDS can automatically scale storage for DB
@@ -60959,6 +63037,46 @@ func IntegrationStatus_Values() []string {
 		IntegrationStatusDeleting,
 		IntegrationStatusSyncing,
 		IntegrationStatusNeedsAttention,
+	}
+}
+
+const (
+	// LimitlessDatabaseStatusActive is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusActive = "active"
+
+	// LimitlessDatabaseStatusNotInUse is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusNotInUse = "not-in-use"
+
+	// LimitlessDatabaseStatusEnabled is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusEnabled = "enabled"
+
+	// LimitlessDatabaseStatusDisabled is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusDisabled = "disabled"
+
+	// LimitlessDatabaseStatusEnabling is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusEnabling = "enabling"
+
+	// LimitlessDatabaseStatusDisabling is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusDisabling = "disabling"
+
+	// LimitlessDatabaseStatusModifyingMaxCapacity is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusModifyingMaxCapacity = "modifying-max-capacity"
+
+	// LimitlessDatabaseStatusError is a LimitlessDatabaseStatus enum value
+	LimitlessDatabaseStatusError = "error"
+)
+
+// LimitlessDatabaseStatus_Values returns all elements of the LimitlessDatabaseStatus enum
+func LimitlessDatabaseStatus_Values() []string {
+	return []string{
+		LimitlessDatabaseStatusActive,
+		LimitlessDatabaseStatusNotInUse,
+		LimitlessDatabaseStatusEnabled,
+		LimitlessDatabaseStatusDisabled,
+		LimitlessDatabaseStatusEnabling,
+		LimitlessDatabaseStatusDisabling,
+		LimitlessDatabaseStatusModifyingMaxCapacity,
+		LimitlessDatabaseStatusError,
 	}
 }
 
