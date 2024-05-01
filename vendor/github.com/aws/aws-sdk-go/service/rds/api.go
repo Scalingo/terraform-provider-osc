@@ -21496,6 +21496,9 @@ type CreateCustomDBEngineVersionOutput struct {
 	// Amazon Redshift.
 	SupportsIntegrations *bool `type:"boolean"`
 
+	// Indicates whether the DB engine version supports Aurora Limitless Database.
+	SupportsLimitlessDatabase *bool `type:"boolean"`
+
 	// Indicates whether the DB engine version supports forwarding write operations
 	// from reader DB instances to the writer DB instance in the DB cluster. By
 	// default, write operations aren't allowed on reader DB instances.
@@ -21700,6 +21703,12 @@ func (s *CreateCustomDBEngineVersionOutput) SetSupportsGlobalDatabases(v bool) *
 // SetSupportsIntegrations sets the SupportsIntegrations field's value.
 func (s *CreateCustomDBEngineVersionOutput) SetSupportsIntegrations(v bool) *CreateCustomDBEngineVersionOutput {
 	s.SupportsIntegrations = &v
+	return s
+}
+
+// SetSupportsLimitlessDatabase sets the SupportsLimitlessDatabase field's value.
+func (s *CreateCustomDBEngineVersionOutput) SetSupportsLimitlessDatabase(v bool) *CreateCustomDBEngineVersionOutput {
+	s.SupportsLimitlessDatabase = &v
 	return s
 }
 
@@ -24479,7 +24488,8 @@ type CreateDBInstanceInput struct {
 	TdeCredentialPassword *string `type:"string"`
 
 	// The time zone of the DB instance. The time zone parameter is currently supported
-	// only by Microsoft SQL Server (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone).
+	// only by RDS for Db2 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-time-zone)
+	// and RDS for SQL Server (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone).
 	Timezone *string `type:"string"`
 
 	// A list of Amazon EC2 VPC security groups to associate with this DB instance.
@@ -30135,6 +30145,9 @@ type DBEngineVersion struct {
 	// Amazon Redshift.
 	SupportsIntegrations *bool `type:"boolean"`
 
+	// Indicates whether the DB engine version supports Aurora Limitless Database.
+	SupportsLimitlessDatabase *bool `type:"boolean"`
+
 	// Indicates whether the DB engine version supports forwarding write operations
 	// from reader DB instances to the writer DB instance in the DB cluster. By
 	// default, write operations aren't allowed on reader DB instances.
@@ -30339,6 +30352,12 @@ func (s *DBEngineVersion) SetSupportsGlobalDatabases(v bool) *DBEngineVersion {
 // SetSupportsIntegrations sets the SupportsIntegrations field's value.
 func (s *DBEngineVersion) SetSupportsIntegrations(v bool) *DBEngineVersion {
 	s.SupportsIntegrations = &v
+	return s
+}
+
+// SetSupportsLimitlessDatabase sets the SupportsLimitlessDatabase field's value.
+func (s *DBEngineVersion) SetSupportsLimitlessDatabase(v bool) *DBEngineVersion {
+	s.SupportsLimitlessDatabase = &v
 	return s
 }
 
@@ -30804,8 +30823,8 @@ type DBInstance struct {
 	TdeCredentialArn *string `type:"string"`
 
 	// The time zone of the DB instance. In most cases, the Timezone element is
-	// empty. Timezone content appears only for Microsoft SQL Server DB instances
-	// that were created with a time zone specified.
+	// empty. Timezone content appears only for RDS for Db2 and RDS for SQL Server
+	// DB instances that were created with a time zone specified.
 	Timezone *string `type:"string"`
 
 	// The list of Amazon EC2 VPC security groups that the DB instance belongs to.
@@ -34053,6 +34072,9 @@ type DeleteCustomDBEngineVersionOutput struct {
 	// Amazon Redshift.
 	SupportsIntegrations *bool `type:"boolean"`
 
+	// Indicates whether the DB engine version supports Aurora Limitless Database.
+	SupportsLimitlessDatabase *bool `type:"boolean"`
+
 	// Indicates whether the DB engine version supports forwarding write operations
 	// from reader DB instances to the writer DB instance in the DB cluster. By
 	// default, write operations aren't allowed on reader DB instances.
@@ -34257,6 +34279,12 @@ func (s *DeleteCustomDBEngineVersionOutput) SetSupportsGlobalDatabases(v bool) *
 // SetSupportsIntegrations sets the SupportsIntegrations field's value.
 func (s *DeleteCustomDBEngineVersionOutput) SetSupportsIntegrations(v bool) *DeleteCustomDBEngineVersionOutput {
 	s.SupportsIntegrations = &v
+	return s
+}
+
+// SetSupportsLimitlessDatabase sets the SupportsLimitlessDatabase field's value.
+func (s *DeleteCustomDBEngineVersionOutput) SetSupportsLimitlessDatabase(v bool) *DeleteCustomDBEngineVersionOutput {
+	s.SupportsLimitlessDatabase = &v
 	return s
 }
 
@@ -45865,7 +45893,7 @@ type ModifyActivityStreamInput struct {
 	AuditPolicyState *string `type:"string" enum:"AuditPolicyState"`
 
 	// The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL Server
-	// DB instance. For example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
+	// DB instance. For example, arn:aws:rds:us-east-1:12345667890:db:my-orcl-db.
 	ResourceArn *string `type:"string"`
 }
 
@@ -46466,6 +46494,9 @@ type ModifyCustomDBEngineVersionOutput struct {
 	// Amazon Redshift.
 	SupportsIntegrations *bool `type:"boolean"`
 
+	// Indicates whether the DB engine version supports Aurora Limitless Database.
+	SupportsLimitlessDatabase *bool `type:"boolean"`
+
 	// Indicates whether the DB engine version supports forwarding write operations
 	// from reader DB instances to the writer DB instance in the DB cluster. By
 	// default, write operations aren't allowed on reader DB instances.
@@ -46670,6 +46701,12 @@ func (s *ModifyCustomDBEngineVersionOutput) SetSupportsGlobalDatabases(v bool) *
 // SetSupportsIntegrations sets the SupportsIntegrations field's value.
 func (s *ModifyCustomDBEngineVersionOutput) SetSupportsIntegrations(v bool) *ModifyCustomDBEngineVersionOutput {
 	s.SupportsIntegrations = &v
+	return s
+}
+
+// SetSupportsLimitlessDatabase sets the SupportsLimitlessDatabase field's value.
+func (s *ModifyCustomDBEngineVersionOutput) SetSupportsLimitlessDatabase(v bool) *ModifyCustomDBEngineVersionOutput {
+	s.SupportsLimitlessDatabase = &v
 	return s
 }
 
@@ -48322,7 +48359,7 @@ type ModifyDBInstanceInput struct {
 	// Changing the subnet group causes an outage during the change. The change
 	// is applied during the next maintenance window, unless you enable ApplyImmediately.
 	//
-	// This parameter doesn't apply to RDS Custom DB instances.
+	// This setting doesn't apply to RDS Custom DB instances.
 	//
 	// Constraints:
 	//
@@ -48338,6 +48375,11 @@ type ModifyDBInstanceInput struct {
 	// can't be deleted when deletion protection is enabled. By default, deletion
 	// protection isn't enabled. For more information, see Deleting a DB Instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
+	//
+	// This setting doesn't apply to Amazon Aurora DB instances. You can enable
+	// or disable deletion protection for the DB cluster. For more information,
+	// see ModifyDBCluster. DB instances in a DB cluster can be deleted even when
+	// deletion protection is enabled for the DB cluster.
 	DeletionProtection *bool `type:"boolean"`
 
 	// Specifies whether to remove the DB instance from the Active Directory domain.
@@ -62327,6 +62369,9 @@ type UpgradeTarget struct {
 	// Amazon Redshift.
 	SupportsIntegrations *bool `type:"boolean"`
 
+	// Indicates whether the DB engine version supports Aurora Limitless Database.
+	SupportsLimitlessDatabase *bool `type:"boolean"`
+
 	// Indicates whether the target engine version supports forwarding write operations
 	// from reader DB instances to the writer DB instance in the DB cluster. By
 	// default, write operations aren't allowed on reader DB instances.
@@ -62408,6 +62453,12 @@ func (s *UpgradeTarget) SetSupportsGlobalDatabases(v bool) *UpgradeTarget {
 // SetSupportsIntegrations sets the SupportsIntegrations field's value.
 func (s *UpgradeTarget) SetSupportsIntegrations(v bool) *UpgradeTarget {
 	s.SupportsIntegrations = &v
+	return s
+}
+
+// SetSupportsLimitlessDatabase sets the SupportsLimitlessDatabase field's value.
+func (s *UpgradeTarget) SetSupportsLimitlessDatabase(v bool) *UpgradeTarget {
+	s.SupportsLimitlessDatabase = &v
 	return s
 }
 
