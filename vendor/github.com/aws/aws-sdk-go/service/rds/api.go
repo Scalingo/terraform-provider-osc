@@ -17124,8 +17124,6 @@ func (c *RDS) StartExportTaskRequest(input *StartExportTaskInput) (req *request.
 //
 // You can't export snapshot data from Db2 or RDS Custom DB instances.
 //
-// You can't export cluster data from Multi-AZ DB clusters.
-//
 // For more information on exporting DB snapshot data, see Exporting DB snapshot
 // data to Amazon S3 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html)
 // in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon
@@ -19482,7 +19480,7 @@ func (s *Certificate) SetValidTill(v time.Time) *Certificate {
 	return s
 }
 
-// Returns the details of the DB instance’s server certificate.
+// The details of the DB instance’s server certificate.
 //
 // For more information, see Using SSL/TLS to encrypt a connection to a DB instance
 // (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
@@ -19639,7 +19637,7 @@ type ClusterPendingModifiedValues struct {
 	// The number of days for which automatic DB snapshots are retained.
 	BackupRetentionPeriod *int64 `type:"integer"`
 
-	// Returns the details of the DB instance’s server certificate.
+	// The details of the DB instance’s server certificate.
 	//
 	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
@@ -22117,8 +22115,6 @@ type CreateDBClusterInput struct {
 	// Constraints:
 	//
 	//    * Must match the name of an existing DB subnet group.
-	//
-	//    * Must not be default.
 	//
 	// Example: mydbsubnetgroup
 	DBSubnetGroupName *string `type:"string"`
@@ -28192,7 +28188,7 @@ type DBCluster struct {
 	// in the Amazon Aurora User Guide.
 	Capacity *int64 `type:"integer"`
 
-	// Returns the details of the DB instance’s server certificate.
+	// The details of the DB instance’s server certificate.
 	//
 	// For more information, see Using SSL/TLS to encrypt a connection to a DB instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
@@ -45030,18 +45026,18 @@ type FailoverState struct {
 
 	// The current status of the global cluster. Possible values are as follows:
 	//
-	//    * pending – The service received a request to switch over or fail over
+	//    * pending  The service received a request to switch over or fail over
 	//    the global cluster. The global cluster's primary DB cluster and the specified
 	//    secondary DB cluster are being verified before the operation starts.
 	//
-	//    * failing-over – Aurora is promoting the chosen secondary Aurora DB
-	//    cluster to become the new primary DB cluster to fail over the global cluster.
+	//    * failing-over  Aurora is promoting the chosen secondary Aurora DB cluster
+	//    to become the new primary DB cluster to fail over the global cluster.
 	//
-	//    * cancelling – The request to switch over or fail over the global cluster
+	//    * cancelling  The request to switch over or fail over the global cluster
 	//    was cancelled and the primary Aurora DB cluster and the selected secondary
 	//    Aurora DB cluster are returning to their previous states.
 	//
-	//    * switching-over – This status covers the range of Aurora internal operations
+	//    * switching-over  This status covers the range of Aurora internal operations
 	//    that take place during the switchover process, such as demoting the primary
 	//    Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing
 	//    replicas.
@@ -53426,8 +53422,8 @@ func (s *PerformanceIssueDetails) SetStartTime(v time.Time) *PerformanceIssueDet
 //
 //   - The current number CPU cores and threads is set to a non-default value.
 //
-// For more information, see Configuring the Processor of the DB Instance Class
-// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor)
+// For more information, see Configuring the processor for a DB instance class
+// in RDS for Oracle (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor)
 // in the Amazon RDS User Guide.
 type ProcessorFeature struct {
 	_ struct{} `type:"structure"`
@@ -53435,7 +53431,7 @@ type ProcessorFeature struct {
 	// The name of the processor feature. Valid names are coreCount and threadsPerCore.
 	Name *string `type:"string"`
 
-	// The value of a processor feature name.
+	// The value of a processor feature.
 	Value *string `type:"string"`
 }
 
