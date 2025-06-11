@@ -2,6 +2,8 @@
 
 ## To be Released
 
+* Bump go version to 1.24
+
 ## v0.4.0
 
 * Bump github.com/aws/aws-sdk-go from 1.44.30 to 1.44.46 [#47](https://github.com/Scalingo/terraform-provider-osc/pull/47)
