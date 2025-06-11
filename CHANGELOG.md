@@ -2,8 +2,6 @@
 
 ## To be Released
 
-## v0.5.0
-
 * Bump go version to 1.24
 
 ## v0.4.0
