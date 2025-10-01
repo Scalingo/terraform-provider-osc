@@ -481,8 +481,8 @@ github.com/huandu/xstrings
 # github.com/jen20/awspolicyequivalence v1.1.0
 ## explicit
 github.com/jen20/awspolicyequivalence
-# github.com/jhump/protoreflect v1.16.0
-## explicit; go 1.19
+# github.com/jhump/protoreflect v1.17.0
+## explicit; go 1.21
 # github.com/jmespath/go-jmespath v0.4.1-0.20220621161143-b0104c826a24
 ## explicit; go 1.14
 github.com/jmespath/go-jmespath
