@@ -1,8 +1,0 @@
-dependencies = []
-description = "Unofficial Terraform provider for Outscale"
-destination_server = []
-flags = ["devops", "sdk", "tools"]
-languages = ["go"]
-owner = "brandon@scalingo.com"
-team = "SRE"
-version = "0.0.1"
