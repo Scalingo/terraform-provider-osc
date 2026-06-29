@@ -1,2 +1,2 @@
-go.sum @brandon-welsch
-github/workflows/* @brandon-welsch
+go.sum @scalingo/team-iet
+.github/workflows/* @scalingo/team-iet
