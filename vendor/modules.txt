@@ -481,8 +481,8 @@ github.com/huandu/xstrings
 # github.com/jen20/awspolicyequivalence v1.1.0
 ## explicit
 github.com/jen20/awspolicyequivalence
-# github.com/jhump/protoreflect v1.17.0
-## explicit; go 1.21
+# github.com/jhump/protoreflect v1.18.0
+## explicit; go 1.24.0
 # github.com/jmespath/go-jmespath v0.4.1-0.20220621161143-b0104c826a24
 ## explicit; go 1.14
 github.com/jmespath/go-jmespath
@@ -961,7 +961,7 @@ google.golang.org/grpc/xds/internal/xdsclient/xdslbregistry
 google.golang.org/grpc/xds/internal/xdsclient/xdslbregistry/converter
 google.golang.org/grpc/xds/internal/xdsclient/xdsresource
 google.golang.org/grpc/xds/internal/xdsclient/xdsresource/version
-# google.golang.org/protobuf v1.36.9
+# google.golang.org/protobuf v1.36.11
 ## explicit; go 1.23
 google.golang.org/protobuf/encoding/protojson
 google.golang.org/protobuf/encoding/prototext
